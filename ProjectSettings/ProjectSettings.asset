@@ -829,7 +829,8 @@ PlayerSettings:
   webGLMemoryGeometricGrowthStep: 0.2
   webGLMemoryGeometricGrowthCap: 96
   webGLPowerPreference: 2
-  scriptingDefineSymbols: {}
+  scriptingDefineSymbols:
+    Standalone: FUSION_WEAVER;FUSION2
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend: {}
@@ -852,7 +853,7 @@ PlayerSettings:
     tvOS: 1
   incrementalIl2cppBuild: {}
   suppressCommonWarnings: 1
-  allowUnsafeCode: 0
+  allowUnsafeCode: 1
   useDeterministicCompilation: 1
   additionalIl2CppArgs: 
   scriptingRuntimeVersion: 1
@@ -940,7 +941,7 @@ PlayerSettings:
   cloudProjectId: a4c8dc66-e20c-4a36-b232-8c67439a2319
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: EmoLand 2024-01-08_10-53-39
+  projectName: EmoLand
   organizationId: unity_9qjlqvaftlicfw
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
