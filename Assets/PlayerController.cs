@@ -24,7 +24,7 @@ public class PlayerController : NetworkBehaviour
         if (HasStateAuthority)
         {
             _camera = Camera.main;
-            _camera.GetComponent<FirstPersonCamera>().Target = transform;
+            _camera.GetComponent<ThirdPersonCamera>().Target = transform;
         }
     }
 

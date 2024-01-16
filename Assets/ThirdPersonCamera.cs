@@ -1,12 +1,19 @@
 using UnityEngine;
 
-public class FirstPersonCamera : MonoBehaviour
+public class ThirdPersonCamera : MonoBehaviour
 {
     public Transform Target;
     public float MouseSensitivity = 10f;
 
+    private Transform _cameraPivot;
+
     private float verticalRotation;
     private float horizontalRotation;
+
+    private void Awake()
+    {
+        _cameraPivot = gameObject.transform.parent;
+    }
 
     void LateUpdate()
     {
@@ -15,7 +22,7 @@ public class FirstPersonCamera : MonoBehaviour
             return;
         }
 
-        transform.position = Target.position;
+        _cameraPivot.position = Target.position;
 
         float mouseX = Input.GetAxis("Mouse X");
         float mouseY = Input.GetAxis("Mouse Y");
@@ -25,6 +32,6 @@ public class FirstPersonCamera : MonoBehaviour
 
         horizontalRotation += mouseX * MouseSensitivity;
 
-        transform.rotation = Quaternion.Euler(verticalRotation, horizontalRotation, 0);
+        _cameraPivot.rotation = Quaternion.Euler(verticalRotation, horizontalRotation, 0);
     }
 }
