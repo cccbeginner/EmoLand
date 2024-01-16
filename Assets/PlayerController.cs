@@ -1,5 +1,7 @@
 using Fusion;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 public class PlayerController : NetworkBehaviour
 {
@@ -8,15 +10,16 @@ public class PlayerController : NetworkBehaviour
     private Camera _camera;
 
     private CharacterController _controller;
+    private PlayerInput _playerInput;
 
     public float PlayerSpeed = 2f;
-
     public float JumpForce = 5f;
     public float GravityValue = -9.81f;
 
     private void Awake()
     {
         _controller = GetComponent<CharacterController>();
+        _playerInput = GetComponent<PlayerInput>();
     }
 
     public override void Spawned()
@@ -30,7 +33,7 @@ public class PlayerController : NetworkBehaviour
 
     void Update()
     {
-        if (Input.GetButtonDown("Jump"))
+        if (_playerInput.actions["Jump"].triggered)
         {
             _jumpPressed = true;
         }
@@ -49,8 +52,9 @@ public class PlayerController : NetworkBehaviour
             _velocity = new Vector3(0, -1, 0);
         }
 
-        var cameraRotationY = Quaternion.Euler(0, _camera.transform.rotation.eulerAngles.y, 0);
-        Vector3 move = cameraRotationY * new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")) * Runner.DeltaTime * PlayerSpeed;
+        Vector2 vecMove = _playerInput.actions["Move"].ReadValue<Vector2>();
+        Quaternion cameraRotationY = Quaternion.Euler(0, _camera.transform.rotation.eulerAngles.y, 0);
+        Vector3 move = cameraRotationY * new Vector3(vecMove.x, 0, vecMove.y) * Runner.DeltaTime * PlayerSpeed;
 
         _velocity.y += GravityValue * Runner.DeltaTime;
         if (_jumpPressed && _controller.isGrounded)
