@@ -4266,14 +4266,14 @@ RectTransform:
   m_GameObject: {fileID: 696407013}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1654323015}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 98, y: 99}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &696407015
@@ -4327,7 +4327,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_MovementRange: 50
-  m_DynamicOriginRange: 100
+  m_DynamicOriginRange: 500
   m_ControlPath: <Gamepad>/leftStick
   m_Behaviour: 0
   m_UseIsolatedInputActions: 0
@@ -6098,132 +6098,8 @@ MonoBehaviour:
   ZoomSpeed: 15
   FarthestDistance: 30
   NearestDistance: 3
-  press:
-    m_Name: Press
-    m_Type: 1
-    m_ExpectedControlType: Button
-    m_Id: c0c899a8-c208-4653-94a0-6705bac43ce8
-    m_Processors: 
-    m_Interactions: Press
-    m_SingletonActionBindings:
-    - m_Name: 
-      m_Id: 07efc87c-18fd-4bc6-8e9a-74ce5c23bf3e
-      m_Path: <Mouse>/press
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Press
-      m_Flags: 0
-    - m_Name: 
-      m_Id: bcb98b02-7e24-4975-b2b8-75c459a4ccae
-      m_Path: <Touchscreen>/Press
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Press
-      m_Flags: 0
-    m_Flags: 0
-  touch0Pos:
-    m_Name: Touch 0 Pos
-    m_Type: 0
-    m_ExpectedControlType: Vector2
-    m_Id: 2a6d15aa-d48a-4d26-bf86-fead61645008
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings:
-    - m_Name: 
-      m_Id: b48da7c0-7c99-467b-b7b9-7d75a18ae3e2
-      m_Path: <Mouse>/position
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Touch 0 Pos
-      m_Flags: 0
-    - m_Name: 
-      m_Id: 7d95c90b-0afd-4314-b5f7-f360a758d00e
-      m_Path: <Touchscreen>/touch0/position
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Touch 0 Pos
-      m_Flags: 0
-    m_Flags: 0
-  touch0Delta:
-    m_Name: Touch 0 Delta
-    m_Type: 0
-    m_ExpectedControlType: Vector2
-    m_Id: c487a51e-652d-4aa7-881f-72bc8583c19b
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings:
-    - m_Name: 
-      m_Id: 7bfb5a0d-4295-4ca7-ab31-d3f00a1192ef
-      m_Path: <Mouse>/delta
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Touch 0 Delta
-      m_Flags: 0
-    - m_Name: 
-      m_Id: 394be344-50d5-4f09-95e7-2c6a88605f9b
-      m_Path: <Touchscreen>/touch0/delta
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Touch 0 Delta
-      m_Flags: 0
-    m_Flags: 0
-  touch1Contact:
-    m_Name: Touch 1 Contact
-    m_Type: 1
-    m_ExpectedControlType: Button
-    m_Id: 5dc6aedb-aa4d-4850-8936-96cb0d16499d
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings:
-    - m_Name: 
-      m_Id: b2a5735b-ece5-4d27-9b21-5da4ea7f45bf
-      m_Path: <Touchscreen>/touch1/press
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Touch 1 Contact
-      m_Flags: 0
-    m_Flags: 0
-  touch1Pos:
-    m_Name: Touch 1 Pos
-    m_Type: 0
-    m_ExpectedControlType: Vector2
-    m_Id: 6b1989c3-bac2-4c29-bd3c-50dbb26c9bd6
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings:
-    - m_Name: 
-      m_Id: ef868544-aac2-481a-9c1a-c0ddef6f89ac
-      m_Path: <Touchscreen>/touch1/position
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Touch 1 Pos
-      m_Flags: 0
-    m_Flags: 0
-  touch1Delta:
-    m_Name: Touch 1 Delta
-    m_Type: 0
-    m_ExpectedControlType: Vector2
-    m_Id: 758c5dad-8fe6-4eca-99a5-47bcf50a84a5
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings:
-    - m_Name: 
-      m_Id: 45b80419-11e7-4f7a-bf5d-d7e0ebfcf84d
-      m_Path: <Touchscreen>/touch1/delta
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Touch 1 Delta
-      m_Flags: 0
-    m_Flags: 0
+  ScreenMiddle: 0.5
+  DefaultTapTime: 0.2
 --- !u!1 &982992304
 GameObject:
   m_ObjectHideFlags: 0
@@ -6287,7 +6163,7 @@ MonoBehaviour:
   m_ChildAlignment: 0
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 442.65808, y: 75.95736}
+  m_CellSize: {x: 397.77124, y: 91.618225}
   m_Spacing: {x: 6, y: 6}
   m_Constraint: 1
   m_ConstraintCount: 1
@@ -9522,8 +9398,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 116, y: 110}
-  m_SizeDelta: {x: 195, y: 198}
+  m_AnchoredPosition: {x: 120, y: 110}
+  m_SizeDelta: {x: 200, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1654323016
 MonoBehaviour:

@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Assertions;
-using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.EnhancedTouch;
+using Touch = UnityEngine.InputSystem.EnhancedTouch.Touch;
 
 public class ThirdPersonCamera : MonoBehaviour
 {
@@ -11,56 +11,39 @@ public class ThirdPersonCamera : MonoBehaviour
     public float ZoomSpeed = 10f;
     public float FarthestDistance = 30f;
     public float NearestDistance = 3f;
+    public float ScreenMiddle = 0.5f;
+    public float DefaultTapTime = 0.2f;
 
     private Transform _cameraPivot;
 
     private float verticalRotation;
     private float horizontalRotation;
 
-    [SerializeField]
-    private InputAction press, touch0Pos, touch0Delta, touch1Contact, touch1Pos, touch1Delta;
-    private Coroutine rotateCoroutine, zoomCoroutine;
+    private Coroutine rotateCoroutine, zoomCoroutine, touchDetectCoroutine;
+
+    // Maintain currently valid touches.
+    // All valid touches must on right side of the screen.
+    // All valid touches must not be a tap.
+    private List<int> _validTouchID;
+    private Touch[] _touchData;
 
     private void Awake()
     {
         _cameraPivot = gameObject.transform.parent;
+        _validTouchID = new List<int>();
+        _touchData = new Touch[10];
     }
 
-    private void OnEnable()
+    protected void OnEnable()
     {
-        press.Enable();
-        touch0Pos.Enable();
-        touch1Pos.Enable();
-        touch1Contact.Enable();
-        touch0Delta.Enable();
-        touch1Delta.Enable();
-    }
-    private void OnDisable()
-    {
-        press.Disable();
-        touch0Pos.Disable();
-        touch1Pos.Disable();
-        touch1Contact.Disable();
-        touch0Delta.Disable();
-        touch1Delta.Disable();
+        EnhancedTouchSupport.Enable();
+        StartCoroutine(TouchDetection());
     }
 
-    private void Start()
+    protected void OnDisable()
     {
-        // Rotate?
-        press.performed += _ =>
-        {
-            // Only rotate when pressed at right side of the screen.
-            if (touch0Pos.ReadValue<Vector2>().x > Screen.width * 0.4) StartRotate();
-        };
-        press.canceled += _ => { StopRotate(); };
-        // Zoom?
-        touch1Contact.performed += _ =>
-        {
-            // Only zoom when first pressed is available.
-            if (touch0Pos.ReadValue<Vector2>().x > Screen.width * 0.4) StartZoom();
-        };
-        touch1Contact.canceled += _ => { StopZoom(); };
+        EnhancedTouchSupport.Disable();
+        StopAllCoroutines();
     }
 
     void LateUpdate()
@@ -72,6 +55,77 @@ public class ThirdPersonCamera : MonoBehaviour
 
         // Follow Player
         _cameraPivot.position = Target.position;
+
+    }
+
+    IEnumerator TouchDetection()
+    {
+        bool[] isRight = new bool[10];
+        int preValidCount = 0;
+        for (int i = 0; i < 10; ++i)
+        {
+            isRight[i] = false;
+        }
+        while (true)
+        {
+            // Update Current Touches that Rotates/Zooms Camera.
+            for (int i = 0; i < Touch.activeTouches.Count; i++)
+            {
+                Touch touch = Touch.activeTouches[i];
+                if (touch.began)
+                {
+                    // Prevent from quickly switching fingers.
+                    if (_validTouchID.Contains(touch.touchId))
+                    {
+                        _validTouchID.Remove(touch.touchId);
+                    }
+                    // Check if on the right side of screen.
+                    if (touch.screenPosition.x > Screen.width * ScreenMiddle)
+                    {
+                        isRight[touch.touchId] = true;
+                    }
+                }
+                // Make it valid if it's not a press AND on the right side of screen.
+                if (touch.time > DefaultTapTime && isRight[touch.touchId] && !_validTouchID.Contains(touch.touchId))
+                {
+                    _validTouchID.Add(touch.touchId);
+                }
+                if (_validTouchID.Contains(touch.touchId))
+                {
+                    if (touch.ended)
+                    {
+                        // Remove valid touch if ended.
+                        _validTouchID.Remove(touch.touchId);
+                        isRight[touch.touchId] = false;
+                    }
+                    else
+                    {
+                        // Update touch data if still in progress.
+                        _touchData[touch.touchId] = touch;
+                    }
+                }
+            }
+
+            // Update Rotate/Zoom Coroutine Status
+            if (preValidCount < 1 && _validTouchID.Count >= 1)
+            {
+                StartRotate();
+            }
+            else if (preValidCount >= 1 && _validTouchID.Count < 1)
+            {
+                StopRotate();
+            }
+            if (preValidCount < 2 && _validTouchID.Count >= 2)
+            {
+                StartZoom();
+            }
+            else if (preValidCount >= 2 && _validTouchID.Count < 2)
+            {
+                StopZoom();
+            }
+            preValidCount = _validTouchID.Count;
+            yield return null;
+        }
     }
 
     private void StartRotate()
@@ -88,10 +142,12 @@ public class ThirdPersonCamera : MonoBehaviour
     {
         while (true)
         {
-            Vector2 touchDelta = touch0Delta.ReadValue<Vector2>();
-            if (touch1Contact.IsPressed())
+            Vector2 touchDelta = Vector2.zero;
+            for (int i = 0; i < _validTouchID.Count; i++)
             {
-                touchDelta = (touchDelta + touch1Delta.ReadValue<Vector2>()) / 2;
+                int touchID = _validTouchID[i];
+                Touch touch = _touchData[touchID];
+                touchDelta += touch.delta;
             }
             
             // Calculate New Rotation
@@ -107,8 +163,8 @@ public class ThirdPersonCamera : MonoBehaviour
     
     private float PinchDist()
     {
-        Vector2 pos0 = touch0Pos.ReadValue<Vector2>();
-        Vector2 pos1 = touch1Pos.ReadValue<Vector2>();
+        Vector2 pos0 = _touchData[_validTouchID[0]].screenPosition;
+        Vector2 pos1 = _touchData[_validTouchID[1]].screenPosition;
         return (pos0 - pos1).magnitude;
     }
     private void StartZoom()
