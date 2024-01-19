@@ -10,7 +10,9 @@ public class PlayerController : NetworkBehaviour
     private Camera _camera;
 
     private CharacterController _controller;
-    private PlayerInput _playerInput;
+
+    [SerializeField]
+    private InputAction _move, _jump;
 
     public float PlayerSpeed = 2f;
     public float JumpForce = 5f;
@@ -19,7 +21,6 @@ public class PlayerController : NetworkBehaviour
     private void Awake()
     {
         _controller = GetComponent<CharacterController>();
-        _playerInput = GetComponent<PlayerInput>();
     }
 
     public override void Spawned()
@@ -31,9 +32,21 @@ public class PlayerController : NetworkBehaviour
         }
     }
 
+    private void OnEnable()
+    {
+        _move.Enable();
+        _jump.Enable();
+    }
+
+    private void OnDisable()
+    {
+        _move.Disable();
+        _jump.Disable();
+    }
+
     void Update()
     {
-        if (_playerInput.actions["Jump"].triggered)
+        if (_jump.triggered)
         {
             _jumpPressed = true;
         }
@@ -52,7 +65,8 @@ public class PlayerController : NetworkBehaviour
             _velocity = new Vector3(0, -1, 0);
         }
 
-        Vector2 vecMove = _playerInput.actions["Move"].ReadValue<Vector2>();
+        Vector2 vecMove = _move.ReadValue<Vector2>();
+        Debug.Log(vecMove);
         Quaternion cameraRotationY = Quaternion.Euler(0, _camera.transform.rotation.eulerAngles.y, 0);
         Vector3 move = cameraRotationY * new Vector3(vecMove.x, 0, vecMove.y) * Runner.DeltaTime * PlayerSpeed;
 
