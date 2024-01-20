@@ -14,7 +14,8 @@ public class PlayerController : NetworkBehaviour
     [SerializeField]
     private InputAction _move, _jump;
 
-    public float PlayerSpeed = 2f;
+    public float MoveSpeed = 2f;
+    public float RorateSpeed = 18f;
     public float JumpForce = 5f;
     public float GravityValue = -9.81f;
 
@@ -65,23 +66,38 @@ public class PlayerController : NetworkBehaviour
             _velocity = new Vector3(0, -1, 0);
         }
 
+        // Get move vector in camera space.
         Vector2 vecMove = _move.ReadValue<Vector2>();
-        Debug.Log(vecMove);
-        Quaternion cameraRotationY = Quaternion.Euler(0, _camera.transform.rotation.eulerAngles.y, 0);
-        Vector3 move = cameraRotationY * new Vector3(vecMove.x, 0, vecMove.y) * Runner.DeltaTime * PlayerSpeed;
+        Vector3 move = Vector3.zero;
 
+        if (vecMove !=  Vector2.zero)
+        {
+            // Convert camera space to world.
+            Quaternion cameraRotationY = Quaternion.Euler(0, _camera.transform.rotation.eulerAngles.y, 0);
+            Vector3 vecMoveWorld = cameraRotationY * new Vector3(vecMove.x, 0, vecMove.y);
+
+            // Rotate Character gradually.
+            Quaternion q1 = Quaternion.LookRotation(gameObject.transform.forward);
+            Quaternion q2 = Quaternion.LookRotation(vecMoveWorld);
+            Vector3 vecForward = Quaternion.Lerp(q1, q2, RorateSpeed * Time.deltaTime) * Vector3.forward;
+            move = vecForward.normalized * Runner.DeltaTime * MoveSpeed;
+        }
+
+        // Calculate vertical speed.
         _velocity.y += GravityValue * Runner.DeltaTime;
         if (_jumpPressed && _controller.isGrounded)
         {
             _velocity.y += JumpForce;
         }
-        _controller.Move(move + _velocity * Runner.DeltaTime);
 
+        // Move character & set forward.
+        _controller.Move(move + _velocity * Runner.DeltaTime);
         if (move != Vector3.zero)
         {
-            gameObject.transform.forward = move;
+            gameObject.transform.forward = move.normalized;
         }
 
+        // Already got jump if true, so reset _jumpPressed.
         _jumpPressed = false;
     }
 }

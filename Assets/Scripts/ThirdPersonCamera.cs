@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem.EnhancedTouch;
+using UnityEngine.UIElements;
 using Touch = UnityEngine.InputSystem.EnhancedTouch.Touch;
 
 public class ThirdPersonCamera : MonoBehaviour
@@ -9,6 +10,8 @@ public class ThirdPersonCamera : MonoBehaviour
     public Transform Target;
     public float RotateSpeed = 20f;
     public float ZoomSpeed = 10f;
+    public float LerpSpeed = 10f;
+    public float AutoRotateSpeed = 10f;
     public float FarthestDistance = 30f;
     public float NearestDistance = 3f;
     public float ScreenMiddle = 0.5f;
@@ -54,8 +57,12 @@ public class ThirdPersonCamera : MonoBehaviour
         }
 
         // Follow Player
-        _cameraPivot.position = Target.position;
-
+        Vector3 newPivotPosition = Vector3.Lerp(_cameraPivot.position, Target.position, LerpSpeed * Time.deltaTime);
+        Vector3 curVec = _cameraPivot.forward;
+        Vector3 nextVec = curVec + (newPivotPosition - _cameraPivot.position);
+        float autoRotateAngle = Vector3.SignedAngle(curVec, nextVec, Vector3.up) * Time.deltaTime * AutoRotateSpeed;
+        _cameraPivot.position = newPivotPosition;
+        Rotate(new Vector2(autoRotateAngle, 0));
     }
 
     IEnumerator TouchDetection()
@@ -149,16 +156,18 @@ public class ThirdPersonCamera : MonoBehaviour
                 Touch touch = _touchData[touchID];
                 touchDelta += touch.delta;
             }
-            
-            // Calculate New Rotation
-            verticalRotation -= touchDelta.y * Time.deltaTime * RotateSpeed;
-            verticalRotation = Mathf.Clamp(verticalRotation, -70f, 70f);
-
-            horizontalRotation += touchDelta.x * Time.deltaTime * RotateSpeed;
-
-            _cameraPivot.rotation = Quaternion.Euler(verticalRotation, horizontalRotation, 0);
+            Rotate(touchDelta * Time.deltaTime * RotateSpeed);
             yield return null;
         }
+    }
+
+    private void Rotate(Vector2 angle)
+    {
+        // Calculate New Rotation
+        verticalRotation -= angle.y;
+        verticalRotation = Mathf.Clamp(verticalRotation, -70f, 70f);
+        horizontalRotation += angle.x;
+        _cameraPivot.rotation = Quaternion.Euler(verticalRotation, horizontalRotation, 0);
     }
     
     private float PinchDist()
@@ -183,29 +192,34 @@ public class ThirdPersonCamera : MonoBehaviour
         {
             float curPinchDist = PinchDist();
             float distDelta = curPinchDist - prePinchDist;
-            
-            // New Camera Position
-            Vector3 newCamPos = transform.localPosition;
-            newCamPos -= distDelta * Time.deltaTime * ZoomSpeed * newCamPos.normalized;
-
-            // Clamp Magnitude
-            float dist = newCamPos.magnitude;
-            if (newCamPos.z > 0) // Disable Negative
-            {
-                newCamPos = -newCamPos.normalized * NearestDistance;
-            }
-            if (dist > FarthestDistance)
-            {
-                newCamPos = newCamPos.normalized * FarthestDistance;
-            }
-            else if (dist < NearestDistance)
-            {
-                newCamPos = newCamPos.normalized * NearestDistance;
-            }
-
-            transform.localPosition = newCamPos;
+            Zoom(distDelta * Time.deltaTime * ZoomSpeed);
             prePinchDist = curPinchDist;
             yield return null;
         }
+    }
+
+    private void Zoom(float distDelta)
+    {
+        // New Camera Position
+        Vector3 newCamPos = transform.localPosition;
+        newCamPos -= distDelta * newCamPos.normalized;
+
+        // Clamp Magnitude
+        float dist = newCamPos.magnitude;
+        if (newCamPos.z > 0) // Disable Negative
+        {
+            newCamPos = -newCamPos.normalized * NearestDistance;
+        }
+        if (dist > FarthestDistance)
+        {
+            newCamPos = newCamPos.normalized * FarthestDistance;
+        }
+        else if (dist < NearestDistance)
+        {
+            newCamPos = newCamPos.normalized * NearestDistance;
+        }
+
+        // Update sprimg arm (by change camera position)
+        transform.localPosition = newCamPos;
     }
 }
