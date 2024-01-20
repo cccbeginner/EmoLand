@@ -156,6 +156,7 @@ public class ThirdPersonCamera : MonoBehaviour
                 Touch touch = _touchData[touchID];
                 touchDelta += touch.delta;
             }
+            touchDelta = ScreenScale(touchDelta);
             Rotate(touchDelta * Time.deltaTime * RotateSpeed);
             yield return null;
         }
@@ -174,7 +175,7 @@ public class ThirdPersonCamera : MonoBehaviour
     {
         Vector2 pos0 = _touchData[_validTouchID[0]].screenPosition;
         Vector2 pos1 = _touchData[_validTouchID[1]].screenPosition;
-        return (pos0 - pos1).magnitude;
+        return ScreenScale(pos0 - pos1).magnitude;
     }
     private void StartZoom()
     {
@@ -221,5 +222,15 @@ public class ThirdPersonCamera : MonoBehaviour
 
         // Update sprimg arm (by change camera position)
         transform.localPosition = newCamPos;
+    }
+
+    private Vector2 ScreenScale(Vector2 vec)
+    {
+        // Scale vector like we do in Canvas Scaler.
+        // Reference Resolution : (width, height) = (800, 600)
+        Vector2 ret = vec;
+        ret.x *= 800f / Screen.width;
+        ret.y *= 600f / Screen.height;
+        return ret;
     }
 }
