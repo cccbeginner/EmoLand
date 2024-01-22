@@ -666,10 +666,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Target: {fileID: 0}
-  RotateSpeed: 80
-  ZoomSpeed: 15
+  RotateSpeed: 0.6
+  ZoomSpeed: 0.1
   LerpSpeed: 10
-  AutoRotateSpeed: 10
+  AutoRotateSpeed: 50
   FarthestDistance: 30
   NearestDistance: 3
   ScreenMiddle: 0.5

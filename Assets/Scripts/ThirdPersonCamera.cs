@@ -1,15 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem.EnhancedTouch;
-using UnityEngine.UIElements;
 using Touch = UnityEngine.InputSystem.EnhancedTouch.Touch;
 
 public class ThirdPersonCamera : MonoBehaviour
 {
     public Transform Target;
-    public float RotateSpeed = 20f;
-    public float ZoomSpeed = 10f;
+    public float RotateSpeed = 0.6f;
+    public float ZoomSpeed = 0.1f;
     public float LerpSpeed = 10f;
     public float AutoRotateSpeed = 10f;
     public float FarthestDistance = 30f;
@@ -27,14 +27,12 @@ public class ThirdPersonCamera : MonoBehaviour
     // Maintain currently valid touches.
     // All valid touches must on right side of the screen.
     // All valid touches must not be a tap.
-    private List<int> _validTouchID;
-    private Touch[] _touchData;
+    private Dictionary<int, Touch> _touchData;
 
     private void Awake()
     {
         _cameraPivot = gameObject.transform.parent;
-        _validTouchID = new List<int>();
-        _touchData = new Touch[10];
+        _touchData = new Dictionary<int, Touch>();
     }
 
     protected void OnEnable()
@@ -60,19 +58,17 @@ public class ThirdPersonCamera : MonoBehaviour
         Vector3 newPivotPosition = Vector3.Lerp(_cameraPivot.position, Target.position, LerpSpeed * Time.deltaTime);
         Vector3 curVec = _cameraPivot.forward;
         Vector3 nextVec = curVec + (newPivotPosition - _cameraPivot.position);
-        float autoRotateAngle = Vector3.SignedAngle(curVec, nextVec, Vector3.up) * Time.deltaTime * AutoRotateSpeed;
+        float signedAngle = Vector2.SignedAngle(new Vector2(curVec.x, curVec.z), new Vector2(nextVec.x, nextVec.z));
+        float autoRotateAngle = -signedAngle * Time.deltaTime * AutoRotateSpeed;
         _cameraPivot.position = newPivotPosition;
         Rotate(new Vector2(autoRotateAngle, 0));
     }
 
     IEnumerator TouchDetection()
     {
-        bool[] isRight = new bool[10];
+        _touchData.Clear();
+        List<int> rightID = new List<int>();
         int preValidCount = 0;
-        for (int i = 0; i < 10; ++i)
-        {
-            isRight[i] = false;
-        }
         while (true)
         {
             // Update Current Touches that Rotates/Zooms Camera.
@@ -82,28 +78,35 @@ public class ThirdPersonCamera : MonoBehaviour
                 if (touch.began)
                 {
                     // Prevent from quickly switching fingers.
-                    if (_validTouchID.Contains(touch.touchId))
+                    if (_touchData.ContainsKey(touch.touchId))
                     {
-                        _validTouchID.Remove(touch.touchId);
+                        _touchData.Remove(touch.touchId);
+                    }
+                    if (rightID.Contains(touch.touchId))
+                    {
+                        rightID.Remove(touch.touchId);
                     }
                     // Check if on the right side of screen.
                     if (touch.screenPosition.x > Screen.width * ScreenMiddle)
                     {
-                        isRight[touch.touchId] = true;
+                        rightID.Add(touch.touchId);
                     }
                 }
                 // Make it valid if it's not a press AND on the right side of screen.
-                if (touch.time > DefaultTapTime && isRight[touch.touchId] && !_validTouchID.Contains(touch.touchId))
+                if (touch.time > DefaultTapTime && rightID.Contains(touch.touchId) && !_touchData.ContainsKey(touch.touchId))
                 {
-                    _validTouchID.Add(touch.touchId);
+                    _touchData.Add(touch.touchId, touch);
                 }
-                if (_validTouchID.Contains(touch.touchId))
+                if (_touchData.ContainsKey(touch.touchId))
                 {
                     if (touch.ended)
                     {
                         // Remove valid touch if ended.
-                        _validTouchID.Remove(touch.touchId);
-                        isRight[touch.touchId] = false;
+                        _touchData.Remove(touch.touchId);
+                        if (rightID.Contains(touch.touchId))
+                        {
+                            rightID.Remove(touch.touchId);
+                        }
                     }
                     else
                     {
@@ -114,23 +117,23 @@ public class ThirdPersonCamera : MonoBehaviour
             }
 
             // Update Rotate/Zoom Coroutine Status
-            if (preValidCount < 1 && _validTouchID.Count >= 1)
+            if (preValidCount < 1 && _touchData.Count >= 1)
             {
                 StartRotate();
             }
-            else if (preValidCount >= 1 && _validTouchID.Count < 1)
+            else if (preValidCount >= 1 && _touchData.Count < 1)
             {
                 StopRotate();
             }
-            if (preValidCount < 2 && _validTouchID.Count >= 2)
+            if (preValidCount != 2 && _touchData.Count == 2)
             {
                 StartZoom();
             }
-            else if (preValidCount >= 2 && _validTouchID.Count < 2)
+            else if (preValidCount == 2 && _touchData.Count != 2)
             {
                 StopZoom();
             }
-            preValidCount = _validTouchID.Count;
+            preValidCount = _touchData.Count;
             yield return null;
         }
     }
@@ -144,20 +147,22 @@ public class ThirdPersonCamera : MonoBehaviour
         if (rotateCoroutine != null)
         StopCoroutine(rotateCoroutine);
     }
-
     IEnumerator RotateDetection()
     {
+        Vector2 angle_total = Vector2.zero;
+        int cnt = 0;
         while (true)
         {
             Vector2 touchDelta = Vector2.zero;
-            for (int i = 0; i < _validTouchID.Count; i++)
+            foreach (var item in _touchData)
             {
-                int touchID = _validTouchID[i];
-                Touch touch = _touchData[touchID];
+                Touch touch = item.Value;
                 touchDelta += touch.delta;
             }
             touchDelta = ScreenScale(touchDelta);
-            Rotate(touchDelta * Time.deltaTime * RotateSpeed);
+            angle_total += touchDelta * RotateSpeed;
+            cnt += 1;
+            Rotate(touchDelta * RotateSpeed);
             yield return null;
         }
     }
@@ -173,8 +178,8 @@ public class ThirdPersonCamera : MonoBehaviour
     
     private float PinchDist()
     {
-        Vector2 pos0 = _touchData[_validTouchID[0]].screenPosition;
-        Vector2 pos1 = _touchData[_validTouchID[1]].screenPosition;
+        Vector2 pos0 = _touchData[_touchData.Keys.First()].screenPosition;
+        Vector2 pos1 = _touchData[_touchData.Keys.Last()].screenPosition;
         return ScreenScale(pos0 - pos1).magnitude;
     }
     private void StartZoom()
@@ -193,7 +198,7 @@ public class ThirdPersonCamera : MonoBehaviour
         {
             float curPinchDist = PinchDist();
             float distDelta = curPinchDist - prePinchDist;
-            Zoom(distDelta * Time.deltaTime * ZoomSpeed);
+            Zoom(distDelta * ZoomSpeed);
             prePinchDist = curPinchDist;
             yield return null;
         }
