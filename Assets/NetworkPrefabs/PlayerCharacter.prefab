@@ -61,7 +61,8 @@ MonoBehaviour:
   SortKey: 827855744
   ObjectInterest: 1
   Flags: 262145
-  NestedObjects: []
+  NestedObjects:
+  - {fileID: 9200420808151254632}
   NetworkedBehaviours:
   - {fileID: 6672644235427829819}
   - {fileID: 7269475671695731439}
@@ -253,13 +254,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5125725523214384465}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 506319458, guid: e725a070cec140c4caffb81624c8c787, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Animator: {fileID: 776581154073444369}
-  TotalWords: 2
+  Animator: {fileID: 0}
+  TotalWords: 0
   ApplyTiming: 2
   SyncSettings: 79
   StateHashes: 0000000051f4568c83fd82c15247c1f7804e15ba8bde55d920a9e0b73c764cbf87b2dc4eea30c67d
@@ -349,7 +350,7 @@ PrefabInstance:
       addedObject: {fileID: 776581154073444369}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 758db185de8ed9f499ae693c152f9c0c, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 7824637500873148370}
+      addedObject: {fileID: 9200420808151254632}
   m_SourcePrefab: {fileID: 100100000, guid: 758db185de8ed9f499ae693c152f9c0c, type: 3}
 --- !u!4 &2569410048059523613 stripped
 Transform:
@@ -382,7 +383,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &7824637500873148370
+--- !u!114 &9200420808151254632
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -391,14 +392,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 2946392644333869223}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 743dbbb595212b240800fbea3d8d1eeb, type: 3}
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Animation: {fileID: 7400000, guid: 78ad58c20122a5c43b3928c5e7dd3d20, type: 2}
-  PropertyName: localScale.y
-  CurveType: 9
-  CurveMode: 1
-  NumKeyFrames: 60
-  Time: 2
-  TimeMax: 1.5
-  Scalar: 0.3
+  SortKey: 1622930676
+  ObjectInterest: 1
+  Flags: 262145
+  NestedObjects: []
+  NetworkedBehaviours: []

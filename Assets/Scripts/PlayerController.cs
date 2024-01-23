@@ -1,5 +1,6 @@
 using Fusion;
 using System.Collections;
+using System.Security.Cryptography.X509Certificates;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -12,7 +13,6 @@ public class PlayerController : NetworkBehaviour
 
     private CharacterController _controller;
     private Animator _slimeAnimator;
-    private NetworkMecanimAnimator _networkAnimator;
 
     [SerializeField]
     private InputAction _move, _jump;
@@ -23,13 +23,19 @@ public class PlayerController : NetworkBehaviour
     public float GravityValue = -9.81f;
 
     [Networked]
-    bool isGroundedPrevious { get; set; }
+    Vector2 nt_vecMove { get; set; }
+    [Networked]
+    int nt_jumpCount { get; set; }
+    [Networked]
+    bool nt_isGroundedCurrent { get; set; }
+
+    int _lastVisibleJump = 0;
+    bool _isGroundedPrevious = true;
 
     private void Awake()
     {
         _controller = GetComponent<CharacterController>();
         _slimeAnimator = GetComponentInChildren<Animator>();
-        _networkAnimator = GetComponentInChildren<NetworkMecanimAnimator>();
     }
 
     public override void Spawned()
@@ -38,7 +44,7 @@ public class PlayerController : NetworkBehaviour
         {
             _camera = Camera.main;
             _camera.GetComponent<ThirdPersonCamera>().Target = transform;
-            isGroundedPrevious = true;
+            _isGroundedPrevious = true;
         }
     }
 
@@ -76,14 +82,14 @@ public class PlayerController : NetworkBehaviour
         }
 
         // Get move vector in camera space.
-        Vector2 vecMove = _move.ReadValue<Vector2>();
+        nt_vecMove = _move.ReadValue<Vector2>();
         Vector3 move = Vector3.zero;
 
-        if (vecMove !=  Vector2.zero)
+        if (nt_vecMove !=  Vector2.zero)
         {
             // Convert camera space to world.
             Quaternion cameraRotationY = Quaternion.Euler(0, _camera.transform.rotation.eulerAngles.y, 0);
-            Vector3 vecMoveWorld = cameraRotationY * new Vector3(vecMove.x, 0, vecMove.y);
+            Vector3 vecMoveWorld = cameraRotationY * new Vector3(nt_vecMove.x, 0, nt_vecMove.y);
 
             // Rotate Character gradually.
             Quaternion q1 = Quaternion.LookRotation(gameObject.transform.forward);
@@ -91,14 +97,6 @@ public class PlayerController : NetworkBehaviour
             Vector3 vecForward = Quaternion.Lerp(q1, q2, RorateSpeed * Time.deltaTime) * Vector3.forward;
             move = vecForward.normalized * Runner.DeltaTime * MoveSpeed;
             gameObject.transform.forward = vecForward.normalized;
-
-            // Start Move Animation
-            _slimeAnimator.SetBool("Move", true);
-        }
-        else
-        {
-            // Stop Move Animation
-            _slimeAnimator.SetBool("Move", false);
         }
 
         // Calculate vertical speed.
@@ -107,8 +105,7 @@ public class PlayerController : NetworkBehaviour
         {
             // Start Jump
             _velocity.y += JumpForce;
-            _slimeAnimator.SetTrigger("Jump");
-            _slimeAnimator.ResetTrigger("Grounded");
+            nt_jumpCount ++;
         }
 
         // Move character & set forward.
@@ -117,11 +114,42 @@ public class PlayerController : NetworkBehaviour
         // Already got jump if true, so reset _jumpPressed.
         _jumpPressed = false;
 
-        // Test Grounded
-        if (_controller.isGrounded && isGroundedPrevious == false)
+        nt_isGroundedCurrent = _controller.isGrounded;
+    }
+
+    public override void Render()
+    {
+        base.Render();
+
+        // Update Animatio
+        // DetectMove
+        if (nt_vecMove != Vector2.zero)
+        {
+            _slimeAnimator.SetBool("Move", true);
+        }
+        else
+        {
+            _slimeAnimator.SetBool("Move", false);
+        }
+
+        // Detect Jump
+        if (_lastVisibleJump < nt_jumpCount)
+        {
+            _slimeAnimator.SetTrigger("Jump");
+            _slimeAnimator.ResetTrigger("Grounded");
+        }
+        _lastVisibleJump = nt_jumpCount;
+
+        // Detect Grounded
+        if (nt_isGroundedCurrent == true && _isGroundedPrevious == false)
         {
             _slimeAnimator.SetTrigger("Grounded");
+        } else if (_slimeAnimator.GetCurrentAnimatorStateInfo(0).shortNameHash == Animator.StringToHash("SlimeJump") && _isGroundedPrevious == true)
+        {
+            // Reach here if there is a bug that makes animator stranded at Jump state
+            // even when the character is on the ground.
+            _slimeAnimator.SetTrigger("Grounded");
         }
-        isGroundedPrevious = _controller.isGrounded;
+        _isGroundedPrevious = nt_isGroundedCurrent;
     }
 }
