@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6819787159656414670}
   - component: {fileID: 6672644235427829819}
   - component: {fileID: 7269475671695731439}
-  - component: {fileID: 7221303395790878514}
+  - component: {fileID: 286335190575241454}
   m_Layer: 0
   m_Name: PlayerCharacter
   m_TagString: Untagged
@@ -66,7 +66,6 @@ MonoBehaviour:
   NetworkedBehaviours:
   - {fileID: 6672644235427829819}
   - {fileID: 7269475671695731439}
-  - {fileID: 7221303395790878514}
 --- !u!143 &6819787159656414670
 CharacterController:
   m_ObjectHideFlags: 0
@@ -247,24 +246,18 @@ MonoBehaviour:
   RorateSpeed: 90
   JumpForce: 5
   GravityValue: -9.81
---- !u!114 &7221303395790878514
+--- !u!114 &286335190575241454
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5125725523214384465}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 506319458, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Script: {fileID: 11500000, guid: 389274938b5573346898bb2ce7dde3ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Animator: {fileID: 0}
-  TotalWords: 0
-  ApplyTiming: 2
-  SyncSettings: 79
-  StateHashes: 0000000051f4568c83fd82c15247c1f7804e15ba8bde55d920a9e0b73c764cbf87b2dc4eea30c67d
-  TriggerHashes: 0000000028a98107c0de6f33
 --- !u!1001 &2603882876765545974
 PrefabInstance:
   m_ObjectHideFlags: 0
