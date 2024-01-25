@@ -1,9 +1,6 @@
-using System.Collections;
+#if UNITY_EDITOR
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
-using static UnityEditor.PlayerSettings;
-using static UnityEngine.Rendering.DebugUI.Table;
 
 [ExecuteInEditMode]
 public class PlantHelper : MonoBehaviour
@@ -105,3 +102,4 @@ public class PlantHelper : MonoBehaviour
         Debug.Log("Update Plant finished.");
     }
 }
+#endif
