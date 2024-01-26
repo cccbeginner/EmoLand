@@ -900,9 +900,9 @@ MonoBehaviour:
   RotateSpeed: 0.6
   ZoomSpeed: 0.1
   LerpSpeed: 10
-  AutoRotateSpeed: 50
-  FarthestDistance: 30
-  NearestDistance: 3
+  AutoRotateSpeed: 0.3
+  FarthestDistance: 10
+  NearestDistance: 1
   ScreenMiddle: 0.5
   DefaultTapTime: 0.2
 --- !u!114 &963194231

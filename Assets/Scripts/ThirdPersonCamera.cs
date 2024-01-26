@@ -11,7 +11,7 @@ public class ThirdPersonCamera : MonoBehaviour
     public float RotateSpeed = 0.6f;
     public float ZoomSpeed = 0.1f;
     public float LerpSpeed = 10f;
-    public float AutoRotateSpeed = 10f;
+    public float AutoRotateSpeed = 0.6f;
     public float FarthestDistance = 30f;
     public float NearestDistance = 3f;
     public float ScreenMiddle = 0.5f;
@@ -59,7 +59,7 @@ public class ThirdPersonCamera : MonoBehaviour
         Vector3 curVec = _cameraPivot.forward;
         Vector3 nextVec = curVec + (newPivotPosition - _cameraPivot.position);
         float signedAngle = Vector2.SignedAngle(new Vector2(curVec.x, curVec.z), new Vector2(nextVec.x, nextVec.z));
-        float autoRotateAngle = -signedAngle * Time.deltaTime * AutoRotateSpeed;
+        float autoRotateAngle = -signedAngle * AutoRotateSpeed;
         _cameraPivot.position = newPivotPosition;
         Rotate(new Vector2(autoRotateAngle, 0));
     }
@@ -171,7 +171,7 @@ public class ThirdPersonCamera : MonoBehaviour
     {
         // Calculate New Rotation
         verticalRotation -= angle.y;
-        verticalRotation = Mathf.Clamp(verticalRotation, -70f, 70f);
+        verticalRotation = Mathf.Clamp(verticalRotation, -80f, 80f);
         horizontalRotation += angle.x;
         _cameraPivot.rotation = Quaternion.Euler(verticalRotation, horizontalRotation, 0);
     }
