@@ -78,6 +78,7 @@ public class MyScreenStick : OnScreenControl
         m_StickFrontInitPos = m_StickFrontTransform.anchoredPosition;
         m_StickBackTransform = JoyStickBack.GetComponent<RectTransform>();
         m_StickBackInitPos = m_StickBackTransform.anchoredPosition;
+        JoyStickBack.SetActive(false);
         SendValueToControl(Vector2.zero);
 
         m_State = StickState.Stay;
@@ -87,6 +88,7 @@ public class MyScreenStick : OnScreenControl
     {
         m_StickFrontTransform.anchoredPosition = m_StartPos;
         m_StickBackTransform.anchoredPosition = m_StartPos;
+        JoyStickBack.SetActive(true);
     }
     void UpdateControl()
     {
@@ -103,6 +105,8 @@ public class MyScreenStick : OnScreenControl
         m_StickFrontTransform.anchoredPosition = m_StickFrontInitPos;
         m_StickBackTransform.anchoredPosition = m_StickBackInitPos;
         SendValueToControl(Vector2.zero);
+
+        JoyStickBack.SetActive(false);
     }
 
     [InputControl(layout = "Vector2")]
