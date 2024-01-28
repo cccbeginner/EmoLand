@@ -1,9 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using UnityEngine.InputSystem.EnhancedTouch;
-using Touch = UnityEngine.InputSystem.EnhancedTouch.Touch;
+using UnityEngine.InputSystem;
 
 public class ThirdPersonCamera : MonoBehaviour
 {
@@ -19,32 +15,28 @@ public class ThirdPersonCamera : MonoBehaviour
 
     private Transform _cameraPivot;
 
+    // Maintain current rotation.
     private float verticalRotation;
     private float horizontalRotation;
 
-    private Coroutine rotateCoroutine, zoomCoroutine, touchDetectCoroutine;
-
-    // Maintain currently valid touches.
-    // All valid touches must on right side of the screen.
-    // All valid touches must not be a tap.
-    private Dictionary<int, Touch> _touchData;
+    [SerializeField]
+    private InputAction _rotate, _zoom;
 
     private void Awake()
     {
         _cameraPivot = gameObject.transform.parent;
-        _touchData = new Dictionary<int, Touch>();
     }
 
-    protected void OnEnable()
+    private void OnEnable()
     {
-        EnhancedTouchSupport.Enable();
-        StartCoroutine(TouchDetection());
+        _rotate.Enable();
+        _zoom.Enable();
     }
 
-    protected void OnDisable()
+    private void OnDisable()
     {
-        EnhancedTouchSupport.Disable();
-        StopAllCoroutines();
+        _rotate.Disable();
+        _zoom.Disable();
     }
 
     void LateUpdate()
@@ -64,107 +56,18 @@ public class ThirdPersonCamera : MonoBehaviour
         Rotate(new Vector2(autoRotateAngle, 0));
     }
 
-    IEnumerator TouchDetection()
+    private void Update()
     {
-        _touchData.Clear();
-        List<int> rightID = new List<int>();
-        int preValidCount = 0;
-        while (true)
-        {
-            // Update Current Touches that Rotates/Zooms Camera.
-            for (int i = 0; i < Touch.activeTouches.Count; i++)
-            {
-                Touch touch = Touch.activeTouches[i];
-                if (touch.began)
-                {
-                    // Prevent from quickly switching fingers.
-                    if (_touchData.ContainsKey(touch.touchId))
-                    {
-                        _touchData.Remove(touch.touchId);
-                    }
-                    if (rightID.Contains(touch.touchId))
-                    {
-                        rightID.Remove(touch.touchId);
-                    }
-                    // Check if on the right side of screen.
-                    if (touch.screenPosition.x > Screen.width * ScreenMiddle)
-                    {
-                        rightID.Add(touch.touchId);
-                    }
-                }
-                // Make it valid if it's not a press AND on the right side of screen.
-                if (touch.time > DefaultTapTime && rightID.Contains(touch.touchId) && !_touchData.ContainsKey(touch.touchId))
-                {
-                    _touchData.Add(touch.touchId, touch);
-                }
-                if (_touchData.ContainsKey(touch.touchId))
-                {
-                    if (touch.ended)
-                    {
-                        // Remove valid touch if ended.
-                        _touchData.Remove(touch.touchId);
-                        if (rightID.Contains(touch.touchId))
-                        {
-                            rightID.Remove(touch.touchId);
-                        }
-                    }
-                    else
-                    {
-                        // Update touch data if still in progress.
-                        _touchData[touch.touchId] = touch;
-                    }
-                }
-            }
-
-            // Update Rotate/Zoom Coroutine Status
-            if (preValidCount < 1 && _touchData.Count >= 1)
-            {
-                StartRotate();
-            }
-            else if (preValidCount >= 1 && _touchData.Count < 1)
-            {
-                StopRotate();
-            }
-            if (preValidCount != 2 && _touchData.Count == 2)
-            {
-                StartZoom();
-            }
-            else if (preValidCount == 2 && _touchData.Count != 2)
-            {
-                StopZoom();
-            }
-            preValidCount = _touchData.Count;
-            yield return null;
-        }
+        UpdateRotate();
+        UpdateZoom();
     }
 
-    private void StartRotate()
+    private void UpdateRotate()
     {
-        rotateCoroutine = StartCoroutine(RotateDetection());
-    }
-    private void StopRotate()
-    {
-        if (rotateCoroutine != null)
-        StopCoroutine(rotateCoroutine);
-    }
-    IEnumerator RotateDetection()
-    {
-        Vector2 angle_total = Vector2.zero;
-        int cnt = 0;
-        while (true)
-        {
-            Vector2 touchDelta = Vector2.zero;
-            foreach (var item in _touchData)
-            {
-                Touch touch = item.Value;
-                touchDelta += touch.delta;
-            }
-            touchDelta = ScreenScale(touchDelta);
-            angle_total += touchDelta * RotateSpeed;
-            cnt += 1;
-            Rotate(touchDelta * RotateSpeed);
-            yield return null;
-        }
+        Vector2 touchDelta = _rotate.ReadValue<Vector2>();
+        touchDelta = ScreenScale(touchDelta);
+        Vector2 angle_rotate = touchDelta * RotateSpeed;
+        Rotate(angle_rotate);
     }
 
     private void Rotate(Vector2 angle)
@@ -176,32 +79,11 @@ public class ThirdPersonCamera : MonoBehaviour
         _cameraPivot.rotation = Quaternion.Euler(verticalRotation, horizontalRotation, 0);
     }
     
-    private float PinchDist()
+    private void UpdateZoom()
     {
-        Vector2 pos0 = _touchData[_touchData.Keys.First()].screenPosition;
-        Vector2 pos1 = _touchData[_touchData.Keys.Last()].screenPosition;
-        return ScreenScale(pos0 - pos1).magnitude;
-    }
-    private void StartZoom()
-    {
-        zoomCoroutine = StartCoroutine(ZoomDetection());
-    }
-    private void StopZoom()
-    {
-        if (zoomCoroutine != null)
-        StopCoroutine (zoomCoroutine);
-    }
-    IEnumerator ZoomDetection()
-    {
-        float prePinchDist = PinchDist();
-        while (true)
-        {
-            float curPinchDist = PinchDist();
-            float distDelta = curPinchDist - prePinchDist;
-            Zoom(distDelta * ZoomSpeed);
-            prePinchDist = curPinchDist;
-            yield return null;
-        }
+
+        float distDelta = _zoom.ReadValue<float>();
+        Zoom(distDelta * ZoomSpeed);
     }
 
     private void Zoom(float distDelta)

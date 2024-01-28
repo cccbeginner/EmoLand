@@ -1,17 +1,9 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.InputSystem.Layouts;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.OnScreen;
-using UnityEngine.Serialization;
-using UnityEngine.InputSystem.Utilities;
-using UnityEngine.UI;
-using ExitGames.Client.Photon;
-using Touch = UnityEngine.InputSystem.EnhancedTouch.Touch;
 using UnityEngine.Events;
+using Touch = UnityEngine.InputSystem.EnhancedTouch.Touch;
 
 public class MyScreenStick : OnScreenControl
 {
@@ -35,7 +27,7 @@ public class MyScreenStick : OnScreenControl
     {
         Start, Moving, End, Stay
     }
-    public void OnStickTouch(Touch[] touches)
+    private void OnStickTouch(Touch[] touches)
     {
         if (touches.Length == 0)
         {

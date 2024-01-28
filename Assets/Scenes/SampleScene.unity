@@ -749,6 +749,8 @@ GameObject:
   - component: {fileID: 865405916}
   - component: {fileID: 865405915}
   - component: {fileID: 865405914}
+  - component: {fileID: 865405917}
+  - component: {fileID: 865405918}
   m_Layer: 0
   m_Name: TouchInputManager
   m_TagString: Untagged
@@ -806,6 +808,32 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &865405917
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 865405913}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d6f5b1014fb05b4796b26187736149f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ControlPath: <Touchscreen>/touch9/delta
+--- !u!114 &865405918
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 865405913}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36b6a4d6343a8c046bb79ebf9974e69c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ControlPath: <Touchscreen>/touch9/radius/y
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -895,7 +923,7 @@ Transform:
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalPosition: {x: 0, y: 0.5, z: -4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -933,11 +961,45 @@ MonoBehaviour:
   RotateSpeed: 0.6
   ZoomSpeed: 0.1
   LerpSpeed: 10
-  AutoRotateSpeed: 0.3
-  FarthestDistance: 10
+  AutoRotateSpeed: 0.1
+  FarthestDistance: 6
   NearestDistance: 1
   ScreenMiddle: 0.5
   DefaultTapTime: 0.2
+  _rotate:
+    m_Name: Rotate
+    m_Type: 0
+    m_ExpectedControlType: Vector2
+    m_Id: fc71e7e2-c653-4d11-81a3-0be2c4b65081
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: 4cd2730a-8f74-46c7-91be-e32438c41f53
+      m_Path: <Touchscreen>/touch9/delta
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Rotate
+      m_Flags: 0
+    m_Flags: 0
+  _zoom:
+    m_Name: Zoom
+    m_Type: 0
+    m_ExpectedControlType: Axis
+    m_Id: 2035d5f1-8676-4765-ae69-0cd9ad8d7e75
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: a129ee7f-5935-458f-8151-bf75fe1da467
+      m_Path: <Touchscreen>/touch9/radius/y
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Zoom
+      m_Flags: 0
+    m_Flags: 0
 --- !u!114 &963194231
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1585,7 +1647,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1898866475}
   - component: {fileID: 1898866478}
-  - component: {fileID: 1898866479}
   m_Layer: 0
   m_Name: SceneManager
   m_TagString: Untagged
@@ -1620,25 +1681,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e92e5ef5aa4f0864c9faf5b87d112e67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1898866479
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1898866474}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: be781134e0ae19243bd84b12787e6b2d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ScreenMiddle: 0.5
-  OnTouchScreenLeft:
-    m_PersistentCalls:
-      m_Calls: []
-  OnTouchScreenRight:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &1903565381
 GameObject:
   m_ObjectHideFlags: 0
