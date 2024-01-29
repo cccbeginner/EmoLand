@@ -1,7 +1,11 @@
+using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem.EnhancedTouch;
+using UnityEngine.UI;
 using Touch = UnityEngine.InputSystem.EnhancedTouch.Touch;
 
 public class TouchManager : MonoBehaviour
@@ -10,6 +14,13 @@ public class TouchManager : MonoBehaviour
 
     public UnityEvent<Touch[]> OnTouchScreenLeft;
     public UnityEvent<Touch[]> OnTouchScreenRight;
+    public UnityEvent TappedOnScreen;
+
+    // In order to test whether the touch touches button or other screen ui, we needs them.
+    [SerializeField]
+    GraphicRaycaster m_Raycaster;
+    [SerializeField]
+    EventSystem m_EventSystem;
 
     // Maintain currently valid touches.
     // All valid touches must on right side of the screen.
@@ -25,6 +36,15 @@ public class TouchManager : MonoBehaviour
     protected void OnDisable()
     {
         EnhancedTouchSupport.Disable();
+    }
+
+    private bool TouchHitsUI(Touch touch)
+    {
+        PointerEventData m_PointerEventData = new PointerEventData(m_EventSystem);
+        m_PointerEventData.position = touch.screenPosition;
+        List<RaycastResult> results = new List<RaycastResult>();
+        m_Raycaster.Raycast(m_PointerEventData, results);
+        return results.Count > 0;
     }
 
     private void RemoveTouch(Touch touch)
@@ -61,6 +81,7 @@ public class TouchManager : MonoBehaviour
 
     private void Update()
     {
+        bool hasTap = false;
         // Update Current Touches that Rotates/Zooms Camera.
         for (int i = 0; i < Touch.activeTouches.Count; i++)
         {
@@ -69,10 +90,17 @@ public class TouchManager : MonoBehaviour
             {
                 // Prevent from quickly switching fingers.
                 RemoveTouch(touch);
-                AddTouch(touch);
+                if (!TouchHitsUI(touch))
+                {
+                    AddTouch(touch);
+                }
             }
             else if (touch.ended)
             {
+                if (!TouchHitsUI(touch))
+                {
+                    hasTap |= touch.isTap;
+                }
                 RemoveTouch(touch);
             }
             else
@@ -82,5 +110,9 @@ public class TouchManager : MonoBehaviour
         }
         OnTouchScreenLeft.Invoke(m_LeftTouches.ToArray());
         OnTouchScreenRight.Invoke(m_RightTouches.ToArray());
+        if (hasTap)
+        {
+            TappedOnScreen.Invoke();
+        }
     }
 }
