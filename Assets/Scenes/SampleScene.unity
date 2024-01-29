@@ -540,6 +540,7 @@ GameObject:
   - component: {fileID: 640108301}
   - component: {fileID: 640108300}
   - component: {fileID: 640108299}
+  - component: {fileID: 640108302}
   m_Layer: 5
   m_Name: MagicPageButton
   m_TagString: Untagged
@@ -563,8 +564,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -35, y: -30}
-  m_SizeDelta: {x: 80, y: 70}
+  m_AnchoredPosition: {x: -55, y: -50}
+  m_SizeDelta: {x: 110, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &640108299
 MonoBehaviour:
@@ -587,11 +588,11 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 0.9245283, g: 0.86719596, b: 0.06454251, a: 1}
-    m_HighlightedColor: {r: 1, g: 0.9764706, b: 0.6, a: 1}
-    m_PressedColor: {r: 0.7370214, g: 0.764151, b: 0, a: 1}
-    m_SelectedColor: {r: 1, g: 0.97549963, b: 0.5981132, a: 1}
-    m_DisabledColor: {r: 0.654902, g: 0.68235296, b: 0.015686275, a: 0.5019608}
+    m_NormalColor: {r: 0.7372549, g: 0.7647059, b: 0, a: 1}
+    m_HighlightedColor: {r: 0.8773585, g: 0.8257492, b: 0, a: 1}
+    m_PressedColor: {r: 0.60071754, g: 0.6226415, b: 0, a: 1}
+    m_SelectedColor: {r: 0.7372549, g: 0.7647059, b: 0, a: 1}
+    m_DisabledColor: {r: 0.45508903, g: 0.4716981, b: 0, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -609,7 +610,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 640108300}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 640108302}
+        m_TargetAssemblyTypeName: MagicColumns, Assembly-CSharp
+        m_MethodName: ShowColumn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &640108300
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -648,6 +661,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 640108297}
   m_CullTransparentMesh: 1
+--- !u!114 &640108302
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 640108297}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97e92f619938cc64ea8db6ecbd1d83a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ColumnNum: 5
+  MagicColumnField: {fileID: 8108216160151180231, guid: 7c4b5542c309624439338d62dbf1cb2b, type: 3}
 --- !u!1 &696407013
 GameObject:
   m_ObjectHideFlags: 0
@@ -915,7 +942,19 @@ MonoBehaviour:
       m_Calls: []
   TappedOnScreen:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 640108302}
+        m_TargetAssemblyTypeName: MagicColumns, Assembly-CSharp
+        m_MethodName: HideColumn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_Raycaster: {fileID: 1864591045}
   m_EventSystem: {fileID: 991144745}
 --- !u!4 &865405916
