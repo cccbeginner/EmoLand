@@ -3,33 +3,19 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class MagicButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IDragHandler
+public class MagicSpawner : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IDragHandler
 {
-    public GameObject ObjectToSpawn;
-    public Color SpawnColor = Color.white;
-    public Color DespawnColor = Color.gray;
+    public Magic SpawnMagic;
 
     private GameObject m_PrespawnedObject;
-    private Image m_BgImage, m_IconImage;
-    private Color m_InitBgColor;
-
     private NetworkObject m_SpawnedObject;
     private NetworkRunner m_NetworkRunner;
+    private MagicPicture m_MagicPic;
 
     private void Start()
     {
-        m_BgImage = GetComponent<Image>();
-        foreach (Image image in GetComponentsInChildren<Image>())
-        {
-            if (image.gameObject != gameObject)
-            {
-                m_IconImage = image;
-                break;
-            }
-        }
-        m_InitBgColor = m_BgImage.color;
-        m_BgImage.color = m_InitBgColor * DespawnColor;
-        m_IconImage.color = DespawnColor;
+        m_MagicPic = GetComponent<MagicPicture>();
+        m_MagicPic.SetBrightness(0.85f);
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -90,8 +76,7 @@ public class MagicButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
     private void UpdatePrespawn(Vector3 worldPos)
     {
-        Prespawn();
-        m_PrespawnedObject.transform.position = worldPos;
+        Prespawn(worldPos);
     }
 
     private void EndPrespawn()
@@ -103,11 +88,18 @@ public class MagicButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     // Preview the spawned object when draging.
     // I make a "Prespawned Object" for it.
     // Would check if there is existing prespawned object first.
-    private void Prespawn()
+    private void Prespawn(Vector3 worldPos)
     {
-        if (m_PrespawnedObject == null)
+        if (m_PrespawnedObject == null && SpawnMagic != null)
         {
-            m_PrespawnedObject = Instantiate(ObjectToSpawn);
+            if (SpawnMagic.Prefab != null)
+            {
+                m_PrespawnedObject = Instantiate(SpawnMagic.Prefab);
+            }
+        }
+        if (m_PrespawnedObject != null)
+        {
+            m_PrespawnedObject.transform.position = worldPos;
         }
     }
 
@@ -137,12 +129,11 @@ public class MagicButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         {
             Vector3 pos = m_PrespawnedObject.transform.position;
             Quaternion rot = m_PrespawnedObject.transform.rotation;
-            m_SpawnedObject = m_NetworkRunner.Spawn(ObjectToSpawn, pos, rot);
+            m_SpawnedObject = m_NetworkRunner.Spawn(SpawnMagic.Prefab, pos, rot);
         }
         if (m_SpawnedObject != null)
         {
-            m_BgImage.color = m_InitBgColor * SpawnColor;
-            m_IconImage.color = SpawnColor;
+            m_MagicPic.SetBrightness(1f);
         }
     }
 
@@ -160,7 +151,6 @@ public class MagicButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         {
             m_NetworkRunner.Despawn(m_SpawnedObject);
         }
-        m_BgImage.color = m_InitBgColor * DespawnColor;
-        m_IconImage.color = DespawnColor;
+        m_MagicPic.SetBrightness(0.85f);
     }
 }
