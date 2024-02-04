@@ -13,7 +13,8 @@ public class MyScreenStick : OnScreenControl
     private GameObject JoyStickFront;
     [SerializeField]
     private GameObject JoyStickBack;
-
+    [SerializeField]
+    private Canvas canvas;
     private Vector2 m_StartPos;
     private Vector2 m_CurrentPos;
     private Vector2 m_StickFrontInitPos;
@@ -86,8 +87,14 @@ public class MyScreenStick : OnScreenControl
 
     void StartControl()
     {
-        m_StickFrontTransform.anchoredPosition = m_StartPos;
-        m_StickBackTransform.anchoredPosition = m_StartPos;
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(
+            canvas.transform as RectTransform,
+            m_StartPos,
+            canvas.worldCamera,
+            out Vector2 localPoint
+        );
+        m_StickFrontTransform.position = canvas.transform.TransformPoint(localPoint);
+        m_StickBackTransform.position = canvas.transform.TransformPoint(localPoint);
         JoyStickBack.SetActive(true);
     }
     void UpdateControl()
@@ -98,7 +105,14 @@ public class MyScreenStick : OnScreenControl
             resultVec = resultVec.normalized;
         }
         SendValueToControl(resultVec);
-        m_StickFrontTransform.anchoredPosition = m_StartPos + resultVec * StickRaduis;
+        Vector2 targetPos = m_StartPos + resultVec * StickRaduis;
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(
+            canvas.transform as RectTransform,
+            targetPos,
+            canvas.worldCamera,
+            out Vector2 localPoint
+        );
+        m_StickFrontTransform.position = canvas.transform.TransformPoint(localPoint); // scaler;
     }
     void EndControl()
     {

@@ -849,6 +849,7 @@ MonoBehaviour:
   StickRaduis: 50
   JoyStickFront: {fileID: 696407013}
   JoyStickBack: {fileID: 1654323014}
+  canvas: {fileID: 134023846}
   m_ControlPath: <Gamepad>/leftStick
 --- !u!114 &865405915
 MonoBehaviour:
