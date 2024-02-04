@@ -13,6 +13,7 @@ public class PlayerController : NetworkBehaviour
 
     private CharacterController _controller;
     private Animator _slimeAnimator;
+    private SceneObject _sceneObject;
 
     [SerializeField]
     private InputAction _move, _jump;
@@ -36,6 +37,7 @@ public class PlayerController : NetworkBehaviour
     {
         _controller = GetComponent<CharacterController>();
         _slimeAnimator = GetComponentInChildren<Animator>();
+        _sceneObject = GetComponent<SceneObject>();
     }
 
     public override void Spawned()
@@ -46,6 +48,12 @@ public class PlayerController : NetworkBehaviour
             _camera.GetComponent<ThirdPersonCamera>().Target = transform;
             _isGroundedPrevious = true;
         }
+        _sceneObject.AddScenePlayer(this);
+    }
+
+    public override void Despawned(NetworkRunner runner, bool hasState)
+    {
+        _sceneObject.RemoveScenePlayer(this);
     }
 
     private void OnEnable()

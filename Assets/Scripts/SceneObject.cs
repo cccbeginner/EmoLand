@@ -5,29 +5,18 @@ using UnityEngine;
 
 public class SceneObject : MonoBehaviour
 {
-    private SceneManager _sceneManager { get; set; }
-    private PlayerController _playerController { get; set; }
+    public SceneManager SceneManager { get; private set; }
     void Awake()
     {
-        _sceneManager = GameObject.Find("SceneManager").GetComponent<SceneManager>();
-        _playerController = GetComponent<PlayerController>();
+        SceneManager = GameObject.Find("SceneManager").GetComponent<SceneManager>();
     }
 
-    public SceneManager GetSceneManager() { return _sceneManager; }
-
-    private void OnEnable()
+    public void AddScenePlayer(PlayerController playerController)
     {
-        if (_playerController != null)
-        {
-            _sceneManager.AddPlayer(this, _playerController);
-        }
+        SceneManager.AddPlayer(this, playerController);
     }
-
-    private void OnDisable()
+    public void RemoveScenePlayer(PlayerController playerController)
     {
-        if (_playerController != null)
-        {
-            _sceneManager.RemovePlayer(this, _playerController);
-        }
+        SceneManager.RemovePlayer(this, playerController);
     }
 }

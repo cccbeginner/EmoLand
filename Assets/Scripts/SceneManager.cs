@@ -1,3 +1,4 @@
+using Fusion;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +7,18 @@ public class SceneManager : MonoBehaviour
 {
     public List<SceneObject> Players { get; private set; }
     public SceneObject MainPlayer { get; private set; }
+    public NetworkRunner Runner { get; private set; }
+    private void Start()
+    {
+        // Find correct runner
+        foreach (var runner in NetworkRunner.Instances)
+        {
+            if (runner.IsStarting)
+            {
+                Runner = runner; break;
+            }
+        }
+    }
 
     private void Awake()
     {
