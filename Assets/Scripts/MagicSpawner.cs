@@ -12,6 +12,8 @@ public class MagicSpawner : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
     private NetworkRunner m_NetworkRunner;
     private MagicPicture m_MagicPic;
 
+    private bool m_HasSpawned;
+
     private void Start()
     {
         m_MagicPic = GetComponent<MagicPicture>();
@@ -20,21 +22,57 @@ public class MagicSpawner : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
 
     public void OnDrag(PointerEventData eventData)
     {
-        Vector3 spawnPos;
-        if (FindSpawnPos(eventData.position, out spawnPos))
+        if (SpawnMagic == null) return;
+        if (!m_HasSpawned)
         {
-            UpdatePrespawn(spawnPos);
+            if (SpawnMagic.SpawnOption == Magic.SpawnMode.Move)
+            {
+                if (FindSpawnPos(eventData.position, out Vector3 spawnPos))
+                {
+                    Prespawn(spawnPos);
+                }
+            }
         }
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        StartPrespawn();
+        if (SpawnMagic == null) return;
+        if (!m_HasSpawned)
+        {
+            if (SpawnMagic.SpawnOption == Magic.SpawnMode.Move)
+            {
+                Deprespawn();
+            }
+        }
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        EndPrespawn();
+        if (SpawnMagic == null) return;
+        if (!m_HasSpawned)
+        {
+            if (SpawnMagic.SpawnOption == Magic.SpawnMode.Move)
+            {
+                Spawn();
+                Deprespawn();
+            }
+            else if (SpawnMagic.SpawnOption == Magic.SpawnMode.Click)
+            {
+                Spawn();
+            }
+        }
+        else
+        {
+            if (SpawnMagic.SpawnOption == Magic.SpawnMode.Move)
+            {
+                Despawn();
+            }
+            else if (SpawnMagic.SpawnOption == Magic.SpawnMode.Click)
+            {
+                Despawn();
+            }
+        }
     }
 
     // Find network runner that is able to spawn network object.
@@ -66,23 +104,6 @@ public class MagicSpawner : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
         }
         hitPoint = Vector3.zero;
         return false;
-    }
-
-    private void StartPrespawn()
-    {
-        Deprespawn();
-        Despawn();
-    }
-
-    private void UpdatePrespawn(Vector3 worldPos)
-    {
-        Prespawn(worldPos);
-    }
-
-    private void EndPrespawn()
-    {
-        Spawn();
-        Deprespawn();
     }
 
     // Preview the spawned object when draging.
@@ -131,9 +152,14 @@ public class MagicSpawner : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
             Quaternion rot = m_PrespawnedObject.transform.rotation;
             m_SpawnedObject = m_NetworkRunner.Spawn(SpawnMagic.Prefab, pos, rot);
         }
+        else
+        {
+            m_SpawnedObject = m_NetworkRunner.Spawn(SpawnMagic.Prefab);
+        }
         if (m_SpawnedObject != null)
         {
             m_MagicPic.SetBrightness(1f);
+            m_HasSpawned = true;
         }
     }
 
@@ -151,6 +177,7 @@ public class MagicSpawner : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
         {
             m_NetworkRunner.Despawn(m_SpawnedObject);
         }
+        m_HasSpawned = false;
         m_MagicPic.SetBrightness(0.85f);
     }
 }

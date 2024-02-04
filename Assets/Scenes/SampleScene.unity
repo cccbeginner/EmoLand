@@ -1732,7 +1732,10 @@ MonoBehaviour:
   m_MagicList:
   - Icon: {fileID: 21300000, guid: b93c95a75643aa94b867666b965a5dff, type: 3}
     Prefab: {fileID: 1671814472537801006, guid: bc75294c010da7c44aa967da605a1080, type: 3}
-    FollowPlayer: 0
+    SpawnOption: 0
+  - Icon: {fileID: 21300000, guid: ef2c04be06db1124abd14080577f76bd, type: 3}
+    Prefab: {fileID: 6623579771539211119, guid: a78312ec0616a2947b9be71115150989, type: 3}
+    SpawnOption: 1
 --- !u!1 &1554726103
 GameObject:
   m_ObjectHideFlags: 0
