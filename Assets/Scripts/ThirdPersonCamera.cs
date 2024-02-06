@@ -13,30 +13,30 @@ public class ThirdPersonCamera : MonoBehaviour
     public float ScreenMiddle = 0.5f;
     public float DefaultTapTime = 0.2f;
 
-    private Transform _cameraPivot;
+    private Transform m_CameraPivot;
 
     // Maintain current rotation.
-    private float verticalRotation;
-    private float horizontalRotation;
+    private float m_VerticalRotation;
+    private float m_HorizontalRotation;
 
     [SerializeField]
-    private InputAction _rotate, _zoom;
+    private InputAction m_Rotate, m_Zoom;
 
     private void Awake()
     {
-        _cameraPivot = gameObject.transform.parent;
+        m_CameraPivot = gameObject.transform.parent;
     }
 
     private void OnEnable()
     {
-        _rotate.Enable();
-        _zoom.Enable();
+        m_Rotate.Enable();
+        m_Zoom.Enable();
     }
 
     private void OnDisable()
     {
-        _rotate.Disable();
-        _zoom.Disable();
+        m_Rotate.Disable();
+        m_Zoom.Disable();
     }
 
     void LateUpdate()
@@ -47,12 +47,12 @@ public class ThirdPersonCamera : MonoBehaviour
         }
 
         // Follow Player
-        Vector3 newPivotPosition = Vector3.Lerp(_cameraPivot.position, Target.position, LerpSpeed * Time.deltaTime);
-        Vector3 curVec = _cameraPivot.forward;
-        Vector3 nextVec = curVec + (newPivotPosition - _cameraPivot.position);
+        Vector3 newPivotPosition = Vector3.Lerp(m_CameraPivot.position, Target.position, LerpSpeed * Time.deltaTime);
+        Vector3 curVec = m_CameraPivot.forward;
+        Vector3 nextVec = curVec + (newPivotPosition - m_CameraPivot.position);
         float signedAngle = Vector2.SignedAngle(new Vector2(curVec.x, curVec.z), new Vector2(nextVec.x, nextVec.z));
         float autoRotateAngle = -signedAngle * AutoRotateSpeed;
-        _cameraPivot.position = newPivotPosition;
+        m_CameraPivot.position = newPivotPosition;
         Rotate(new Vector2(autoRotateAngle, 0));
     }
 
@@ -64,7 +64,7 @@ public class ThirdPersonCamera : MonoBehaviour
 
     private void UpdateRotate()
     {
-        Vector2 touchDelta = _rotate.ReadValue<Vector2>();
+        Vector2 touchDelta = m_Rotate.ReadValue<Vector2>();
         touchDelta = ScreenScale(touchDelta);
         Vector2 angle_rotate = touchDelta * RotateSpeed;
         Rotate(angle_rotate);
@@ -73,16 +73,16 @@ public class ThirdPersonCamera : MonoBehaviour
     private void Rotate(Vector2 angle)
     {
         // Calculate New Rotation
-        verticalRotation -= angle.y;
-        verticalRotation = Mathf.Clamp(verticalRotation, -80f, 80f);
-        horizontalRotation += angle.x;
-        _cameraPivot.rotation = Quaternion.Euler(verticalRotation, horizontalRotation, 0);
+        m_VerticalRotation -= angle.y;
+        m_VerticalRotation = Mathf.Clamp(m_VerticalRotation, -80f, 80f);
+        m_HorizontalRotation += angle.x;
+        m_CameraPivot.rotation = Quaternion.Euler(m_VerticalRotation, m_HorizontalRotation, 0);
     }
     
     private void UpdateZoom()
     {
 
-        float distDelta = _zoom.ReadValue<float>();
+        float distDelta = m_Zoom.ReadValue<float>();
         Zoom(distDelta * ZoomSpeed);
     }
 

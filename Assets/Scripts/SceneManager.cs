@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class SceneManager : MonoBehaviour
 {
-    public List<SceneObject> Players { get; private set; }
-    public SceneObject MainPlayer { get; private set; }
+    public List<GameObject> Players { get; private set; }
+    public GameObject MainPlayer { get; private set; }
     public NetworkRunner Runner { get; private set; }
     private void Start()
     {
@@ -22,7 +22,7 @@ public class SceneManager : MonoBehaviour
 
     private void Awake()
     {
-        Players = new List<SceneObject>();
+        Players = new List<GameObject>();
     }
     private bool CheckPlayerValid(SceneObject sceneObject, PlayerController playerController)
     {
@@ -39,10 +39,10 @@ public class SceneManager : MonoBehaviour
             return;
         }
         // Add the player
-        Players.Add(sceneObject);
+        Players.Add(sceneObject.gameObject);
         if (playerController.HasStateAuthority)
         {
-            MainPlayer = sceneObject;
+            MainPlayer = sceneObject.gameObject;
         }
     }
 
@@ -55,7 +55,7 @@ public class SceneManager : MonoBehaviour
         }
 
         // Add the player
-        Players.Remove(sceneObject);
+        Players.Remove(sceneObject.gameObject);
         if (playerController.HasStateAuthority)
         {
             MainPlayer = null;

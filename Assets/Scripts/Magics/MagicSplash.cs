@@ -9,38 +9,30 @@ public class NewBehaviourScript : NetworkBehaviour
     private SceneObject m_SceneObject;
     private GameObject m_MainPlayer;
     private CharacterController m_PlayerController;
-    private Vector3 m_PlayerPos;
+    private Vector3 m_PlayerPosPrev;
 
     [Networked]
     bool nt_EnableSplash {  get; set; }
 
     public override void Spawned()
     {
+        m_SceneObject = GetComponent<SceneObject>();
         m_ParticalSystem = transform.GetChild(0).gameObject.GetComponent<ParticleSystem>();
         m_ParticalSystem.Stop();
-        TryGetData();
     }
-
-    private void TryGetData()
-    {
-        m_SceneObject = GetComponent<SceneObject>();
-        m_MainPlayer = m_SceneObject.SceneManager.MainPlayer?.gameObject;
-        if (m_MainPlayer == null) return;
-        m_PlayerController = m_MainPlayer.GetComponent<CharacterController>();
-        m_PlayerPos = m_MainPlayer.transform.position;
-    }
-
 
     public override void FixedUpdateNetwork()
     {
         if (!HasStateAuthority) return;
         if (m_MainPlayer == null)
         {
-            TryGetData();
+            m_MainPlayer = m_SceneObject.GetMainPlayer();
             if (m_MainPlayer == null)
             {
                 return;
             }
+            m_PlayerController = m_MainPlayer.GetComponent<CharacterController>();
+            m_PlayerPosPrev = m_MainPlayer.transform.position;
         }
         Vector3 currentPos = m_MainPlayer.transform.position;
 
@@ -49,7 +41,7 @@ public class NewBehaviourScript : NetworkBehaviour
         transform.forward = m_MainPlayer.transform.forward;
 
         // Enable splash if player is moving on ground, disable vice versa.
-        if (m_PlayerController.isGrounded && (currentPos - m_PlayerPos).magnitude >= Time.deltaTime)
+        if (m_PlayerController.isGrounded && (currentPos - m_PlayerPosPrev).magnitude >= Time.deltaTime)
         {
             nt_EnableSplash = true;
         }
@@ -57,7 +49,7 @@ public class NewBehaviourScript : NetworkBehaviour
         {
             nt_EnableSplash = false;
         }
-        m_PlayerPos = currentPos;
+        m_PlayerPosPrev = currentPos;
     }
     public override void Render()
     {

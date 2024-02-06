@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6715679142602161171}
-  - component: {fileID: 1033691230492229149}
   - component: {fileID: 1506445556296005338}
   - component: {fileID: 6819787159656414670}
   - component: {fileID: 6672644235427829819}
@@ -38,14 +37,6 @@ Transform:
   - {fileID: 2569410048059523613}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &1033691230492229149
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5125725523214384465}
-  m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!114 &1506445556296005338
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -120,16 +111,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b43d3c48c602cb848ab4b2ff602c8a1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _move:
+  m_Move:
     m_Name: Move
     m_Type: 0
     m_ExpectedControlType: Vector2
-    m_Id: 975c811a-9f65-4f89-91be-2ec1f4e2b0eb
+    m_Id: aac02b3a-c315-4db1-9236-454a7fcba7e2
     m_Processors: 
     m_Interactions: 
     m_SingletonActionBindings:
     - m_Name: 
-      m_Id: 4c88b2db-9482-462f-84ce-56885f21be3b
+      m_Id: 0c42ca67-72c6-42c6-89b8-e703a60ff6a5
       m_Path: <Gamepad>/leftStick
       m_Interactions: 
       m_Processors: 
@@ -137,7 +128,7 @@ MonoBehaviour:
       m_Action: Move
       m_Flags: 0
     - m_Name: WASD
-      m_Id: becd416c-0603-4a36-be64-a170ee6e1ec8
+      m_Id: e0e6fe34-34a7-4bf4-9ad3-36915486c4ce
       m_Path: 2DVector
       m_Interactions: 
       m_Processors: 
@@ -145,7 +136,7 @@ MonoBehaviour:
       m_Action: Move
       m_Flags: 4
     - m_Name: up
-      m_Id: bfcd2dee-386f-4d91-9089-47f826ee3509
+      m_Id: 0a6123f3-3f83-45a3-8ca3-72647e9d135d
       m_Path: <Keyboard>/w
       m_Interactions: 
       m_Processors: 
@@ -153,7 +144,7 @@ MonoBehaviour:
       m_Action: Move
       m_Flags: 8
     - m_Name: down
-      m_Id: de6ae730-528d-4191-a9e6-fda98c1c34ca
+      m_Id: b23645ca-03b3-4740-94e6-f208486a6289
       m_Path: <Keyboard>/s
       m_Interactions: 
       m_Processors: 
@@ -161,7 +152,7 @@ MonoBehaviour:
       m_Action: Move
       m_Flags: 8
     - m_Name: left
-      m_Id: 27e783ac-9b4b-4cc9-88a7-8665eceaa32b
+      m_Id: 804c580a-0f32-4be0-bbfe-fda0fc6b7cc9
       m_Path: <Keyboard>/a
       m_Interactions: 
       m_Processors: 
@@ -169,64 +160,24 @@ MonoBehaviour:
       m_Action: Move
       m_Flags: 8
     - m_Name: right
-      m_Id: 3b220be0-bc70-45a3-9f3f-c3b84e58c9cf
+      m_Id: 87de761d-e52e-4562-86e5-0fc5657d38ac
       m_Path: <Keyboard>/d
       m_Interactions: 
       m_Processors: 
       m_Groups: 
       m_Action: Move
       m_Flags: 8
-    - m_Name: Arrow
-      m_Id: 349c2050-aeb4-4fcc-a6cc-ea542278b8fb
-      m_Path: 2DVector
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Move
-      m_Flags: 4
-    - m_Name: up
-      m_Id: 5b9dafe3-eef4-4fff-b32c-38cfd6aa1159
-      m_Path: <Keyboard>/upArrow
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Move
-      m_Flags: 8
-    - m_Name: down
-      m_Id: ed042cb0-c0a5-404d-a467-b7fbdb4f762a
-      m_Path: <Keyboard>/downArrow
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Move
-      m_Flags: 8
-    - m_Name: left
-      m_Id: 0d8478a9-2964-4098-a65c-220896a8a6f4
-      m_Path: <Keyboard>/leftArrow
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Move
-      m_Flags: 8
-    - m_Name: right
-      m_Id: 9f741ba0-6e70-4568-a0cd-fc2fa8b6a68f
-      m_Path: <Keyboard>/rightArrow
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Move
-      m_Flags: 8
     m_Flags: 0
-  _jump:
+  m_Jump:
     m_Name: Jump
-    m_Type: 1
-    m_ExpectedControlType: Button
-    m_Id: 428b1eb8-a091-41cc-b493-e60d1be2405c
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 5529ed89-2e85-477d-bac9-7d7e6515cdc4
     m_Processors: 
     m_Interactions: 
     m_SingletonActionBindings:
     - m_Name: 
-      m_Id: e718d117-4fcd-49a0-8dfb-b711b13fa54f
+      m_Id: 8b6bf161-5443-46ba-ad83-3fd9720eabb8
       m_Path: <Gamepad>/rightTrigger
       m_Interactions: 
       m_Processors: 
@@ -234,7 +185,7 @@ MonoBehaviour:
       m_Action: Jump
       m_Flags: 0
     - m_Name: 
-      m_Id: ef701661-914e-4e78-aac8-8b72c9f05690
+      m_Id: 6f1eb95f-ed27-49ec-8d23-e0d35c8d22e7
       m_Path: <Keyboard>/space
       m_Interactions: 
       m_Processors: 
@@ -329,6 +280,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 758db185de8ed9f499ae693c152f9c0c, type: 3}
       propertyPath: m_Name
       value: slime
+      objectReference: {fileID: 0}
+    - target: {fileID: 2788943867344286557, guid: 758db185de8ed9f499ae693c152f9c0c, type: 3}
+      propertyPath: m_CastShadows
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2788943867344286557, guid: 758db185de8ed9f499ae693c152f9c0c, type: 3}
       propertyPath: m_Materials.Array.data[0]

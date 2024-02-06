@@ -23,9 +23,9 @@ public class MagicPage : MonoBehaviour
     private Vector2 m_PictureSize = new Vector2(80, 80);
 
     [SerializeField]
-    private Magic[] m_MagicList;
+    private MagicData[] m_MagicList;
 
-    private Magic m_SelectedMagic;
+    private MagicData m_SelectedMagic;
     private GameObject m_SelectedPicture;
     private GameObject m_UnrealPicture;
 
@@ -40,7 +40,7 @@ public class MagicPage : MonoBehaviour
         RestoreMagicColumn();
     }
 
-    private void ConfigMagicListPic(GameObject magicPic, Magic magic)
+    private void ConfigMagicListPic(GameObject magicPic, MagicData magic)
     {
         RectTransform rectTransform = magicPic.GetComponent<RectTransform>();
         rectTransform.pivot = new Vector2(0, 1);
@@ -50,6 +50,7 @@ public class MagicPage : MonoBehaviour
 
         magicPic.GetComponent<MagicPicture>().SetIcon(magic.Icon);
 
+        // Add listener for draging event.
         EventTrigger eventTrigger = magicPic.AddComponent<EventTrigger>();
         EventTrigger.Entry entry1 = new EventTrigger.Entry();
         entry1.eventID = EventTriggerType.BeginDrag;
@@ -73,6 +74,8 @@ public class MagicPage : MonoBehaviour
         {
             magicPic.AddComponent<EventTrigger>();
         }
+
+        // Add click listener to reset column.
         EventTrigger eventTrigger = magicPic.GetComponent<EventTrigger>();
         EventTrigger.Entry clickEntry = new EventTrigger.Entry();
         clickEntry.eventID = EventTriggerType.PointerClick;
@@ -101,7 +104,7 @@ public class MagicPage : MonoBehaviour
         m_UnrealPicture.GetComponent<MagicPicture>().Resize(m_PictureSize * 0.5f);
     }
 
-    private void StartDragPicture(BaseEventData _eventData, GameObject magicPic, Magic magic)
+    private void StartDragPicture(BaseEventData _eventData, GameObject magicPic, MagicData magic)
     {
         PointerEventData eventData = (PointerEventData)_eventData;
         if (m_SelectedPicture != null) return;

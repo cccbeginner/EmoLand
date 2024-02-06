@@ -19,4 +19,12 @@ public class SceneObject : MonoBehaviour
     {
         SceneManager.RemovePlayer(this, playerController);
     }
+    public List<GameObject> GetPlayers()
+    {
+        return SceneManager.Players;
+    }
+    public GameObject GetMainPlayer()
+    {
+        return SceneManager.MainPlayer;
+    }
 }

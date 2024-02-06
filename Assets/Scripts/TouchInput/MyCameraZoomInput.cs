@@ -10,7 +10,7 @@ public class MyCameraZoomInput : OnScreenControl
 
     float prePinchDist = -1f;
 
-    private void OnRightScreenTouch(Touch[] touches)
+    public void OnRightScreenTouch(Touch[] touches)
     {
         if (touches.Length < 2)
         {
@@ -24,10 +24,6 @@ public class MyCameraZoomInput : OnScreenControl
 
     void Start()
     {
-        var touchManager = GetComponent<TouchManager>();
-        var action = new UnityAction<Touch[]>(OnRightScreenTouch);
-        touchManager.OnTouchScreenRight.AddListener(action);
-
         SendValueToControl(0f);
     }
 

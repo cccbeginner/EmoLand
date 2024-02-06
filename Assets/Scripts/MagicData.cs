@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Scripting.APIUpdating;
 
 [Serializable]
-public class Magic
+public class MagicData
 {
     public Sprite Icon;
     public GameObject Prefab;
@@ -15,7 +15,7 @@ public class Magic
         Move,
         Click
     }
-    public Magic(Sprite icon = null, GameObject magicPrefab = null, SpawnMode spawnOp = SpawnMode.Move)
+    public MagicData(Sprite icon = null, GameObject magicPrefab = null, SpawnMode spawnOp = SpawnMode.Move)
     {
         Icon = icon;
         Prefab = magicPrefab;

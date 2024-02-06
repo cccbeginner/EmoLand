@@ -28,7 +28,7 @@ public class MyScreenStick : OnScreenControl
     {
         Start, Moving, End, Stay
     }
-    private void OnStickTouch(Touch[] touches)
+    public void OnStickTouch(Touch[] touches)
     {
         if (touches.Length == 0)
         {
@@ -71,10 +71,6 @@ public class MyScreenStick : OnScreenControl
 
     void Start()
     {
-        var touchManager = GetComponent<TouchManager>();
-        var action = new UnityAction<Touch[]>(OnStickTouch);
-        touchManager.OnTouchScreenLeft.AddListener(action);
-
         m_StickFrontTransform = JoyStickFront.GetComponent<RectTransform>();
         m_StickFrontInitPos = m_StickFrontTransform.anchoredPosition;
         m_StickBackTransform = JoyStickBack.GetComponent<RectTransform>();

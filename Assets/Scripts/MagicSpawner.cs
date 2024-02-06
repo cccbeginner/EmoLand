@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class MagicSpawner : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IDragHandler
 {
-    public Magic SpawnMagic;
+    public MagicData SpawnMagic;
 
     private GameObject m_PrespawnedObject;
     private NetworkObject m_SpawnedObject;
@@ -25,7 +25,7 @@ public class MagicSpawner : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
         if (SpawnMagic == null) return;
         if (!m_HasSpawned)
         {
-            if (SpawnMagic.SpawnOption == Magic.SpawnMode.Move)
+            if (SpawnMagic.SpawnOption == MagicData.SpawnMode.Move)
             {
                 if (FindSpawnPos(eventData.position, out Vector3 spawnPos))
                 {
@@ -40,7 +40,7 @@ public class MagicSpawner : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
         if (SpawnMagic == null) return;
         if (!m_HasSpawned)
         {
-            if (SpawnMagic.SpawnOption == Magic.SpawnMode.Move)
+            if (SpawnMagic.SpawnOption == MagicData.SpawnMode.Move)
             {
                 Deprespawn();
             }
@@ -52,23 +52,23 @@ public class MagicSpawner : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
         if (SpawnMagic == null) return;
         if (!m_HasSpawned)
         {
-            if (SpawnMagic.SpawnOption == Magic.SpawnMode.Move)
+            if (SpawnMagic.SpawnOption == MagicData.SpawnMode.Move)
             {
                 Spawn();
                 Deprespawn();
             }
-            else if (SpawnMagic.SpawnOption == Magic.SpawnMode.Click)
+            else if (SpawnMagic.SpawnOption == MagicData.SpawnMode.Click)
             {
                 Spawn();
             }
         }
         else
         {
-            if (SpawnMagic.SpawnOption == Magic.SpawnMode.Move)
+            if (SpawnMagic.SpawnOption == MagicData.SpawnMode.Move)
             {
                 Despawn();
             }
-            else if (SpawnMagic.SpawnOption == Magic.SpawnMode.Click)
+            else if (SpawnMagic.SpawnOption == MagicData.SpawnMode.Click)
             {
                 Despawn();
             }

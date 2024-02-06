@@ -7,7 +7,7 @@ using Touch = UnityEngine.InputSystem.EnhancedTouch.Touch;
 
 public class MyCameraRotateInput : OnScreenControl
 {
-    private void OnRightScreenTouch(Touch[] touches)
+    public void OnRightScreenTouch(Touch[] touches)
     {
         if (touches.Length == 0)
         {
@@ -21,10 +21,6 @@ public class MyCameraRotateInput : OnScreenControl
 
     void Start()
     {
-        var touchManager = GetComponent<TouchManager>();
-        var action = new UnityAction<Touch[]>(OnRightScreenTouch);
-        touchManager.OnTouchScreenRight.AddListener(action);
-
         SendValueToControl(Vector2.zero);
     }
 

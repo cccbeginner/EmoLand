@@ -7,16 +7,16 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : NetworkBehaviour
 {
-    private Vector3 _velocity;
-    private bool _jumpPressed;
-    private Camera _camera;
+    private Vector3 m_Velocity;
+    private bool m_JumpPressed;
+    private Camera m_Camera;
 
-    private CharacterController _controller;
-    private Animator _slimeAnimator;
-    private SceneObject _sceneObject;
+    private CharacterController m_Controller;
+    private Animator m_SlimeAnimator;
+    private SceneObject m_SceneObject;
 
     [SerializeField]
-    private InputAction _move, _jump;
+    private InputAction m_Move, m_Jump;
 
     public float MoveSpeed = 2f;
     public float RorateSpeed = 18f;
@@ -30,49 +30,49 @@ public class PlayerController : NetworkBehaviour
     [Networked]
     bool nt_isGroundedCurrent { get; set; }
 
-    int _lastVisibleJump = 0;
-    bool _isGroundedPrevious = true;
+    int m_LastVisibleJump = 0;
+    bool m_IsGroundedPrevious = true;
 
     private void Awake()
     {
-        _controller = GetComponent<CharacterController>();
-        _slimeAnimator = GetComponentInChildren<Animator>();
-        _sceneObject = GetComponent<SceneObject>();
+        m_Controller = GetComponent<CharacterController>();
+        m_SlimeAnimator = GetComponentInChildren<Animator>();
+        m_SceneObject = GetComponent<SceneObject>();
     }
 
     public override void Spawned()
     {
         if (HasStateAuthority)
         {
-            _camera = Camera.main;
-            _camera.GetComponent<ThirdPersonCamera>().Target = transform;
-            _isGroundedPrevious = true;
+            m_Camera = Camera.main;
+            m_Camera.GetComponent<ThirdPersonCamera>().Target = transform;
+            m_IsGroundedPrevious = true;
         }
-        _sceneObject.AddScenePlayer(this);
+        m_SceneObject.AddScenePlayer(this);
     }
 
     public override void Despawned(NetworkRunner runner, bool hasState)
     {
-        _sceneObject.RemoveScenePlayer(this);
+        m_SceneObject.RemoveScenePlayer(this);
     }
 
     private void OnEnable()
     {
-        _move.Enable();
-        _jump.Enable();
+        m_Move.Enable();
+        m_Jump.Enable();
     }
 
     private void OnDisable()
     {
-        _move.Disable();
-        _jump.Disable();
+        m_Move.Disable();
+        m_Jump.Disable();
     }
 
     void Update()
     {
-        if (_jump.triggered)
+        if (m_Jump.triggered)
         {
-            _jumpPressed = true;
+            m_JumpPressed = true;
         }
     }
 
@@ -84,19 +84,19 @@ public class PlayerController : NetworkBehaviour
             return;
         }
 
-        if (_controller.isGrounded)
+        if (m_Controller.isGrounded)
         {
-            _velocity = new Vector3(0, -1, 0);
+            m_Velocity = new Vector3(0, -1, 0);
         }
 
         // Get move vector in camera space.
-        nt_vecMove = _move.ReadValue<Vector2>();
+        nt_vecMove = m_Move.ReadValue<Vector2>();
         Vector3 move = Vector3.zero;
 
         if (nt_vecMove !=  Vector2.zero)
         {
             // Convert camera space to world.
-            Quaternion cameraRotationY = Quaternion.Euler(0, _camera.transform.rotation.eulerAngles.y, 0);
+            Quaternion cameraRotationY = Quaternion.Euler(0, m_Camera.transform.rotation.eulerAngles.y, 0);
             Vector3 vecMoveWorld = cameraRotationY * new Vector3(nt_vecMove.x, 0, nt_vecMove.y);
 
             // Rotate Character gradually.
@@ -108,21 +108,21 @@ public class PlayerController : NetworkBehaviour
         }
 
         // Calculate vertical speed.
-        _velocity.y += GravityValue * Runner.DeltaTime;
-        if (_jumpPressed && _controller.isGrounded)
+        m_Velocity.y += GravityValue * Runner.DeltaTime;
+        if (m_JumpPressed && m_Controller.isGrounded)
         {
             // Start Jump
-            _velocity.y += JumpForce;
+            m_Velocity.y += JumpForce;
             nt_jumpCount ++;
         }
 
         // Move character & set forward.
-        _controller.Move(move + _velocity * Runner.DeltaTime);
+        m_Controller.Move(move + m_Velocity * Runner.DeltaTime);
 
         // Already got jump if true, so reset _jumpPressed.
-        _jumpPressed = false;
+        m_JumpPressed = false;
 
-        nt_isGroundedCurrent = _controller.isGrounded;
+        nt_isGroundedCurrent = m_Controller.isGrounded;
     }
 
     public override void Render()
@@ -133,31 +133,31 @@ public class PlayerController : NetworkBehaviour
         // DetectMove
         if (nt_vecMove != Vector2.zero)
         {
-            _slimeAnimator.SetBool("Move", true);
+            m_SlimeAnimator.SetBool("Move", true);
         }
         else
         {
-            _slimeAnimator.SetBool("Move", false);
+            m_SlimeAnimator.SetBool("Move", false);
         }
 
         // Detect Jump
-        if (_lastVisibleJump < nt_jumpCount)
+        if (m_LastVisibleJump < nt_jumpCount)
         {
-            _slimeAnimator.SetTrigger("Jump");
-            _slimeAnimator.ResetTrigger("Grounded");
+            m_SlimeAnimator.SetTrigger("Jump");
+            m_SlimeAnimator.ResetTrigger("Grounded");
         }
-        _lastVisibleJump = nt_jumpCount;
+        m_LastVisibleJump = nt_jumpCount;
 
         // Detect Grounded
-        if (nt_isGroundedCurrent == true && _isGroundedPrevious == false)
+        if (nt_isGroundedCurrent == true && m_IsGroundedPrevious == false)
         {
-            _slimeAnimator.SetTrigger("Grounded");
-        } else if (_slimeAnimator.GetCurrentAnimatorStateInfo(0).shortNameHash == Animator.StringToHash("SlimeJump") && _isGroundedPrevious == true)
+            m_SlimeAnimator.SetTrigger("Grounded");
+        } else if (m_SlimeAnimator.GetCurrentAnimatorStateInfo(0).shortNameHash == Animator.StringToHash("SlimeJump") && m_IsGroundedPrevious == true)
         {
             // Reach here if there is a bug that makes animator stranded at Jump state
             // even when the character is on the ground.
-            _slimeAnimator.SetTrigger("Grounded");
+            m_SlimeAnimator.SetTrigger("Grounded");
         }
-        _isGroundedPrevious = nt_isGroundedCurrent;
+        m_IsGroundedPrevious = nt_isGroundedCurrent;
     }
 }
