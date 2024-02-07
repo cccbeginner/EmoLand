@@ -23,6 +23,7 @@ public class PlayerController : NetworkBehaviour
     public float JumpForce = 5f;
     public float GravityValue = -9.81f;
 
+    // Variables for animation.
     [Networked]
     Vector2 nt_vecMove { get; set; }
     [Networked]
@@ -129,7 +130,7 @@ public class PlayerController : NetworkBehaviour
     {
         base.Render();
 
-        // Update Animatio
+        // Update Animation
         // DetectMove
         if (nt_vecMove != Vector2.zero)
         {
@@ -159,5 +160,10 @@ public class PlayerController : NetworkBehaviour
             m_SlimeAnimator.SetTrigger("Grounded");
         }
         m_IsGroundedPrevious = nt_isGroundedCurrent;
+    }
+
+    public void EatTrigger()
+    {
+        m_SlimeAnimator.SetTrigger("Eat");
     }
 }
