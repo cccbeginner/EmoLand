@@ -1810,9 +1810,15 @@ MonoBehaviour:
   - Icon: {fileID: 21300000, guid: b93c95a75643aa94b867666b965a5dff, type: 3}
     Prefab: {fileID: 1671814472537801006, guid: bc75294c010da7c44aa967da605a1080, type: 3}
     SpawnOption: 0
+    AutoDespawnDelay: 0
   - Icon: {fileID: 21300000, guid: ef2c04be06db1124abd14080577f76bd, type: 3}
     Prefab: {fileID: 6623579771539211119, guid: a78312ec0616a2947b9be71115150989, type: 3}
     SpawnOption: 1
+    AutoDespawnDelay: 0
+  - Icon: {fileID: 21300000, guid: 543501da1502b2e42bcec1463c5bc1c3, type: 3}
+    Prefab: {fileID: 6333101165547610461, guid: cdaaf2a012eb17c4dbc74daceaef8ee2, type: 3}
+    SpawnOption: 1
+    AutoDespawnDelay: 2
 --- !u!1 &1554726103
 GameObject:
   m_ObjectHideFlags: 0

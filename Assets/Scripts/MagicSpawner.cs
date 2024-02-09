@@ -1,11 +1,26 @@
 using Fusion;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class MagicSpawner : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IDragHandler
 {
-    public MagicData SpawnMagic;
+    private MagicData _SpawnMagic;
+    public MagicData SpawnMagic
+    {
+        get
+        {
+            return _SpawnMagic;
+        }
+        set {
+            if (value != _SpawnMagic)
+            {
+                Despawn();
+                _SpawnMagic = value;
+            }
+        }
+    }
 
     private GameObject m_PrespawnedObject;
     private NetworkObject m_SpawnedObject;
@@ -13,11 +28,17 @@ public class MagicSpawner : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
     private MagicPicture m_MagicPic;
 
     private bool m_HasSpawned;
+    private Coroutine m_CountdownCoroutine;
 
     private void Start()
     {
         m_MagicPic = GetComponent<MagicPicture>();
         m_MagicPic.SetBrightness(0.85f);
+    }
+
+    private void OnDisable()
+    {
+        StopAllCoroutines();
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -156,10 +177,16 @@ public class MagicSpawner : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
         {
             m_SpawnedObject = m_NetworkRunner.Spawn(SpawnMagic.Prefab);
         }
+
+        // Check successfully spawned.
         if (m_SpawnedObject != null)
         {
             m_MagicPic.SetBrightness(1f);
             m_HasSpawned = true;
+            if (SpawnMagic.AutoDespawnDelay > 0)
+            {
+                m_CountdownCoroutine = StartCoroutine(CountDownDespawn(SpawnMagic.AutoDespawnDelay));
+            }
         }
     }
 
@@ -179,5 +206,18 @@ public class MagicSpawner : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
         }
         m_HasSpawned = false;
         m_MagicPic.SetBrightness(0.85f);
+        if (m_CountdownCoroutine != null) StopCoroutine(m_CountdownCoroutine);
+    }
+
+    IEnumerator CountDownDespawn(float timeSec)
+    {
+        float timeTotal = 0f;
+        while (true)
+        {
+            if (timeTotal >= timeSec) break;
+            timeTotal += Time.deltaTime;
+            yield return null;
+        }
+        Despawn();
     }
 }

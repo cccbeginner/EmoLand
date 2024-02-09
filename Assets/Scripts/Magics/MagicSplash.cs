@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NewBehaviourScript : NetworkBehaviour
+public class MagicSplash : NetworkBehaviour
 {
     private ParticleSystem m_ParticalSystem;
     private SceneObject m_SceneObject;
