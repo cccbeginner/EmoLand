@@ -16,6 +16,7 @@ public class MagicSplash : NetworkBehaviour
 
     public override void Spawned()
     {
+        if (!HasStateAuthority) return;
         m_SceneObject = GetComponent<SceneObject>();
         m_ParticalSystem = transform.GetChild(0).gameObject.GetComponent<ParticleSystem>();
         m_ParticalSystem.Stop();

@@ -7,6 +7,7 @@ public class Eatable : MonoBehaviour
 {
     public float FollowSpeed = 5f;
     public float FinalDistance = 0.2f;
+    public int SizeAddition = 1;
     public bool EnableDetect = true;
     public Collider AreaCollider;
     public UnityEvent OnEaten;
@@ -67,6 +68,7 @@ public class Eatable : MonoBehaviour
     {
         OnEaten.Invoke();
         m_TargetPlayer.GetComponent<PlayerController>().EatTrigger();
+        m_TargetPlayer.GetComponent<PlayerController>().Size += SizeAddition;
         Destroy(gameObject);
     }
 }

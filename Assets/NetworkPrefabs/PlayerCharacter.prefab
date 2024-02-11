@@ -197,6 +197,7 @@ MonoBehaviour:
   RorateSpeed: 90
   JumpForce: 10
   GravityValue: -9.81
+  m_SlimeModel: {fileID: 2946392644333869223}
 --- !u!114 &286335190575241454
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -217,6 +218,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6715679142602161171}
     m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 758db185de8ed9f499ae693c152f9c0c, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 758db185de8ed9f499ae693c152f9c0c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -299,6 +304,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 758db185de8ed9f499ae693c152f9c0c, type: 3}
       insertIndex: -1
       addedObject: {fileID: 9200420808151254632}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 758db185de8ed9f499ae693c152f9c0c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7448696326906243064}
   m_SourcePrefab: {fileID: 100100000, guid: 758db185de8ed9f499ae693c152f9c0c, type: 3}
 --- !u!4 &2569410048059523613 stripped
 Transform:
@@ -347,4 +355,21 @@ MonoBehaviour:
   ObjectInterest: 1
   Flags: 262145
   NestedObjects: []
-  NetworkedBehaviours: []
+  NetworkedBehaviours:
+  - {fileID: 7448696326906243064}
+--- !u!114 &7448696326906243064
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2946392644333869223}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 158639473, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SyncScale: 1
+  SyncParent: 0
+  _autoAOIOverride: 1
+  DisableSharedModeInterpolation: 0
