@@ -6,8 +6,7 @@ using UnityEngine;
 public class MagicSplash : NetworkBehaviour
 {
     private ParticleSystem m_ParticalSystem;
-    private SceneObject m_SceneObject;
-    private GameObject m_MainPlayer;
+    private Player m_MainPlayer;
     private CharacterController m_PlayerController;
     private Vector3 m_PlayerPosPrev;
 
@@ -17,7 +16,6 @@ public class MagicSplash : NetworkBehaviour
     public override void Spawned()
     {
         if (!HasStateAuthority) return;
-        m_SceneObject = GetComponent<SceneObject>();
         m_ParticalSystem = transform.GetChild(0).gameObject.GetComponent<ParticleSystem>();
         m_ParticalSystem.Stop();
     }
@@ -27,7 +25,7 @@ public class MagicSplash : NetworkBehaviour
         if (!HasStateAuthority) return;
         if (m_MainPlayer == null)
         {
-            m_MainPlayer = m_SceneObject.GetMainPlayer();
+            m_MainPlayer = Player.main;
             if (m_MainPlayer == null)
             {
                 return;

@@ -5,8 +5,10 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
-public class PlayerController : NetworkBehaviour
+public class Player : NetworkBehaviour
 {
+    public static Player main { get; private set; }
+
     [Networked]
     private Vector3 m_Impact { get; set; }
     private bool m_JumpPressed;
@@ -14,7 +16,6 @@ public class PlayerController : NetworkBehaviour
 
     private CharacterController m_Controller;
     private Animator m_SlimeAnimator;
-    private SceneObject m_SceneObject;
 
     [SerializeField]
     private InputAction m_Move, m_Jump;
@@ -64,7 +65,6 @@ public class PlayerController : NetworkBehaviour
     {
         m_Controller = GetComponent<CharacterController>();
         m_SlimeAnimator = GetComponentInChildren<Animator>();
-        m_SceneObject = GetComponent<SceneObject>();
     }
 
     private void OnEnable()
@@ -97,13 +97,16 @@ public class PlayerController : NetworkBehaviour
             nt_SizeChanged = false;
             nt_jumpCount = 0;
             nt_Size = 1;
+            main = this;
         }
-        m_SceneObject.AddScenePlayer(this);
     }
 
     public override void Despawned(NetworkRunner runner, bool hasState)
     {
-        m_SceneObject.RemoveScenePlayer(this);
+        if (HasStateAuthority)
+        {
+            main = null;
+        }
     }
 
     public override void FixedUpdateNetwork()

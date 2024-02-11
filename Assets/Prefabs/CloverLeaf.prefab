@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 4699840422409871213}
   - component: {fileID: 6718579974351331825}
   - component: {fileID: 1670592152375160070}
-  - component: {fileID: 7731763531656382217}
   - component: {fileID: -5320696567253367056}
   m_Layer: 0
   m_Name: CloverLeaf
@@ -85,18 +84,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &7731763531656382217
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3676691101950448481}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 389274938b5573346898bb2ce7dde3ec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!64 &-5320696567253367056
 MeshCollider:
   m_ObjectHideFlags: 0

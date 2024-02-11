@@ -11,16 +11,10 @@ public class Eatable : MonoBehaviour
     public bool EnableDetect = true;
     public Collider AreaCollider;
     public UnityEvent OnEaten;
-    private SceneObject m_SceneObject;
     private GameObject m_TargetPlayer;
 
     void Start()
     {
-        m_SceneObject = GetComponent<SceneObject>();
-        if (m_SceneObject == null)
-        {
-            m_SceneObject = gameObject.AddComponent<SceneObject>();
-        }
 
         if (AreaCollider == null)
         {
@@ -34,7 +28,7 @@ public class Eatable : MonoBehaviour
 
     private void OnTriggerEnter(Collider collider)
     {
-        if (EnableDetect && m_SceneObject?.GetMainPlayer() == collider.gameObject)
+        if (EnableDetect && Player.main?.gameObject == collider.gameObject)
         {
             m_TargetPlayer = collider.gameObject;
             StartCoroutine(BeingEaten());
@@ -67,8 +61,8 @@ public class Eatable : MonoBehaviour
     private void BeEaten()
     {
         OnEaten.Invoke();
-        m_TargetPlayer.GetComponent<PlayerController>().EatTrigger();
-        m_TargetPlayer.GetComponent<PlayerController>().Size += SizeAddition;
+        m_TargetPlayer.GetComponent<Player>().EatTrigger();
+        m_TargetPlayer.GetComponent<Player>().Size += SizeAddition;
         Destroy(gameObject);
     }
 }
