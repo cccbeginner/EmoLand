@@ -40,7 +40,7 @@ public class MagicPageButton : MonoBehaviour
         }
     }
 
-    private void ConfigMagicPic(GameObject magicPic)
+    private void InitMagicPic(GameObject magicPic)
     {
         RectTransform rectTransform = magicPic.GetComponent<RectTransform>();
         rectTransform.anchorMax = new Vector2(0.5f, 0.5f);
@@ -50,6 +50,9 @@ public class MagicPageButton : MonoBehaviour
 
         MagicSpawner magicColumnField = magicPic.AddComponent<MagicSpawner>();
         magicColumnField.SpawnMagic = null;
+
+        MagicPicture magicPicture = magicPic.GetComponent<MagicPicture>();
+        magicPicture.ResetIcon();
     }
 
     public void ShowPage()
@@ -66,23 +69,32 @@ public class MagicPageButton : MonoBehaviour
     public void ShowColumn()
     {
         if (m_IsColumnActive) return;
-        for (int i = 0; i < ColumnNum; i++)
+        if (MagicColumn.transform.childCount == 0)
         {
-            GameObject newField = Instantiate(MagicColumnField, MagicColumn.transform);
-            ConfigMagicPic(newField);
-            RectTransform rtTransform = newField.GetComponent<RectTransform>();
-            rtTransform.anchoredPosition = new Vector2(0, -i * rtTransform.rect.height);
+            for (int i = 0; i < ColumnNum; i++)
+            {
+                GameObject newField = Instantiate(MagicColumnField, MagicColumn.transform);
+                InitMagicPic(newField);
+                RectTransform rtTransform = newField.GetComponent<RectTransform>();
+                rtTransform.anchoredPosition = new Vector2(0, -i * rtTransform.rect.height);
+            }
+        }
+        else
+        {
+            foreach (Transform field in MagicColumn.transform)
+            {
+                field.gameObject.SetActive(true);
+            }
         }
         m_IsColumnActive = true;
     }
 
     public void HideColumn()
     {
-        Debug.Log(gameObject.name);
         if (!m_IsColumnActive) return;
-        foreach (GameObject field in MagicColumn.transform)
+        foreach (Transform field in MagicColumn.transform)
         {
-            Destroy(field);
+            field.gameObject.SetActive(false);
         }
         m_IsColumnActive = false;
     }

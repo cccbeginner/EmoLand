@@ -8,15 +8,13 @@ public class MagicPicture : MonoBehaviour
     private Image m_BgImage, m_FgImage;
     private Color m_InitBgColor, m_InitFgColor;
     private GameObject m_Front;
-    private void OnEnable()
+    private void Awake()
     {
         m_BgImage = GetComponent<Image>();
         m_Front = transform.GetChild(0).gameObject;
         m_FgImage = m_Front.GetComponent<Image>();
         m_InitBgColor = m_BgImage.color;
         m_InitFgColor = m_FgImage.color;
-
-        ResetIcon();
     }
     public void ResetIcon()
     {

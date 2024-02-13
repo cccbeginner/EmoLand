@@ -36,11 +36,6 @@ public class MagicSpawner : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
         m_MagicPic.SetBrightness(0.85f);
     }
 
-    private void OnDisable()
-    {
-        StopAllCoroutines();
-    }
-
     public void OnDrag(PointerEventData eventData)
     {
         if (SpawnMagic == null) return;
