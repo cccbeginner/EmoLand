@@ -35,8 +35,8 @@ public class Player : NetworkBehaviour
     [Networked]
     private bool nt_SizeChanged { get; set; }
     [Networked]
-    private float nt_Size { get; set; }
-    public float Size
+    private int nt_Size { get; set; }
+    public int Size
     {
         get
         {
@@ -44,7 +44,7 @@ public class Player : NetworkBehaviour
         }
         set
         {
-            if (value <= 0 || nt_Size == value) return;
+            if (value < 0) return;
             nt_Size = value;
             nt_SizeChanged = true;
         }

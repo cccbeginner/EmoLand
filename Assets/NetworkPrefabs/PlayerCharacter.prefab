@@ -192,7 +192,7 @@ MonoBehaviour:
       m_Action: Jump
       m_Flags: 0
     m_Flags: 0
-  MoveForce: 2
+  MoveForce: 4
   RorateSpeed: 90
   JumpForce: 10
   GravityValue: -9.81
