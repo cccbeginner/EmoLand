@@ -4,7 +4,8 @@ using UnityEngine.InputSystem;
 public class ThirdPersonCamera : MonoBehaviour
 {
     public Transform Target;
-    public float RotateSpeed = 0.6f;
+    public float HorizontalRotateSpeed = 0.6f;
+    public float VerticalRotateSpeed = 0.3f;
     public float ZoomSpeed = 0.1f;
     public float LerpSpeed = 10f;
     public float AutoRotateSpeed = 0.6f;
@@ -13,7 +14,7 @@ public class ThirdPersonCamera : MonoBehaviour
     public float ScreenMiddle = 0.5f;
     public float DefaultTapTime = 0.2f;
 
-    private Transform m_CameraPivot;
+    public Transform m_CameraPivot;
 
     // Maintain current rotation.
     private float m_VerticalRotation;
@@ -24,7 +25,7 @@ public class ThirdPersonCamera : MonoBehaviour
 
     private void Awake()
     {
-        m_CameraPivot = gameObject.transform.parent;
+        transform.parent = m_CameraPivot;
     }
 
     private void OnEnable()
@@ -65,8 +66,9 @@ public class ThirdPersonCamera : MonoBehaviour
     private void UpdateRotate()
     {
         Vector2 touchDelta = m_Rotate.ReadValue<Vector2>();
-        touchDelta = ScreenScale(touchDelta);
-        Vector2 angle_rotate = touchDelta * RotateSpeed;
+        Vector2 angle_rotate = ScreenScale(touchDelta);
+        angle_rotate.x *= HorizontalRotateSpeed;
+        angle_rotate.y *= VerticalRotateSpeed;
         Rotate(angle_rotate);
     }
 

@@ -98,6 +98,10 @@ public class Player : NetworkBehaviour
             nt_jumpCount = 0;
             nt_Size = 1;
             main = this;
+
+            // Re-enable character controller to make it reset transform.
+            m_Controller.enabled = false;
+            m_Controller.enabled = true;
         }
     }
 
