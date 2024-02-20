@@ -1,10 +1,12 @@
 using Fusion;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PlayerSpawner : SimulationBehaviour, IPlayerJoined
 {
     public GameObject PlayerPrefab;
     public GameObject PlayerStart;
+    public UnityEvent OnMainPlayerJoined;
 
     public void PlayerJoined(PlayerRef player)
     {
@@ -12,8 +14,8 @@ public class PlayerSpawner : SimulationBehaviour, IPlayerJoined
         {
             Vector3 position = PlayerStart ? PlayerStart.transform.position : new Vector3(10, 1, 10);
             Quaternion rotation = PlayerStart ? PlayerStart.transform.rotation : Quaternion.identity;
-            Debug.Log($"{PlayerStart == null} {position} {rotation}");
             Runner.Spawn(PlayerPrefab, position, rotation, player);
+            OnMainPlayerJoined.Invoke();
         }
     }
 }

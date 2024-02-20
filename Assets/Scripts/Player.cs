@@ -1,13 +1,20 @@
 using Fusion;
 using System.Collections;
-using System.Security.Cryptography.X509Certificates;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 public class Player : NetworkBehaviour
 {
     public static Player main { get; private set; }
+
+    // Add events
+    public UnityEvent OnJumpBegin;
+    public UnityEvent OnLeaveGround;
+    public UnityEvent OnTouchGround;
+    public UnityEvent<int> OnResize;
+    public UnityEvent<ControllerColliderHit> OnHitCollider;
 
     [Networked]
     private Vector3 m_Impact { get; set; }
@@ -47,6 +54,7 @@ public class Player : NetworkBehaviour
             if (value < 0) return;
             nt_Size = value;
             nt_SizeChanged = true;
+            OnResize.Invoke(value);
         }
     }
 
@@ -113,25 +121,32 @@ public class Player : NetworkBehaviour
         }
     }
 
-    public override void FixedUpdateNetwork()
+    private Vector3 NT_GetImpacts()
     {
-        // Only move own player and not every other player. Each player controls its own player object.
-        if (HasStateAuthority == false)
+        // Apply gravity.
+        m_Impact += GravityValue * Runner.DeltaTime * Vector3.up;
+
+        // Apply jump force
+        if (m_JumpPressed && m_Controller.isGrounded)
         {
-            return;
+            // Start Jump
+            m_Impact += JumpForce * Vector3.up;
+            nt_jumpCount++;
         }
 
-        // Test if on the ground or touch ceiling.
-        if (m_Controller.isGrounded || (m_Controller.collisionFlags & CollisionFlags.Above) != 0)
-        {
-            m_Impact = new Vector3(m_Impact.x, 0, m_Impact.z);
-        }
+        // Apply air resistence.
+        m_Impact *= 1 - Mathf.Pow(AirResistence, 2) * Runner.DeltaTime;
 
+        return m_Impact;
+    }
+
+    private Vector3 NT_GetMoveForce()
+    {
         // Get move vector in camera space.
         nt_MoveVecInput = m_Move.ReadValue<Vector2>();
         Vector3 moveVec = Vector3.zero;
 
-        if (nt_MoveVecInput !=  Vector2.zero)
+        if (nt_MoveVecInput != Vector2.zero)
         {
             // Convert camera space to world.
             Quaternion cameraRotationY = Quaternion.Euler(0, m_Camera.transform.rotation.eulerAngles.y, 0);
@@ -141,36 +156,57 @@ public class Player : NetworkBehaviour
             Quaternion q1 = Quaternion.LookRotation(gameObject.transform.forward);
             Quaternion q2 = Quaternion.LookRotation(vecMoveWorld);
             Vector3 vecForward = Quaternion.Lerp(q1, q2, RorateSpeed * Runner.DeltaTime) * Vector3.forward;
-            moveVec = vecForward.normalized * Runner.DeltaTime * MoveForce;
-            gameObject.transform.forward = vecForward.normalized;
+            moveVec = vecForward.normalized * MoveForce;
         }
+        return moveVec;
+    }
 
-        // Calculate vertical speed.
-        m_Impact += GravityValue * Runner.DeltaTime * Vector3.up;
-        if (m_JumpPressed && m_Controller.isGrounded)
+    private void NT_ClampCeilGround()
+    {
+        // Test if on the ground or touch ceiling.
+        if ((m_Controller.collisionFlags & CollisionFlags.Below) != 0 && m_Impact.y < 0)
         {
-            // Start Jump
-            m_Impact += JumpForce * Vector3.up;
-            nt_jumpCount ++;
+            m_Impact = new Vector3(m_Impact.x, 0, m_Impact.z);
+        }
+        if ((m_Controller.collisionFlags & CollisionFlags.Above) != 0 && m_Impact.y > 0)
+        {
+            m_Impact = new Vector3(m_Impact.x, 0, m_Impact.z);
+        }
+    }
+
+    private void NT_ReloadSize()
+    {
+        float sqrt3 = Mathf.Pow(nt_Size, 1f / 3f);
+        float r = sqrt3 * UNIT_SIZE_RADIUS;
+        m_SlimeModel.transform.localScale = sqrt3 * UNIT_SIZE_SCALE;
+        m_Controller.center = new Vector3(0, r, 0);
+        m_Controller.radius = r;
+        m_Controller.height = 2 * r;
+        nt_SizeChanged = false;
+    }
+
+    public override void FixedUpdateNetwork()
+    {
+        // Only move own player and not every other player. Each player controls its own player object.
+        if (HasStateAuthority == false)
+        {
+            return;
         }
 
-        // Apply air resistence.
-        m_Impact *= Mathf.Pow(1 - AirResistence * Runner.DeltaTime, 2);
+        NT_ClampCeilGround();
+        Vector3 moveVec = NT_GetMoveForce();
+        if (moveVec != Vector3.zero)
+        {
+            gameObject.transform.forward = moveVec.normalized;
+        }
+        Vector3 otherVec = NT_GetImpacts();
+        m_Controller.Move((otherVec + moveVec) * Runner.DeltaTime);
 
         // Change size if needed. Including visual and collider.
         if (nt_SizeChanged)
         {
-            float sqrt3 = Mathf.Pow(nt_Size, 1f / 3f);
-            float r = sqrt3 * UNIT_SIZE_RADIUS;
-            m_SlimeModel.transform.localScale = sqrt3 * UNIT_SIZE_SCALE;
-            m_Controller.center = new Vector3(0, r, 0);
-            m_Controller.radius = r;
-            m_Controller.height = 2 * r;
-            nt_SizeChanged = false;
+            NT_ReloadSize();
         }
-
-        // Move character & set forward.
-        m_Controller.Move(moveVec + m_Impact * Runner.DeltaTime);
 
         // Reset variables at end.
         m_JumpPressed = false;
@@ -197,13 +233,19 @@ public class Player : NetworkBehaviour
         {
             m_SlimeAnimator.SetTrigger("Jump");
             m_SlimeAnimator.ResetTrigger("Grounded");
+            OnJumpBegin.Invoke();
         }
         m_LastVisibleJump = nt_jumpCount;
 
         // Detect Grounded
+        if (nt_isGroundedCurrent == false && m_IsGroundedPrevious == true)
+        {
+            OnLeaveGround.Invoke();
+        }
         if (nt_isGroundedCurrent == true && m_IsGroundedPrevious == false)
         {
             m_SlimeAnimator.SetTrigger("Grounded");
+            OnTouchGround.Invoke();
         } else if (m_SlimeAnimator.GetCurrentAnimatorStateInfo(0).shortNameHash == Animator.StringToHash("SlimeJump") && m_IsGroundedPrevious == true)
         {
             // Reach here if there is a bug that makes animator stranded at Jump state
@@ -221,5 +263,15 @@ public class Player : NetworkBehaviour
     public void AddForce(Vector3 force)
     {
         m_Impact += force / Size;
+    }
+
+    public void TriggerJump()
+    {
+        m_JumpPressed = true;
+    }
+
+    private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        OnHitCollider.Invoke(hit);
     }
 }
