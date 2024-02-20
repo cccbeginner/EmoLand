@@ -644,7 +644,7 @@ Transform:
   m_GameObject: {fileID: 493668641}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 26.099602, y: 0, z: 20}
+  m_LocalPosition: {x: -1.58, y: 0, z: 3.48}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1835,7 +1835,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Target: {fileID: 0}
-  RotateSpeed: 0.6
+  HorizontalRotateSpeed: 0.6
+  VerticalRotateSpeed: 0.3
   ZoomSpeed: 0.1
   LerpSpeed: 10
   AutoRotateSpeed: 0.1
@@ -2206,6 +2207,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerPrefab: {fileID: 5125725523214384465, guid: 37d4dc53e6dc988c880d9708b8a5060c, type: 3}
   PlayerStart: {fileID: 493668641}
+  OnMainPlayerJoined:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1225790905
 GameObject:
   m_ObjectHideFlags: 0
