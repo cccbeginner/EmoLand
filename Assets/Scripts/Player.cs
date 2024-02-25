@@ -6,19 +6,16 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 public class Player : NetworkBehaviour
-{
+{ 
     public static Player main { get; private set; }
 
     // Add events
     public UnityEvent OnJumpBegin;
     public UnityEvent OnLeaveGround;
     public UnityEvent OnTouchGround;
-    public UnityEvent<int> OnResize;
+    public UnityEvent<int> OnResize; 
     public UnityEvent<ControllerColliderHit> OnHitCollider;
 
-    [Networked]
-    private Vector3 m_Impact { get; set; }
-    private bool m_JumpPressed;
     private Camera m_Camera;
 
     private CharacterController m_Controller;
@@ -31,32 +28,11 @@ public class Player : NetworkBehaviour
     public float RorateSpeed = 18f;
     public float JumpForce = 5f;
     public float GravityValue = -9.81f;
-    public float AirResistence = 0.5f;
+    public float Resistence = 0.1f;
 
     [SerializeField]
     private GameObject m_SlimeModel;
 
-    // Variables for sizing slime.
-    Vector3 UNIT_SIZE_SCALE = new Vector3(1,1,1);
-    float UNIT_SIZE_RADIUS = 0.25f;
-    [Networked]
-    private bool nt_SizeChanged { get; set; }
-    [Networked]
-    private int nt_Size { get; set; }
-    public int Size
-    {
-        get
-        {
-            return nt_Size;
-        }
-        set
-        {
-            if (value < 0) return;
-            nt_Size = value;
-            nt_SizeChanged = true;
-            OnResize.Invoke(value);
-        }
-    }
 
     // Variables for animation.
     [Networked]
@@ -87,11 +63,17 @@ public class Player : NetworkBehaviour
         m_Jump.Disable();
     }
 
+    float KeepJumpTrigger = 0f;
     void Update()
     {
         if (m_Jump.triggered)
         {
+            KeepJumpTrigger = 0.3f;
+        }
+        if (KeepJumpTrigger > 0f)
+        {
             m_JumpPressed = true;
+            KeepJumpTrigger -= Time.deltaTime;
         }
     }
 
@@ -104,12 +86,15 @@ public class Player : NetworkBehaviour
             m_IsGroundedPrevious = true;
             nt_SizeChanged = false;
             nt_jumpCount = 0;
+            m_GravityMultiplier = 1f;
             nt_Size = 1;
             main = this;
 
             // Re-enable character controller to make it reset transform.
             m_Controller.enabled = false;
             m_Controller.enabled = true;
+
+            m_PrevPos = m_Controller.transform.position;
         }
     }
 
@@ -121,10 +106,22 @@ public class Player : NetworkBehaviour
         }
     }
 
+    [Networked]
+    private Vector3 m_Impact { get; set; }
+    [Networked]
+    private Vector3 m_ConstantImpact { get; set; }
+    [Networked]
+    private float m_GravityMultiplier { get; set; }
+    private bool m_JumpPressed;
+    public float GravityMultiplier
+    {
+        get { return m_GravityMultiplier; }
+        set { m_GravityMultiplier = value; }
+    }
     private Vector3 NT_GetImpacts()
     {
         // Apply gravity.
-        m_Impact += GravityValue * Runner.DeltaTime * Vector3.up;
+        m_Impact += m_GravityMultiplier * GravityValue * Runner.DeltaTime * Vector3.up;
 
         // Apply jump force
         if (m_JumpPressed && m_Controller.isGrounded)
@@ -135,9 +132,10 @@ public class Player : NetworkBehaviour
         }
 
         // Apply air resistence.
-        m_Impact *= 1 - Mathf.Pow(AirResistence, 2) * Runner.DeltaTime;
+        float remainPortion = 1 - Resistence * Runner.DeltaTime;
+        m_Impact *= remainPortion;
 
-        return m_Impact;
+        return m_Impact + m_ConstantImpact * remainPortion;
     }
 
     private Vector3 NT_GetMoveForce()
@@ -174,6 +172,27 @@ public class Player : NetworkBehaviour
         }
     }
 
+    // Variables for sizing slime.
+    Vector3 UNIT_SIZE_SCALE = new Vector3(1, 1, 1);
+    float UNIT_SIZE_RADIUS = 0.25f;
+    [Networked]
+    private bool nt_SizeChanged { get; set; }
+    [Networked]
+    private int nt_Size { get; set; }
+    public int Size
+    {
+        get
+        {
+            return nt_Size;
+        }
+        set
+        {
+            if (value < 0) return;
+            nt_Size = value;
+            nt_SizeChanged = true;
+            OnResize.Invoke(value);
+        }
+    }
     private void NT_ReloadSize()
     {
         float sqrt3 = Mathf.Pow(nt_Size, 1f / 3f);
@@ -183,6 +202,18 @@ public class Player : NetworkBehaviour
         m_Controller.radius = r;
         m_Controller.height = 2 * r;
         nt_SizeChanged = false;
+    }
+
+
+    public Vector3 Velocity { get { return m_Velocity; } }
+    [Networked]
+    private Vector3 m_Velocity { get; set; }
+    [Networked]
+    private Vector3 m_PrevPos { get; set; }
+    private void NT_Expose()
+    {
+        m_Velocity = (transform.position - m_PrevPos) / Runner.DeltaTime;
+        m_PrevPos = transform.position;
     }
 
     public override void FixedUpdateNetwork()
@@ -207,6 +238,9 @@ public class Player : NetworkBehaviour
         {
             NT_ReloadSize();
         }
+
+        // Expose velocity
+        NT_Expose();
 
         // Reset variables at end.
         m_JumpPressed = false;
@@ -253,6 +287,9 @@ public class Player : NetworkBehaviour
             m_SlimeAnimator.SetTrigger("Grounded");
         }
         m_IsGroundedPrevious = nt_isGroundedCurrent;
+
+        // Expose Velocity
+        
     }
 
     public void EatTrigger()
@@ -263,6 +300,11 @@ public class Player : NetworkBehaviour
     public void AddForce(Vector3 force)
     {
         m_Impact += force / Size;
+    }
+
+    public void AddConstantForce(Vector3 force)
+    {
+        m_ConstantImpact += force / Size;
     }
 
     public void TriggerJump()
