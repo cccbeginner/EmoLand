@@ -16,7 +16,7 @@ public class MushroomHead : MonoBehaviour
             // Check if player touches the up surface.
             if (detect && Player.main.transform.position.y > transform.position.y)
             {
-                Player.main.AddForce(Vector3.up * force);
+                Player.main.AddImpact(Vector3.up * force);
                 detect = false;
             }
         }
@@ -50,16 +50,16 @@ public class MushroomHead : MonoBehaviour
 
     private void InitPlayerEvent()
     {
-        Player.main.OnJumpBegin.AddListener(PlayerJumpBegin);
         Player.main.OnHitCollider.AddListener(PlayerHit);
         Player.main.OnLeaveGround.AddListener(PlayerLeaveGround);
+        Player.main.playerJump.OnJumpBegin.AddListener(PlayerJumpBegin);
     }
 
     private void PlayerJumpBegin()
     {
         if (hit)
         {
-            Player.main.AddForce(Vector3.up * force);
+            Player.main.AddImpact(Vector3.up * force);
             MushroomAnimator?.SetTrigger("Bounce");
             hit = false;
         }

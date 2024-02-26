@@ -46,7 +46,7 @@ public class ForceField : MonoBehaviour
         {
             if (Enable)
             {
-                Player.main.AddForce(Force * Time.deltaTime);
+                Player.main.AddImpact(Force * Time.deltaTime);
             }
             yield return null;
         }
