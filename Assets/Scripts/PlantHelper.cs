@@ -1,14 +1,23 @@
 #if UNITY_EDITOR
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [ExecuteInEditMode]
 public class PlantHelper : MonoBehaviour
 {
+    [Serializable]
+    public struct PlantHelperLeafData
+    {
+        public GameObject Leaf;
+        public int LeafCount;
+        public Vector3 PositionOffset;
+        public Vector3 RotateOffset;
+    }
     public GameObject Stem;
-    public GameObject[] Leaf;
-    [SerializeField]
-    public int[] LeafCount;
+    public PlantHelperLeafData[] Leaves;
 
     private string MakePrefix(GameObject leaf)
     {
@@ -39,15 +48,15 @@ public class PlantHelper : MonoBehaviour
         }
     }
 
-    private void GenerateLeaves(GameObject leaf, int leafCnt)
+    private void GenerateLeaves(PlantHelperLeafData leafData)
     {
-        for (int i = 0; i < leafCnt; i++)
+        for (int i = 0; i < leafData.LeafCount; i++)
         {
-            Vector3 pos = leaf.transform.position + transform.position;
-            Quaternion rot = leaf.transform.rotation * transform.rotation * Quaternion.Euler(0, i * 360 / leafCnt, 0);
+            Vector3 pos = leafData.Leaf.transform.position + leafData.PositionOffset * i;
+            Quaternion rot = leafData.Leaf.transform.rotation * Quaternion.Euler(leafData.RotateOffset * i);
             Transform parent = transform;
-            GameObject gameObject = Instantiate(leaf, pos, rot, parent);
-            gameObject.name = MakePrefix(leaf) + i;
+            GameObject gameObject = Instantiate(leafData.Leaf, pos, rot, parent);
+            gameObject.name = MakePrefix(leafData.Leaf) + i;
         }
     }
 
@@ -60,20 +69,20 @@ public class PlantHelper : MonoBehaviour
         gameObject.name = MakePrefix(stem);
     }
 
-    private bool UpdateLeaf(GameObject leaf, int leafCnt)
+    private bool UpdateLeaf(PlantHelperLeafData leafData)
     {
-        if (leaf == null)
+        if (leafData.Leaf == null)
         {
             Debug.Log("No leaf assigned!");
             return false;
         }
-        if (leafCnt < 0)
+        if (leafData.LeafCount < 0)
         {
             Debug.Log("The value of Leaf Count should be > 0!");
             return false;
         }
-        DestroyRelativeObjects(leaf);
-        GenerateLeaves(leaf, leafCnt);
+        DestroyRelativeObjects(leafData.Leaf);
+        GenerateLeaves(leafData);
         return true;
     }
     private bool UpdateStem()
@@ -91,9 +100,9 @@ public class PlantHelper : MonoBehaviour
     public void UpdatePlant()
     {
         UpdateStem();
-        for (int i = 0; i < Mathf.Min(LeafCount.Length, Leaf.Length); i++)
+        for (int i = 0; i < Leaves.Count(); i++)
         {
-            bool success = UpdateLeaf(Leaf[i], LeafCount[i]);
+            bool success = UpdateLeaf(Leaves[i]);
             if (success == false)
             {
                 Debug.Log($"Update Leaf {i} failed.");
