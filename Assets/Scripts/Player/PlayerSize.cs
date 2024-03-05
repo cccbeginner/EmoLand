@@ -36,7 +36,7 @@ public class PlayerSize : NetworkBehaviour
             nt_SizeChanged = true;
             if (nt_Size < SizeMin) nt_Size = SizeMin;
             if (nt_Size > SizeMax) nt_Size = SizeMax;
-            OnResize.Invoke(value);
+            OnResize.Invoke(nt_Size);
         }
     }
 
