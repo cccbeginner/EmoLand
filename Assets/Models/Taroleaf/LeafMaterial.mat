@@ -1,0 +1,54 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-9184016351947485512
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 7
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: LeafMaterial
+  m_Shader: {fileID: -6465566751694194690, guid: d33dbc03a488c6545b954a003b2dc491, type: 3}
+  m_Parent: {fileID: -876546973899608171, guid: d33dbc03a488c6545b954a003b2dc491, type: 3}
+  m_ModifiedSerializedProperties: 2
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 2
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _LeafColor:
+        m_Texture: {fileID: 2800000, guid: 2b48b0337bdb43b44aa5052fd588772f, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _BendRadius: 5
+    - _QueueControl: 0
+    - _ShakeAmplitude: 40
+    - _ShakeSpeed: 10
+    - _TimeOffset: 0
+    - _TimeToGrow: 5
+    - _amplit: 1
+    - _freq: 1
+    m_Colors: []
+  m_BuildTextureStacks: []
