@@ -6,25 +6,29 @@ public class MushroomHead : MonoBehaviour
 {
     public Animator MushroomAnimator;
     public float force = 10;
-    private bool detect = true;
     private bool hit = false;
 
-    private void OnTriggerEnter(Collider collider)
+    private void OnCollisionEnter(Collision collision)
     {
-        if (Player.main?.gameObject == collider.gameObject)
+        if (ReferenceEquals(Player.main?.gameObject, collision.gameObject))
         {
             // Check if player touches the up surface.
-            if (detect && Player.main.transform.position.y > transform.position.y)
+            if (Player.main.transform.position.y > transform.position.y + 0.3f)
             {
-                Player.main.AddImpact(Vector3.up * force);
-                detect = false;
+                hit = true;
+            }
+            else
+            {
+                hit = false;
             }
         }
     }
-
-    private void OnTriggerExit(Collider other)
+    private void OnCollisionExit(Collision collision)
     {
-        detect = true;
+        if (ReferenceEquals(Player.main?.gameObject, collision.gameObject))
+        {
+            hit = false;
+        }
     }
 
     private void Start()
@@ -50,8 +54,6 @@ public class MushroomHead : MonoBehaviour
 
     private void InitPlayerEvent()
     {
-        Player.main.OnHitCollider.AddListener(PlayerHit);
-        Player.main.OnLeaveGround.AddListener(PlayerLeaveGround);
         Player.main.playerJump.OnJumpBegin.AddListener(PlayerJumpBegin);
     }
 
@@ -59,27 +61,8 @@ public class MushroomHead : MonoBehaviour
     {
         if (hit)
         {
-            Player.main.AddImpact(Vector3.up * force);
+            Player.main.rigidBody.AddForce(Vector3.up * force, ForceMode.Impulse);
             MushroomAnimator?.SetTrigger("Bounce");
-            hit = false;
         }
-    }
-
-    private void PlayerHit(ControllerColliderHit colliderHit)
-    {
-        if (!ReferenceEquals(colliderHit.gameObject, gameObject)) return;
-
-        // Check if player touches the up surface.
-        if (detect && Player.main.GetComponent<CharacterController>().isGrounded)
-        {
-            detect = false;
-            hit = true;
-        }
-    }
-
-    private void PlayerLeaveGround()
-    {
-        detect = true;
-        hit = false;
     }
 }

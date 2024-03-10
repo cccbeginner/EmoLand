@@ -1,25 +1,20 @@
 using Fusion;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerMove : NetworkBehaviour
+public class PlayerMove : MonoBehaviour
 {
-
     [SerializeField]
     private InputAction m_Move;
 
     [Networked]
-    Vector2 nt_MoveVecInput { get; set; }
+    Vector2 m_MoveVecInput { get; set; }
 
-    public float GroundMoveForce = 4f;
-    public float AirMoveForce = 4f;
+    public float MoveForce = 4f;
     public float RorateSpeed = 90f;
     public Player player { get { return GetComponent<Player>(); } }
-
-    private Vector3 m_PrevImpact = Vector3.zero;
     private void OnEnable()
     {
         m_Move.Enable();
@@ -30,57 +25,45 @@ public class PlayerMove : NetworkBehaviour
         m_Move.Disable();
     }
 
-    private Vector3 NT_GetMoveForce()
+    private Vector3 WorldMoveForce()
     {
         // Get move vector in camera space.
-        nt_MoveVecInput = m_Move.ReadValue<Vector2>();
+        m_MoveVecInput = m_Move.ReadValue<Vector2>();
         Vector3 moveVec = Vector3.zero;
 
-        if (nt_MoveVecInput != Vector2.zero)
+        if (m_MoveVecInput != Vector2.zero)
         {
             // Convert camera space to world.
             Quaternion cameraRotationY = Quaternion.Euler(0, player.PlayerCamera.transform.rotation.eulerAngles.y, 0);
-            Vector3 vecMoveWorld = cameraRotationY * new Vector3(nt_MoveVecInput.x, 0, nt_MoveVecInput.y);
+            Vector3 vecMoveWorld = cameraRotationY * new Vector3(m_MoveVecInput.x, 0, m_MoveVecInput.y);
 
             // Rotate Character gradually.
             Quaternion q1 = Quaternion.LookRotation(gameObject.transform.forward);
             Quaternion q2 = Quaternion.LookRotation(vecMoveWorld);
-            Vector3 vecForward = Quaternion.Lerp(q1, q2, RorateSpeed * Runner.DeltaTime) * Vector3.forward;
+            Vector3 vecForward = Quaternion.Lerp(q1, q2, RorateSpeed * Time.deltaTime) * Vector3.forward;
 
-            if (player.IsGrounded)
-            {
-                moveVec = vecForward.normalized * GroundMoveForce;
-            }
-            else
-            {
-                moveVec = vecForward.normalized * AirMoveForce;
-            }
+            moveVec = vecForward.normalized * MoveForce;
         }
         return moveVec;
     }
 
-    public override void FixedUpdateNetwork()
+    public void Update()
     {
-        Vector3 moveVec = NT_GetMoveForce();
+        if (!ReferenceEquals(player, Player.main)) return;
+        Vector3 moveVec = WorldMoveForce();
         if (moveVec != Vector3.zero)
         {
             gameObject.transform.forward = moveVec.normalized;
         }
-        player.AddConstantImpact(-m_PrevImpact);
-        player.AddConstantImpact(moveVec);
-        m_PrevImpact = moveVec;
-    }
+        player.rigidBody.AddForce(moveVec);
 
-    public override void Render()
-    {
-
-        if (nt_MoveVecInput != Vector2.zero)
+        if (m_MoveVecInput != Vector2.zero)
         {
-            player.SlimeAnimator.SetBool("Move", true);
+            player.slimeAnimator.SetBool("Move", true);
         }
         else
         {
-            player.SlimeAnimator.SetBool("Move", false);
+            player.slimeAnimator.SetBool("Move", false);
         }
     }
 }

@@ -48,7 +48,7 @@ public class GameCurrency : MonoBehaviour
         {
             if (Player.main != null)
             {
-                int newNum = Math.Clamp(Player.main.Size, MinNumber, MaxNumber);
+                int newNum = Math.Clamp(Player.main.droplet.size, MinNumber, MaxNumber);
                 if (m_CurrentNumber != newNum)
                 {
                     m_CurrentNumber = newNum;

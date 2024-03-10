@@ -34,7 +34,7 @@ public class TrailController : MonoBehaviour
         UpdateShaderParams();
         if (Player.main != null)
         {
-            if (Player.main.Velocity.sqrMagnitude < 0.1)
+            if (Player.main.rigidBody.velocity.sqrMagnitude < 0.1)
             {
                 m_TransparentTrailVFX.SetInt("SpawnRate", IdleSpawnRate);
             }
@@ -65,7 +65,7 @@ public class TrailController : MonoBehaviour
 
     private void OnPlayerJoin()
     {
-        if (Player.main.IsGrounded)
+        if (Player.main.droplet.isGrounded)
         {
             m_TransparentTrailVFX.pause = true;
         }
@@ -75,8 +75,8 @@ public class TrailController : MonoBehaviour
         }
         Player.main.OnLeaveGround.AddListener(OnPlayerLeaveGround);
         Player.main.OnTouchGround.AddListener(OnPlayerTouchGround);
-        Player.main.playerSize.OnResize.AddListener(SetTrailSize);
-        SetTrailSize(Player.main.Size);
+        Player.main.droplet.OnResize.AddListener(SetTrailSize);
+        SetTrailSize(Player.main.droplet.size);
     }
 
     private void OnPlayerLeaveGround()

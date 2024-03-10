@@ -59,8 +59,8 @@ public class Eatable : MonoBehaviour
     private void BeEaten()
     {
         OnEaten.Invoke();
-        Player.main.EatTrigger();
-        Player.main.playerSize.Size += SizeAddition;
+        //Player.main.EatTrigger();
+        Player.main.droplet.size += SizeAddition;
         Destroy(gameObject);
     }
 }

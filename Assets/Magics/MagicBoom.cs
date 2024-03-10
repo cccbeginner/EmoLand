@@ -23,8 +23,8 @@ public class MagicBoom : NetworkBehaviour
         if (FirstUpdate)
         {
             m_ParticalSystem.transform.position = m_MainPlayer.transform.position;
-            m_MainPlayer.playerSize.Size -= 1;
-            m_MainPlayer.AddImpact(Vector3.one);
+            m_MainPlayer.droplet.size -= 1;
+            m_MainPlayer.rigidBody.AddForce(Vector3.one);
             m_ParticalSystem.Play();
             FirstUpdate = false;
         }
