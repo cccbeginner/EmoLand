@@ -36,13 +36,15 @@ public class PlayerJump : MonoBehaviour
         }
 
         // Apply jump force
-        if (m_JumpPressed && player.droplet.isGrounded)
+        if (m_JumpPressed /*&& player.droplet.isGrounded*/)
         {
             // Start Jump
+            Vector3 curV = player.rigidBody.velocity;
+            player.rigidBody.velocity = new Vector3(curV.x, 0, curV.z);
             player.rigidBody.AddForce(JumpForce * Vector3.up, ForceMode.Impulse);
             OnJumpBegin.Invoke();
             m_JumpPressed = false;
-            //StartCoroutine(NextJumpDelay());
+            StartCoroutine(NextJumpDelay());
         }
     }
 

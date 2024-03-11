@@ -9,13 +9,16 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6715679142602161171}
-  - component: {fileID: 8761891319534900510}
   - component: {fileID: 1506445556296005338}
+  - component: {fileID: 8761891319534900510}
+  - component: {fileID: 7269475671695731439}
+  - component: {fileID: 1968841451555949311}
+  - component: {fileID: 3170853316035344642}
   - component: {fileID: -3210222731716507823}
   - component: {fileID: -3294627900499278006}
   - component: {fileID: 8248443323707180305}
   m_Layer: 0
-  m_Name: Droplet
+  m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -37,6 +40,27 @@ Transform:
   - {fileID: 2569410048059523613}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1506445556296005338
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5125725523214384465}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SortKey: 827855744
+  ObjectInterest: 1
+  Flags: 262145
+  NestedObjects:
+  - {fileID: 9200420808151254632}
+  NetworkedBehaviours:
+  - {fileID: 8761891319534900510}
+  - {fileID: 7269475671695731439}
+  - {fileID: 8248443323707180305}
 --- !u!114 &8761891319534900510
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -63,7 +87,7 @@ MonoBehaviour:
   OnResize:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &1506445556296005338
+--- !u!114 &7269475671695731439
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -72,17 +96,129 @@ MonoBehaviour:
   m_GameObject: {fileID: 5125725523214384465}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Script: {fileID: 11500000, guid: b43d3c48c602cb848ab4b2ff602c8a1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SortKey: 2147145792
-  ObjectInterest: 1
-  Flags: 262145
-  NestedObjects:
-  - {fileID: 9200420808151254632}
-  NetworkedBehaviours:
-  - {fileID: 8761891319534900510}
-  - {fileID: 8248443323707180305}
+  OnLeaveGround:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTouchGround:
+    m_PersistentCalls:
+      m_Calls: []
+  PlayerCamera: {fileID: 0}
+--- !u!114 &1968841451555949311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5125725523214384465}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be78b369bc3cb5141abe6a584bca6ac8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Jump:
+    m_Name: Jump
+    m_Type: 1
+    m_ExpectedControlType: Button
+    m_Id: e40f99ef-05e5-436f-bf70-c8b5a8ad6693
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: d8c43441-9458-4d76-9132-d07c06d367c6
+      m_Path: <Keyboard>/space
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Jump
+      m_Flags: 0
+    - m_Name: 
+      m_Id: 01998be0-2f5b-47b5-8869-1d25d6eecac3
+      m_Path: <Gamepad>/rightTrigger
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Jump
+      m_Flags: 0
+    m_Flags: 0
+  m_NextJumpDelay: 0.3
+  JumpForce: 10
+  OnJumpBegin:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &3170853316035344642
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5125725523214384465}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a486a141801ec314c8b281e2487468f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Move:
+    m_Name: Move
+    m_Type: 0
+    m_ExpectedControlType: Vector2
+    m_Id: 5292af79-61d0-4dcb-a7b7-ea3619934163
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: WASD
+      m_Id: c68abbc8-2103-4f23-90a7-8054d1e90b5e
+      m_Path: 2DVector
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Move
+      m_Flags: 4
+    - m_Name: up
+      m_Id: 6e84f7f6-4c53-439c-83d3-c95737252b00
+      m_Path: <Keyboard>/w
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Move
+      m_Flags: 8
+    - m_Name: down
+      m_Id: 7903a209-f9ff-4299-a6d2-1ef7761be9f7
+      m_Path: <Keyboard>/s
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Move
+      m_Flags: 8
+    - m_Name: left
+      m_Id: 4e327454-c4bb-4940-877d-c3a70f963a60
+      m_Path: <Keyboard>/a
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Move
+      m_Flags: 8
+    - m_Name: right
+      m_Id: 7da23d42-9a63-4a31-b297-af5ea1ba2e95
+      m_Path: <Keyboard>/d
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Move
+      m_Flags: 8
+    - m_Name: 
+      m_Id: 2938955b-bb7a-4bed-9ec7-ad5947361655
+      m_Path: <Gamepad>/leftStick
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Move
+      m_Flags: 0
+    m_Flags: 0
+  MoveForce: 10
+  RorateSpeed: 90
 --- !u!54 &-3210222731716507823
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -302,7 +438,7 @@ MonoBehaviour:
   m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SortKey: 2942220724
+  SortKey: 1622930676
   ObjectInterest: 1
   Flags: 262145
   NestedObjects: []

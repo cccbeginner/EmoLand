@@ -28,6 +28,7 @@ public class Player : NetworkBehaviour
 
         if (HasStateAuthority)
         {
+            droplet.isEatable = false;
             PlayerCamera = Camera.main;
             PlayerCamera.GetComponent<ThirdPersonCamera>().Target = transform;
             main = this;

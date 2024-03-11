@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using Fusion;
+using Unity.VisualScripting;
 
 public class Droplet : NetworkBehaviour
 {
@@ -28,7 +29,11 @@ public class Droplet : NetworkBehaviour
     }
 
     public UnityEvent<int> OnResize;
-    private int m_Size;
+
+    [Networked]
+    public bool isEatable { get; set; }
+    [Networked]
+    private int m_Size { get; set; }
     public int size
     {
         get
@@ -38,6 +43,7 @@ public class Droplet : NetworkBehaviour
         set
         {
             if (value < 0) return;
+            if (!HasStateAuthority) return;
             m_Size = value;
             if (m_Size < SizeMin) m_Size = SizeMin;
             if (m_Size > SizeMax) m_Size = SizeMax;
@@ -46,13 +52,20 @@ public class Droplet : NetworkBehaviour
         }
     }
 
-    private void Awake()
+    public override void Spawned()
     {
-        slimeAnimator = GetComponentInChildren<Animator>();
-        rigidBody = GetComponent<Rigidbody>();
-        sphereCollider = GetComponent<SphereCollider>();
-        size = InitSize;
-        m_IsGroundedPrevious = true;
+        if (HasStateAuthority)
+        {
+            slimeAnimator = GetComponentInChildren<Animator>();
+            rigidBody = GetComponent<Rigidbody>();
+            sphereCollider = GetComponent<SphereCollider>();
+            m_Size = InitSize;
+            size = InitSize;
+            m_IsGroundedPrevious = true;
+
+            OnLeaveGround.AddListener(LeaveGroundAnime);
+            OnTouchGround.AddListener(TouchGroundAnime);
+        }
     }
 
     private void ReloadSize()
@@ -61,7 +74,7 @@ public class Droplet : NetworkBehaviour
         transform.localScale = sqrt3 * UnitSizeScale;
     }
 
-    public void EatTrigger()
+    public void EatAnime()
     {
         slimeAnimator.SetTrigger("Eat");
     }
@@ -77,12 +90,6 @@ public class Droplet : NetworkBehaviour
         slimeAnimator.SetTrigger("Grounded");
     }
 
-    public override void Spawned()
-    {
-        OnLeaveGround.AddListener(LeaveGroundAnime);
-        OnTouchGround.AddListener(TouchGroundAnime);
-    }
-
     public void FixedUpdate()
     {
         // Detect Grounded
@@ -95,5 +102,112 @@ public class Droplet : NetworkBehaviour
             OnTouchGround.Invoke();
         }
         m_IsGroundedPrevious = isGrounded;
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (HasStateAuthority)
+        {
+            Droplet another = collision.gameObject.GetComponent<Droplet>();
+
+            if (another != null)
+            {
+                int eatResult = DecideWhoEat(another);
+                if (eatResult == 1)
+                {
+                    EatDroplet(another);
+                }
+                else if (eatResult == 0)
+                {
+                    BeEatenByDroplet(another);
+                }
+            }
+        }
+    }
+
+    private int DecideWhoEat(Droplet another)
+    {
+        // return -1 => no action, 0 => be eaten, 1=> is eater
+        if (!another.isEatable)
+        {
+            if (isEatable)
+            {
+                // You are player, I am droplet
+                return 0;
+            }
+            else
+            {
+                // Both player, do nothing
+                return -1;
+            }
+        }
+        else
+        {
+            if (!isEatable)
+            {
+                // I am player, You are droplet
+                return 1;
+            }
+            else
+            {
+                // Both droplet
+                bool isEater = false;
+                if (another.transform.localScale.sqrMagnitude != gameObject.transform.localScale.sqrMagnitude)
+                {
+                    isEater = (another.transform.localScale.sqrMagnitude < gameObject.transform.localScale.sqrMagnitude);
+                }
+                else if (another.transform.position.y != gameObject.transform.position.y)
+                {
+                    isEater = (another.transform.position.y < gameObject.transform.position.y);
+                }
+                else if (another.transform.position.x != gameObject.transform.position.x)
+                {
+                    isEater = (another.transform.position.x < gameObject.transform.position.x);
+                }
+                else if (another.transform.position.z != gameObject.transform.position.z)
+                {
+                    isEater = (another.transform.position.z < gameObject.transform.position.z);
+                }
+                if (isEater) return 1;
+                else return 0;
+            }
+        }
+    }
+
+    private void EatDroplet(Droplet another)
+    {
+        size += another.size;
+        EatAnime();
+    }
+
+    private void BeEatenByDroplet(Droplet another)
+    {
+        sphereCollider.enabled = false;
+        rigidBody.constraints = RigidbodyConstraints.FreezeAll;
+        StartCoroutine(DelayEaten(another));
+    }
+
+    IEnumerator DelayEaten(Droplet another)
+    {
+        Vector3 targetPos = Vector3.Lerp(another.transform.position, transform.position, size / (another.size + size));
+        while (true)
+        {
+            Vector3 distVec = targetPos - transform.position;
+            Vector3 moveVec = distVec.normalized * Time.deltaTime * 5 / distVec.magnitude;
+            if (moveVec.sqrMagnitude <= distVec.sqrMagnitude)
+            {
+                transform.position += moveVec;
+            }
+            else
+            {
+                transform.position += distVec;
+            }
+            if (distVec.sqrMagnitude < 0.1)
+            {
+                break;
+            }
+            yield return null;
+        }
+        Runner.Despawn(GetComponent<NetworkObject>());
     }
 }
