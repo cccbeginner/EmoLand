@@ -66,7 +66,7 @@ public class Shansu : MonoBehaviour
         yield return new WaitForSeconds(delaySec);
         if (Player.main != null)
         {
-            Player.main.rigidBody.AddForce(m_ThrowMagnitude);
+            Player.main.rigidBody.AddForce(m_ThrowMagnitude, ForceMode.Impulse);
         }
     }
 }
