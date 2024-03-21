@@ -352,7 +352,7 @@ GameObject:
   - component: {fileID: 7897254906560891915}
   - component: {fileID: 7214168023935630295}
   - component: {fileID: 6368522958420587376}
-  m_Layer: 0
+  m_Layer: 4
   m_Name: Water
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -458,7 +458,7 @@ GameObject:
   - component: {fileID: 4155412310527434257}
   - component: {fileID: 835456734518618676}
   - component: {fileID: 5809574959129573617}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Ground
   m_TagString: Untagged
   m_Icon: {fileID: 0}

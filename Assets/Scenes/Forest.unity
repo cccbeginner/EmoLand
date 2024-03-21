@@ -2612,7 +2612,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 53
+    m_Bits: 253
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -4053,8 +4053,24 @@ PrefabInstance:
       propertyPath: MovingSpawnRate
       value: 20
       objectReference: {fileID: 0}
+    - target: {fileID: 3965054960102342774, guid: 29e9a67f1b0c8904296b5eac8a72d2db, type: 3}
+      propertyPath: m_Layer
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3965054960102342774, guid: 29e9a67f1b0c8904296b5eac8a72d2db, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4165642193137815519, guid: 29e9a67f1b0c8904296b5eac8a72d2db, type: 3}
       propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4469288598510250708, guid: 29e9a67f1b0c8904296b5eac8a72d2db, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4469288598510250708, guid: 29e9a67f1b0c8904296b5eac8a72d2db, type: 3}
+      propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5552470741502021105, guid: 29e9a67f1b0c8904296b5eac8a72d2db, type: 3}

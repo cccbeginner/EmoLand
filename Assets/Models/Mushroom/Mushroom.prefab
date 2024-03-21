@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2103908860860429339}
   - component: {fileID: 4366008564937370640}
   - component: {fileID: 2927570287895574268}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -131,7 +131,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6985700445204349620}
   - component: {fileID: 7143451480298967147}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Mushroom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -188,7 +188,7 @@ GameObject:
   - component: {fileID: 3684127513928614046}
   - component: {fileID: 5333005229029665156}
   - component: {fileID: 2573875656735423260}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Stem
   m_TagString: Untagged
   m_Icon: {fileID: 0}

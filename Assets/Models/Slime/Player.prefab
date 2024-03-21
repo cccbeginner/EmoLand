@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: -3210222731716507823}
   - component: {fileID: -3294627900499278006}
   - component: {fileID: 8248443323707180305}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -374,6 +374,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: slime
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 758db185de8ed9f499ae693c152f9c0c, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1463236876464692394, guid: 758db185de8ed9f499ae693c152f9c0c, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 2788943867344286557, guid: 758db185de8ed9f499ae693c152f9c0c, type: 3}
       propertyPath: m_CastShadows
       value: 0
@@ -382,6 +390,22 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 9237a8b58eb6fe44ab81cbb7a22e2390, type: 2}
+    - target: {fileID: 3799485998159768026, guid: 758db185de8ed9f499ae693c152f9c0c, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6905609870639353253, guid: 758db185de8ed9f499ae693c152f9c0c, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7036213049465896255, guid: 758db185de8ed9f499ae693c152f9c0c, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8052677790429725804, guid: 758db185de8ed9f499ae693c152f9c0c, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

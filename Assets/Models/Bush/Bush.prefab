@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3462917895498857545}
   - component: {fileID: 8264936895012029892}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: OuterCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -66,7 +66,7 @@ GameObject:
   - component: {fileID: 1710233080985403858}
   - component: {fileID: 1740367924703762653}
   - component: {fileID: 3326518858422524684}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: InnerCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -169,7 +169,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6148774665962152651}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Bush
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -206,7 +206,7 @@ GameObject:
   - component: {fileID: 6612130683435817688}
   - component: {fileID: 4624485770618919497}
   - component: {fileID: 8631988115425755161}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: LeafVolume
   m_TagString: Untagged
   m_Icon: {fileID: 0}

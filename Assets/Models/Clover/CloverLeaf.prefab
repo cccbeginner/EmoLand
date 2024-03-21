@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6718579974351331825}
   - component: {fileID: 1670592152375160070}
   - component: {fileID: -5320696567253367056}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: CloverLeaf
   m_TagString: Untagged
   m_Icon: {fileID: 0}
