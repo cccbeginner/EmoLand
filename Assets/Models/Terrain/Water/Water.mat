@@ -51,16 +51,16 @@ Material:
     m_Ints: []
     m_Floats:
     - _Depth: 0.04
-    - _NormalStrength: 12
+    - _NormalStrength: 0.72
     - _QueueControl: 0
     - _Speed: 3.8
-    - _Strength: 1.95
+    - _Strength: 0.12
     - _TimeDivisor: 50
     m_Colors:
     - _DeepColorWater: {r: 0.13207549, g: 0.13207549, b: 0.13207549, a: 0.3254902}
     - _HintColor: {r: 0.4264151, g: 0.5, b: 0.49930018, a: 0.3254902}
-    - _RT_Offset: {r: -5.0312643, g: -5.1258116, b: 0, a: 0}
-    - _RT_Tiling: {r: 10, g: 10, b: 0, a: 0}
-    - _ShallowWaterColor: {r: 0.31132078, g: 0.31132078, b: 0.31132078, a: 0}
-    - _WaveTiling: {r: 3, g: 3, b: 0, a: 0}
+    - _RT_Offset: {r: -15.804191, g: -8.983485, b: 0, a: 0}
+    - _RT_Tiling: {r: 40, g: 40, b: 0, a: 0}
+    - _ShallowWaterColor: {r: 0, g: 0, b: 0, a: 0}
+    - _WaveTiling: {r: 10, g: 10, b: 0, a: 0}
   m_BuildTextureStacks: []
