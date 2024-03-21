@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using Fusion;
-using Unity.VisualScripting;
 
 public class Droplet : NetworkBehaviour
 {
@@ -20,15 +19,8 @@ public class Droplet : NetworkBehaviour
 
     public UnityEvent OnLeaveGround;
     public UnityEvent OnTouchGround;
-    public bool isGrounded
-    {
-        get
-        {
-            return Physics.Raycast(transform.position+0.1f*Vector3.up, -Vector3.up, 0.2f);
-        }
-    }
-
     public UnityEvent<int> OnResize;
+    public bool isGrounded { get; private set; }
 
     [Networked]
     public bool isEatable { get; set; }
@@ -92,7 +84,25 @@ public class Droplet : NetworkBehaviour
 
     public void FixedUpdate()
     {
-        // Detect Grounded
+        // Raycast for ground test
+        float r = sphereCollider.radius;
+        int collideMask = LayerMask.GetMask("Static Object", "Rigid Object", "Water");
+
+        // Make a down raycast to environment.
+        bool isRayHit = Physics.Raycast(transform.position + r * Vector3.up, -Vector3.up, out RaycastHit hit, r + 0.1f, collideMask);
+        if (isRayHit)
+        {
+            // Set position if ray hit.
+            // This may fix problem of going through collider unexpectedly.
+            transform.position = hit.point;
+            isGrounded = true;
+        }
+        else
+        {
+            isGrounded = false;
+        }
+
+        // Grounded Related Events
         if (isGrounded == false && m_IsGroundedPrevious == true)
         {
             OnLeaveGround.Invoke();
