@@ -2467,7 +2467,7 @@ MonoBehaviour:
   Target: {fileID: 0}
   HorizontalRotateSpeed: 0.6
   VerticalRotateSpeed: 0.3
-  ZoomSpeed: 0.1
+  ZoomSpeed: 0.03
   LerpSpeed: 10
   AutoRotateSpeed: 0.1
   FarthestDistance: 6

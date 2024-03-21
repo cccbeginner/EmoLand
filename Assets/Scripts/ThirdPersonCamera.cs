@@ -19,6 +19,7 @@ public class ThirdPersonCamera : MonoBehaviour
     // Maintain current rotation.
     private float m_VerticalRotation;
     private float m_HorizontalRotation;
+    private float m_PinchCameraDistance;
 
     [SerializeField]
     private InputAction m_Rotate, m_Zoom;
@@ -26,6 +27,7 @@ public class ThirdPersonCamera : MonoBehaviour
     private void Awake()
     {
         transform.parent = m_CameraPivot;
+        m_PinchCameraDistance = transform.localPosition.magnitude;
     }
 
     private void OnEnable()
@@ -84,33 +86,41 @@ public class ThirdPersonCamera : MonoBehaviour
     private void UpdateZoom()
     {
 
-        float distDelta = m_Zoom.ReadValue<float>();
-        Zoom(distDelta * ZoomSpeed);
+        float pinchDelta = m_Zoom.ReadValue<float>();
+        m_PinchCameraDistance -= pinchDelta * ZoomSpeed;
+        m_PinchCameraDistance = Mathf.Clamp(m_PinchCameraDistance, NearestDistance, FarthestDistance);
+
+        // Camera collider ray
+        int layerMask = LayerMask.GetMask("Water", "Static Object");
+        bool isRayHit = Physics.Raycast(
+            m_CameraPivot.position,
+            (transform.position - m_CameraPivot.position).normalized, 
+            out RaycastHit hit,
+            m_PinchCameraDistance,
+            layerMask
+        );
+
+        float curDist = transform.localPosition.magnitude;
+        float targetDist = m_PinchCameraDistance;
+        if (isRayHit)
+        {
+            // Override pinch distance
+            targetDist = hit.distance;
+        }
+        float smoothDist = Mathf.Lerp(curDist, targetDist, LerpSpeed * Time.deltaTime);
+        SetCameraDist(smoothDist);
     }
 
-    private void Zoom(float distDelta)
+    // Return result distance;
+    private float SetCameraDist(float newDist)
     {
-        // New Camera Position
-        Vector3 newCamPos = transform.localPosition;
-        newCamPos -= distDelta * newCamPos.normalized;
-
         // Clamp Magnitude
-        float dist = newCamPos.magnitude;
-        if (newCamPos.z > 0) // Disable Negative
-        {
-            newCamPos = -newCamPos.normalized * NearestDistance;
-        }
-        if (dist > FarthestDistance)
-        {
-            newCamPos = newCamPos.normalized * FarthestDistance;
-        }
-        else if (dist < NearestDistance)
-        {
-            newCamPos = newCamPos.normalized * NearestDistance;
-        }
+        newDist = Mathf.Clamp(newDist, NearestDistance, FarthestDistance);
 
         // Update sprimg arm (by change camera position)
+        Vector3 newCamPos = newDist * transform.localPosition.normalized;
         transform.localPosition = newCamPos;
+        return newDist;
     }
 
     private Vector2 ScreenScale(Vector2 vec)
