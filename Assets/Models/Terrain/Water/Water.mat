@@ -59,7 +59,7 @@ Material:
     m_Colors:
     - _DeepColorWater: {r: 0.08025987, g: 0.254717, b: 0.16748843, a: 0.3254902}
     - _HintColor: {r: 0.4264151, g: 0.5, b: 0.49930018, a: 0.3254902}
-    - _RT_Offset: {r: -13.925741, g: -28.193882, b: 0, a: 0}
+    - _RT_Offset: {r: -13.218317, g: -29.247162, b: 0, a: 0}
     - _RT_Tiling: {r: 40, g: 40, b: 0, a: 0}
     - _ShallowWaterColor: {r: 0.23282307, g: 0.3773585, b: 0.32151684, a: 0}
     - _WaveTiling: {r: 10, g: 10, b: 0, a: 0}
