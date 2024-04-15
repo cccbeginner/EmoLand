@@ -52,9 +52,9 @@ public class PlantHelper : MonoBehaviour
     {
         for (int i = 0; i < leafData.LeafCount; i++)
         {
-            Vector3 pos = leafData.Leaf.transform.position + leafData.PositionOffset * i;
-            Quaternion rot = leafData.Leaf.transform.rotation * Quaternion.Euler(leafData.RotateOffset * i);
             Transform parent = transform;
+            Vector3 pos = leafData.Leaf.transform.position + leafData.PositionOffset * i + parent.position;
+            Quaternion rot = leafData.Leaf.transform.rotation * Quaternion.Euler(leafData.RotateOffset * i);
             GameObject gameObject = Instantiate(leafData.Leaf, pos, rot, parent);
             gameObject.name = MakePrefix(leafData.Leaf) + i;
         }
