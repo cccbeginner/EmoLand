@@ -15,14 +15,14 @@ public class Player : NetworkBehaviour
     public UnityEvent OnTouchGround;
 
     public Camera PlayerCamera;
-    public Droplet droplet { get; private set; }
+    public DropletNetwork droplet { get; private set; }
     public Rigidbody rigidBody { get { return droplet.rigidBody; } }
     public SphereCollider sphereCollider { get { return droplet.sphereCollider; } }
     public Animator slimeAnimator { get { return droplet.slimeAnimator; } }
 
     public override void Spawned()
     {
-        droplet = GetComponent<Droplet>();
+        droplet = GetComponent<DropletNetwork>();
         droplet.OnLeaveGround.AddListener(OnLeaveGround.Invoke);
         droplet.OnTouchGround.AddListener(OnTouchGround.Invoke);
 

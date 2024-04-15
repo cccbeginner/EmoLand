@@ -9,13 +9,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6715679142602161171}
-  - component: {fileID: 8761891319534900510}
-  - component: {fileID: 1506445556296005338}
+  - component: {fileID: -4276450033554892004}
   - component: {fileID: -3210222731716507823}
   - component: {fileID: -3294627900499278006}
-  - component: {fileID: 8248443323707180305}
   m_Layer: 6
-  m_Name: Droplet
+  m_Name: DropletLocal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -37,7 +35,7 @@ Transform:
   - {fileID: 2569410048059523613}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8761891319534900510
+--- !u!114 &-4276450033554892004
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -46,44 +44,27 @@ MonoBehaviour:
   m_GameObject: {fileID: 5125725523214384465}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 96ad0560aa45a014a9d86c0801f08e1e, type: 3}
+  m_Script: {fileID: 11500000, guid: 6a38a13dfe747204092b44901f2dc157, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   UnitSizeScale: {x: 1, y: 1, z: 1}
   UnitSizeRadius: 0.25
-  InitSize: 1
-  SizeMin: 1
-  SizeMax: 10
-  OnLeaveGround:
+  InitSize: 8
+  OnEaten:
     m_PersistentCalls:
-      m_Calls: []
-  OnTouchGround:
-    m_PersistentCalls:
-      m_Calls: []
-  OnResize:
-    m_PersistentCalls:
-      m_Calls: []
-  _isEatable: 0
---- !u!114 &1506445556296005338
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5125725523214384465}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SortKey: 2147145792
-  ObjectInterest: 1
-  Flags: 262145
-  NestedObjects:
-  - {fileID: 9200420808151254632}
-  NetworkedBehaviours:
-  - {fileID: 8761891319534900510}
-  - {fileID: 8248443323707180305}
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: TreeArea, Assembly-CSharp
+        m_MethodName: TurnOn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!54 &-3210222731716507823
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -132,28 +113,6 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.25
   m_Center: {x: 0, y: 0.25, z: 0}
---- !u!114 &8248443323707180305
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5125725523214384465}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0a591d221a634417e9827eb58e17de84, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SyncScale: 1
-  SyncParent: 1
-  _interpolationTarget: {fileID: 2569410048059523613}
-  UsePreciseRotation: 0
-  UseRenderSleepThresholds: 1
-  RenderThresholds:
-    UseEnergy: 1
-    Position: 0.01
-    Rotation: 0.01
-    Scale: 0.01
 --- !u!1001 &2603882876765545974
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -327,7 +286,7 @@ MonoBehaviour:
   m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SortKey: 2942220724
+  SortKey: 2067731768
   ObjectInterest: 1
   Flags: 262145
   NestedObjects: []

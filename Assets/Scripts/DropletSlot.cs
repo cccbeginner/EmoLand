@@ -8,11 +8,11 @@ public class DropletSlot : MonoBehaviour
 {
     public bool countPlayer = false;
     public UnityEvent<int> OnDropletSize;
-    public UnityEvent<Droplet> OnDropletEnter;
-    public UnityEvent<Droplet> OnDropletExit;
+    public UnityEvent<DropletNetwork> OnDropletEnter;
+    public UnityEvent<DropletNetwork> OnDropletExit;
 
     public int dropletSize { get; private set; }
-    public Droplet currentDroplet { get; private set; }
+    public DropletNetwork currentDroplet { get; private set; }
 
     void Start()
     {
@@ -22,7 +22,7 @@ public class DropletSlot : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        var droplet = other.gameObject.GetComponent<Droplet>();
+        var droplet = other.gameObject.GetComponent<DropletNetwork>();
         if (droplet != null)
         {
             if (countPlayer || droplet.GetComponent<Player>() == null)
@@ -39,7 +39,7 @@ public class DropletSlot : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        var droplet = other.gameObject.GetComponent<Droplet>();
+        var droplet = other.gameObject.GetComponent<DropletNetwork>();
         if (droplet != null)
         {
             if (ReferenceEquals(currentDroplet, droplet))

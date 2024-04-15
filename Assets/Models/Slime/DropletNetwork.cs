@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using Fusion;
 
-public class Droplet : NetworkBehaviour
+public class DropletNetwork : NetworkBehaviour
 {
     public Vector3 UnitSizeScale;//(1,1,1)
     public float UnitSizeRadius = 0.25f;
@@ -118,7 +118,7 @@ public class Droplet : NetworkBehaviour
     {
         if (HasStateAuthority)
         {
-            Droplet another = collision.gameObject.GetComponent<Droplet>();
+            DropletNetwork another = collision.gameObject.GetComponent<DropletNetwork>();
 
             if (another != null)
             {
@@ -135,7 +135,7 @@ public class Droplet : NetworkBehaviour
         }
     }
 
-    private int DecideWhoEat(Droplet another)
+    private int DecideWhoEat(DropletNetwork another)
     {
         // return -1 => no action, 0 => be eaten, 1=> is eater
         if (!another.isEatable)
@@ -184,20 +184,26 @@ public class Droplet : NetworkBehaviour
         }
     }
 
-    private void EatDroplet(Droplet another)
+    public void EatDroplet(DropletLocal another)
+    {
+        size += another.Size;
+        EatAnime();
+    }
+
+    private void EatDroplet(DropletNetwork another)
     {
         size += another.size;
         EatAnime();
     }
 
-    private void BeEatenByDroplet(Droplet another)
+    private void BeEatenByDroplet(DropletNetwork another)
     {
         sphereCollider.enabled = false;
         rigidBody.constraints = RigidbodyConstraints.FreezeAll;
         StartCoroutine(DelayEaten(another));
     }
 
-    IEnumerator DelayEaten(Droplet another)
+    IEnumerator DelayEaten(DropletNetwork another)
     {
         Vector3 targetPos = Vector3.Lerp(another.transform.position, transform.position, size / (another.size + size));
         while (true)

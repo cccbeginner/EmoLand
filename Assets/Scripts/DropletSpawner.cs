@@ -41,14 +41,14 @@ public class DropletSpawner : MonoBehaviour
             if (newDroplet != null)
             {
                 newDroplet.GetComponent<Rigidbody>().AddForce(Vector3.down*10, ForceMode.Impulse);
-                newDroplet.GetComponent<Droplet>().isEatable = false;
-                StartCoroutine(EatableAfterSec(newDroplet.GetComponent<Droplet>(), 0.1f));
+                newDroplet.GetComponent<DropletNetwork>().isEatable = false;
+                StartCoroutine(EatableAfterSec(newDroplet.GetComponent<DropletNetwork>(), 0.1f));
                 Player.main.droplet.size -= 1;
             }
         }
     }
 
-    IEnumerator EatableAfterSec(Droplet newDroplet, float delaySec)
+    IEnumerator EatableAfterSec(DropletNetwork newDroplet, float delaySec)
     {
         yield return new WaitForSeconds(delaySec);
         newDroplet.isEatable = true;

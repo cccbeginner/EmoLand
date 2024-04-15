@@ -8,6 +8,7 @@ public class WithMainPlayer : MonoBehaviour
     Vector3 localPos;
     Quaternion localRot;
     public UnityEvent OnMainPlayerJoin;
+    public UnityEvent OnMainPlayerTouch;
     public bool InitEnableFollow = false;
     private bool _enableFollow = true;
     public bool EnableFollow { get
@@ -52,6 +53,15 @@ public class WithMainPlayer : MonoBehaviour
                 if (FollowRotation) transform.rotation = Player.main.transform.rotation * localRot;
             }
             yield return null;
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        Player player = collision.gameObject.GetComponent<Player>();
+        if (player != null && ReferenceEquals(player, Player.main))
+        {
+            OnMainPlayerTouch.Invoke();
         }
     }
 }

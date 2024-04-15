@@ -10,22 +10,9 @@ public class TreeArea : MonoBehaviour
     [SerializeField] Material TrunkMaterialBright, TrunkMaterialDark;
     [SerializeField] Material LeafMaterialBright, LeafMaterialDark;
 
-    private bool _switch = false;
-    [SerializeField]
-    bool Switch = false;
-
     private void Start()
     {
         TurnOff();
-    }
-    private void Update()
-    {
-        if (_switch != Switch)
-        {
-            _switch = Switch;
-            if (_switch ) TurnOn();
-            else TurnOff();
-        }
     }
 
     public void TurnOn()
