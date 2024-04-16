@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: CloverLeaf
+  m_Name: CloverLeaf 1
   m_Shader: {fileID: -6465566751694194690, guid: 34376691dd7e05648aab3d35eda9df92, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -141,8 +141,8 @@ Material:
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Color1: {r: 0.11783358, g: 0.4339623, b: 0.0998932, a: 0}
-    - _Color2: {r: 0.3394865, g: 0.4716981, b: 0.30882874, a: 0}
+    - _Color1: {r: 0, g: 0.3584906, b: 0.03773588, a: 0}
+    - _Color2: {r: 0.28544298, g: 0.49056602, b: 0.23787823, a: 0}
     - _Color3: {r: 0, g: 0, b: 0, a: 0}
     - _Color4: {r: 0, g: 0, b: 0, a: 0}
     - _Color5: {r: 0, g: 0, b: 0, a: 0}
