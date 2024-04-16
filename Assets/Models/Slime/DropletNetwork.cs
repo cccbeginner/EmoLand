@@ -21,6 +21,7 @@ public class DropletNetwork : NetworkBehaviour
     public UnityEvent OnTouchGround;
     public UnityEvent<int> OnResize;
     public bool isGrounded { get; private set; }
+    public RaycastHit downRaycastHit { get; private set; }
 
     [Networked]
     public bool isEatable { get; set; }
@@ -94,6 +95,7 @@ public class DropletNetwork : NetworkBehaviour
         {
             // Set position if ray hit.
             // This may fix problem of going through collider unexpectedly.
+            downRaycastHit = hit;
             transform.position = hit.point;
             isGrounded = true;
         }

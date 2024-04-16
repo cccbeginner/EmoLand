@@ -37,7 +37,6 @@ public class Clover : MonoBehaviour
 
     private void StartPush()
     {
-        Debug.Log("start push");
         m_PushCoroutine = StartCoroutine(PushAnimation());
     }
 
@@ -46,7 +45,6 @@ public class Clover : MonoBehaviour
         float speed = -PushForce;
         while (transform.localPosition.y <= m_InitPos.y)
         {
-            Debug.Log(speed);
             transform.localPosition += speed * Vector3.up * Time.deltaTime;
             speed += PopForce * Time.deltaTime * (m_InitPos.y - transform.localPosition.y);
             yield return null;

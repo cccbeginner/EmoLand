@@ -11218,13 +11218,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3cd25a085cd29e4a983bd747fa23d2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Target: {fileID: 0}
   HorizontalRotateSpeed: 0.6
   VerticalRotateSpeed: 0.3
   ZoomSpeed: 0.03
-  LerpSpeed: 10
+  LerpSpeed: 2
   AutoRotateSpeed: 0.05
-  FarthestDistance: 6
+  FarthestDistance: 15
   NearestDistance: 1
   ScreenMiddle: 0.5
   DefaultTapTime: 0.2
@@ -11387,7 +11386,7 @@ Transform:
   m_GameObject: {fileID: 1250648255}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 115.3, y: 0.5, z: -228.1}
+  m_LocalPosition: {x: 0, y: 0.5, z: -5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -26043,6 +26042,10 @@ PrefabInstance:
       propertyPath: m_Material
       value: 
       objectReference: {fileID: 13400000, guid: 35e9844615b5563448eb57c39ec394e0, type: 2}
+    - target: {fileID: 6368522958420587376, guid: 29e9a67f1b0c8904296b5eac8a72d2db, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 13400000, guid: 07f88252ebe55034e91724d3ad58fb12, type: 2}
     - target: {fileID: 6639804205517189636, guid: 29e9a67f1b0c8904296b5eac8a72d2db, type: 3}
       propertyPath: m_IsActive
       value: 0
