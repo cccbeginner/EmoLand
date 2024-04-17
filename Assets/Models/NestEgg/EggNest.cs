@@ -9,6 +9,7 @@ public class EggNest : MonoBehaviour
 {
     [SerializeField] GameObject Egg, Nest;
     [SerializeField] PathCreator Path;
+    public UnityEvent RestoreBegin;
     public UnityEvent RestoreEnd;
 
     private void Start()
@@ -22,6 +23,7 @@ public class EggNest : MonoBehaviour
 
     IEnumerator MoveToNest()
     {
+        RestoreBegin.Invoke();
         float speed = 20f;
         float x = 0f;
         float[] lengths = Path.path.cumulativeLengthAtEachVertex;
