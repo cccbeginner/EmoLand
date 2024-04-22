@@ -50,6 +50,11 @@ MonoBehaviour:
   Egg: {fileID: 8591301106027444295}
   Nest: {fileID: 1563198156074903233}
   Path: {fileID: 4267361429620019039}
+  ShowEggInit: 1
+  ShowEggScale: 1
+  RestoreBegin:
+    m_PersistentCalls:
+      m_Calls: []
   RestoreEnd:
     m_PersistentCalls:
       m_Calls:
@@ -230,7 +235,7 @@ Transform:
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071067}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1579172270743602856}
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}

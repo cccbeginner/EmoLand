@@ -9,17 +9,44 @@ public class EggNest : MonoBehaviour
 {
     [SerializeField] GameObject Egg, Nest;
     [SerializeField] PathCreator Path;
+    public bool ShowEggInit = true;
+    public float ShowEggScale = 1f;
     public UnityEvent RestoreBegin;
     public UnityEvent RestoreEnd;
+
 
     private void Start()
     {
         Egg.transform.position = Path.path.GetPointAtDistance(0f);
+        if (ShowEggInit) ShowEgg(0);
+        else Egg.gameObject.SetActive(false);
     }
     public void RestoreEgg()
     {
         StartCoroutine(MoveToNest());
     }
+
+    public void ShowEgg(float timeDelay)
+    {
+        Egg.gameObject.SetActive(true);
+        StartCoroutine(ShowEggRoutine(timeDelay));
+    }
+
+    IEnumerator ShowEggRoutine(float timeDelay)
+    {
+        Egg.transform.localScale = Vector3.zero;
+        Egg.transform.GetChild(0).localScale = Vector3.zero;
+        yield return new WaitForSeconds(timeDelay);
+        float currentScale = 0f;
+        while (ShowEggScale - currentScale > 0.01)
+        {
+            currentScale = Mathf.Lerp(currentScale, ShowEggScale, 0.5f * Time.deltaTime);
+            Egg.transform.GetChild(0).localScale = currentScale * Vector3.one;
+            Egg.transform.localScale = currentScale * Vector3.one;
+            yield return null;
+        }
+    }
+    
 
     IEnumerator MoveToNest()
     {
