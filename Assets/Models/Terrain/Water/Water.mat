@@ -63,7 +63,7 @@ Material:
     - _DeepColorWater: {r: 0.08025987, g: 0.254717, b: 0.16748843, a: 0.3254902}
     - _FallPosition: {r: 128.6, g: 0, b: -235, a: 0}
     - _HintColor: {r: 0.4264151, g: 0.5, b: 0.49930018, a: 0.3254902}
-    - _RT_Offset: {r: -14.080057, g: -29.434265, b: 0, a: 0}
+    - _RT_Offset: {r: -12.8895, g: -30.1815, b: 0, a: 0}
     - _RT_Tiling: {r: 40, g: 40, b: 0, a: 0}
     - _ShallowWaterColor: {r: 0.23282307, g: 0.3773585, b: 0.32151684, a: 0}
     - _WaveTiling: {r: 10, g: 10, b: 0, a: 0}
