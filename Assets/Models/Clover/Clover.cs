@@ -1,17 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Clover : MonoBehaviour
 {
     public float PushForce = 1.0f;
     public float PopForce = 0.5f;
+    public UnityEvent OnPushStart;
+    public bool HasGrown { get; private set; }
     Vector3 m_InitPos;
     Coroutine m_PushCoroutine;
     void Start()
     {
         m_InitPos = transform.localPosition;
         m_PushCoroutine = null;
+        DontGrow();
+        //Grow();
     }
 
     public void Push()
@@ -38,6 +43,22 @@ public class Clover : MonoBehaviour
     private void StartPush()
     {
         m_PushCoroutine = StartCoroutine(PushAnimation());
+        OnPushStart.Invoke();
+    }
+
+    public void Grow()
+    {
+        if (!HasGrown)
+        {
+            GetComponent<Animator>().SetTrigger("Grow");
+            HasGrown = true;
+        }
+    }
+    public void DontGrow()
+    {
+        HasGrown = false;
+        GetComponent<Animator>().SetTrigger("DontGrow");
+        Debug.Log("dont grow");
     }
 
     IEnumerator PushAnimation()
