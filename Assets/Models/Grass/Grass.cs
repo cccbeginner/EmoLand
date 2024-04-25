@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Shansu : MonoBehaviour
+public class Grass : MonoBehaviour
 {
     [SerializeField]
     GameObject m_Leaf;
@@ -15,10 +15,12 @@ public class Shansu : MonoBehaviour
     public bool triggerThrow = false;
     public bool triggerGrow = false;
 
+    private Coroutine m_ThrowPlayerCoroutine;
+
     void Awake()
     {
         m_Leaf.GetComponent<MeshRenderer>().material = m_GrowMaterial;
-        //DontGrow();
+        DontGrow();
         //StartGrow();
 
     }
@@ -58,7 +60,12 @@ public class Shansu : MonoBehaviour
         MeshRenderer mr = m_Leaf.GetComponent<MeshRenderer>();
         mr.material = m_ThrowMaterial;
         mr.material.SetFloat("_TimeOffset", Time.fixedTime);
-        StartCoroutine(AddPlayerImpactAfterSecond(delaySec));
+        m_ThrowPlayerCoroutine = StartCoroutine(AddPlayerImpactAfterSecond(delaySec));
+    }
+
+    public void ThrowPlayerCancel()
+    {
+        StopCoroutine(m_ThrowPlayerCoroutine);
     }
 
     IEnumerator AddPlayerImpactAfterSecond(float delaySec)

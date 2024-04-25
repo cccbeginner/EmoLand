@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7638160955565036385}
   - component: {fileID: 2020018507831744701}
   - component: {fileID: 3781456730911149673}
+  - component: {fileID: 9202235300942980997}
   m_Layer: 3
   m_Name: LeafMesh
   m_TagString: Untagged
@@ -106,6 +107,48 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -7290800649661954166, guid: aeb1106094824944f9a369d7919cbbbc, type: 3}
+--- !u!114 &9202235300942980997
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 223529533480502647}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc793a23839aaec49932b43d4b430c8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnPlayerTouchTop:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7150407968360543261}
+        m_TargetAssemblyTypeName: Grass, Assembly-CSharp
+        m_MethodName: ThrowPlayer
+        m_Mode: 4
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0.5
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnPlayerExit:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7150407968360543261}
+        m_TargetAssemblyTypeName: Grass, Assembly-CSharp
+        m_MethodName: ThrowPlayerCancel
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &8380203276775764890
 GameObject:
   m_ObjectHideFlags: 0
