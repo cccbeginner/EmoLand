@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6028750251311043755}
   - component: {fileID: -844419700894032043}
   m_Layer: 3
-  m_Name: Mound1
+  m_Name: Mound
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -119,7 +119,7 @@ GameObject:
   - component: {fileID: 3532426176842171694}
   - component: {fileID: 7149878853940680225}
   m_Layer: 7
-  m_Name: TriggerHole
+  m_Name: MoundSlot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -174,12 +174,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   countPlayer: 0
-  OnDropletSize:
-    m_PersistentCalls:
-      m_Calls: []
-  OnDropletEnter:
-    m_PersistentCalls:
-      m_Calls: []
-  OnDropletExit:
+  MinSizeToInvoke: 1
+  MaxSizeToInvoke: 100
+  OnDropletInRange:
     m_PersistentCalls:
       m_Calls: []

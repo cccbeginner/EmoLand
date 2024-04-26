@@ -58,7 +58,6 @@ public class Clover : MonoBehaviour
     {
         HasGrown = false;
         GetComponent<Animator>().SetTrigger("DontGrow");
-        Debug.Log("dont grow");
     }
 
     IEnumerator PushAnimation()

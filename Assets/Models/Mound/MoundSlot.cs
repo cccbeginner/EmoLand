@@ -4,19 +4,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class DropletSlot : MonoBehaviour
+// The script is attach to the "slot" with a collider in trigger mode.
+// Be sure there is only one droplet in slot at the same time, or the script could work unexpectedly.
+
+public class MoundSlot : MonoBehaviour
 {
     public bool countPlayer = false;
-    public UnityEvent<int> OnDropletSize;
-    public UnityEvent<DropletNetwork> OnDropletEnter;
-    public UnityEvent<DropletNetwork> OnDropletExit;
+    public int MinSizeToInvoke = 1;
+    public int MaxSizeToInvoke = 100;
+    public UnityEvent OnDropletInRange;
 
-    public int dropletSize { get; private set; }
     public DropletNetwork currentDroplet { get; private set; }
 
     void Start()
     {
-        dropletSize = 0;
         currentDroplet = null;
     }
 
@@ -30,8 +31,8 @@ public class DropletSlot : MonoBehaviour
                 if (currentDroplet == null)
                 {
                     currentDroplet = droplet;
-                    currentDroplet.OnResize.AddListener(OnDropletSize.Invoke);
-                    OnDropletEnter.Invoke(droplet);
+                    currentDroplet.OnResize.AddListener(CheckAndInvokeOnSize);
+                    CheckAndInvokeOnSize(currentDroplet.size);
                 }
             }
         }
@@ -44,9 +45,17 @@ public class DropletSlot : MonoBehaviour
         {
             if (ReferenceEquals(currentDroplet, droplet))
             {
+                currentDroplet.OnResize.RemoveListener(CheckAndInvokeOnSize);
                 currentDroplet = null;
-                OnDropletExit.Invoke(droplet);
             }
+        }
+    }
+
+    private void CheckAndInvokeOnSize(int size)
+    {
+        if (MinSizeToInvoke <= size && size <= MaxSizeToInvoke)
+        {
+            OnDropletInRange.Invoke();
         }
     }
 

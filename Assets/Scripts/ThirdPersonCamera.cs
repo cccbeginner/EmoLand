@@ -109,7 +109,6 @@ public class ThirdPersonCamera : MonoBehaviour
         Vector3 speed = Vector3.one;
         while (speed.sqrMagnitude >= 0.1f)
         {
-            Debug.Log(speed);
             Vector3 nextPosition = Vector3.Lerp(transform.position, startPos, LerpSpeed * Time.deltaTime);
             speed = (nextPosition - transform.position) / Time.deltaTime;
             transform.position = nextPosition;
