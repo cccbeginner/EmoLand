@@ -20,6 +20,7 @@ public class DropletNetwork : NetworkBehaviour
     public UnityEvent OnLeaveGround;
     public UnityEvent OnTouchGround;
     public UnityEvent<int> OnResize;
+    public UnityEvent OnBeingDestroy;
     public bool isGrounded { get; private set; }
     public RaycastHit downRaycastHit { get; private set; }
 
@@ -227,5 +228,10 @@ public class DropletNetwork : NetworkBehaviour
             yield return null;
         }
         Runner.Despawn(GetComponent<NetworkObject>());
+    }
+
+    private void OnDestroy()
+    {
+        OnBeingDestroy.Invoke();
     }
 }
