@@ -84,7 +84,7 @@ public class DropletNetwork : NetworkBehaviour
         slimeAnimator.SetTrigger("Grounded");
     }
 
-    public void FixedUpdate()
+    public void LateUpdate()
     {
         // Raycast for ground test
         float r = sphereCollider.radius;
