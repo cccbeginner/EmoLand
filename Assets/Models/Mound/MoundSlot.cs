@@ -19,6 +19,7 @@ public class MoundSlot : MonoBehaviour
     void Start()
     {
         currentDroplet = null;
+        OnDropletInRange.AddListener(MissionComplete);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -63,5 +64,11 @@ public class MoundSlot : MonoBehaviour
     {
         currentDroplet.Runner.Despawn(currentDroplet.GetComponent<NetworkObject>());
         currentDroplet = null;
+    }
+
+    private void MissionComplete()
+    {
+        Destroy(currentDroplet.gameObject);
+        gameObject.SetActive(false);
     }
 }

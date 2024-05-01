@@ -3094,7 +3094,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7149878853940680225, guid: feb82e3bac121ca4d8f0816cd2e1ec36, type: 3}
       propertyPath: OnDropletInRange.m_PersistentCalls.m_Calls.Array.size
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 7149878853940680225, guid: feb82e3bac121ca4d8f0816cd2e1ec36, type: 3}
       propertyPath: OnDropletEnter.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
@@ -3165,6 +3165,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7149878853940680225, guid: feb82e3bac121ca4d8f0816cd2e1ec36, type: 3}
+      propertyPath: OnDropletInRange.m_PersistentCalls.m_Calls.Array.data[5].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7149878853940680225, guid: feb82e3bac121ca4d8f0816cd2e1ec36, type: 3}
       propertyPath: OnDropletInRange.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 619040881}
@@ -3184,6 +3188,10 @@ PrefabInstance:
       propertyPath: OnDropletInRange.m_PersistentCalls.m_Calls.Array.data[4].m_Target
       value: 
       objectReference: {fileID: 670368730}
+    - target: {fileID: 7149878853940680225, guid: feb82e3bac121ca4d8f0816cd2e1ec36, type: 3}
+      propertyPath: OnDropletInRange.m_PersistentCalls.m_Calls.Array.data[5].m_Target
+      value: 
+      objectReference: {fileID: 718538917}
     - target: {fileID: 7149878853940680225, guid: feb82e3bac121ca4d8f0816cd2e1ec36, type: 3}
       propertyPath: OnDropletEnter.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
@@ -3253,6 +3261,10 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7149878853940680225, guid: feb82e3bac121ca4d8f0816cd2e1ec36, type: 3}
+      propertyPath: OnDropletInRange.m_PersistentCalls.m_Calls.Array.data[5].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7149878853940680225, guid: feb82e3bac121ca4d8f0816cd2e1ec36, type: 3}
       propertyPath: OnDropletInRange.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: StartGrow
       objectReference: {fileID: 0}
@@ -3271,6 +3283,10 @@ PrefabInstance:
     - target: {fileID: 7149878853940680225, guid: feb82e3bac121ca4d8f0816cd2e1ec36, type: 3}
       propertyPath: OnDropletInRange.m_PersistentCalls.m_Calls.Array.data[4].m_MethodName
       value: StartGrow
+      objectReference: {fileID: 0}
+    - target: {fileID: 7149878853940680225, guid: feb82e3bac121ca4d8f0816cd2e1ec36, type: 3}
+      propertyPath: OnDropletInRange.m_PersistentCalls.m_Calls.Array.data[5].m_MethodName
+      value: DragCameraHereForWhile
       objectReference: {fileID: 0}
     - target: {fileID: 7149878853940680225, guid: feb82e3bac121ca4d8f0816cd2e1ec36, type: 3}
       propertyPath: OnDropletEnter.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
@@ -3315,6 +3331,10 @@ PrefabInstance:
     - target: {fileID: 7149878853940680225, guid: feb82e3bac121ca4d8f0816cd2e1ec36, type: 3}
       propertyPath: OnDropletInRange.m_PersistentCalls.m_Calls.Array.data[4].m_TargetAssemblyTypeName
       value: Grass, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 7149878853940680225, guid: feb82e3bac121ca4d8f0816cd2e1ec36, type: 3}
+      propertyPath: OnDropletInRange.m_PersistentCalls.m_Calls.Array.data[5].m_TargetAssemblyTypeName
+      value: DragCameraHere, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 7149878853940680225, guid: feb82e3bac121ca4d8f0816cd2e1ec36, type: 3}
       propertyPath: OnDropletEnter.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_FloatArgument
@@ -3374,6 +3394,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7149878853940680225, guid: feb82e3bac121ca4d8f0816cd2e1ec36, type: 3}
       propertyPath: OnDropletInRange.m_PersistentCalls.m_Calls.Array.data[4].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 7149878853940680225, guid: feb82e3bac121ca4d8f0816cd2e1ec36, type: 3}
+      propertyPath: OnDropletInRange.m_PersistentCalls.m_Calls.Array.data[5].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 8319203166414041645, guid: feb82e3bac121ca4d8f0816cd2e1ec36, type: 3}
@@ -19345,7 +19369,7 @@ Transform:
   m_GameObject: {fileID: 1680496063}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -11.61, y: 7.41, z: -71.2}
+  m_LocalPosition: {x: 83.5, y: 7.41, z: -85.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -25995,7 +26019,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7149878853940680225, guid: feb82e3bac121ca4d8f0816cd2e1ec36, type: 3}
       propertyPath: OnDropletInRange.m_PersistentCalls.m_Calls.Array.size
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7149878853940680225, guid: feb82e3bac121ca4d8f0816cd2e1ec36, type: 3}
       propertyPath: OnDropletEnter.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
@@ -26026,9 +26050,25 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7149878853940680225, guid: feb82e3bac121ca4d8f0816cd2e1ec36, type: 3}
+      propertyPath: OnDropletInRange.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7149878853940680225, guid: feb82e3bac121ca4d8f0816cd2e1ec36, type: 3}
+      propertyPath: OnDropletInRange.m_PersistentCalls.m_Calls.Array.data[2].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7149878853940680225, guid: feb82e3bac121ca4d8f0816cd2e1ec36, type: 3}
       propertyPath: OnDropletInRange.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 2115798247}
+    - target: {fileID: 7149878853940680225, guid: feb82e3bac121ca4d8f0816cd2e1ec36, type: 3}
+      propertyPath: OnDropletInRange.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 535732368}
+    - target: {fileID: 7149878853940680225, guid: feb82e3bac121ca4d8f0816cd2e1ec36, type: 3}
+      propertyPath: OnDropletInRange.m_PersistentCalls.m_Calls.Array.data[2].m_Target
+      value: 
+      objectReference: {fileID: 2045935366}
     - target: {fileID: 7149878853940680225, guid: feb82e3bac121ca4d8f0816cd2e1ec36, type: 3}
       propertyPath: OnDropletEnter.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
@@ -26058,8 +26098,24 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7149878853940680225, guid: feb82e3bac121ca4d8f0816cd2e1ec36, type: 3}
+      propertyPath: OnDropletInRange.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7149878853940680225, guid: feb82e3bac121ca4d8f0816cd2e1ec36, type: 3}
+      propertyPath: OnDropletInRange.m_PersistentCalls.m_Calls.Array.data[2].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7149878853940680225, guid: feb82e3bac121ca4d8f0816cd2e1ec36, type: 3}
       propertyPath: OnDropletInRange.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: GrowAndOpen
+      objectReference: {fileID: 0}
+    - target: {fileID: 7149878853940680225, guid: feb82e3bac121ca4d8f0816cd2e1ec36, type: 3}
+      propertyPath: OnDropletInRange.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: ShowEgg
+      objectReference: {fileID: 0}
+    - target: {fileID: 7149878853940680225, guid: feb82e3bac121ca4d8f0816cd2e1ec36, type: 3}
+      propertyPath: OnDropletInRange.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
+      value: DragCameraHereForWhile
       objectReference: {fileID: 0}
     - target: {fileID: 7149878853940680225, guid: feb82e3bac121ca4d8f0816cd2e1ec36, type: 3}
       propertyPath: OnDropletEnter.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
@@ -26078,7 +26134,23 @@ PrefabInstance:
       value: Flower, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 7149878853940680225, guid: feb82e3bac121ca4d8f0816cd2e1ec36, type: 3}
+      propertyPath: OnDropletInRange.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: EggNest, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 7149878853940680225, guid: feb82e3bac121ca4d8f0816cd2e1ec36, type: 3}
+      propertyPath: OnDropletInRange.m_PersistentCalls.m_Calls.Array.data[2].m_TargetAssemblyTypeName
+      value: DragCameraHere, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 7149878853940680225, guid: feb82e3bac121ca4d8f0816cd2e1ec36, type: 3}
       propertyPath: OnDropletEnter.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_FloatArgument
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7149878853940680225, guid: feb82e3bac121ca4d8f0816cd2e1ec36, type: 3}
+      propertyPath: OnDropletInRange.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_FloatArgument
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7149878853940680225, guid: feb82e3bac121ca4d8f0816cd2e1ec36, type: 3}
+      propertyPath: OnDropletInRange.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_FloatArgument
       value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 7149878853940680225, guid: feb82e3bac121ca4d8f0816cd2e1ec36, type: 3}
@@ -26095,6 +26167,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7149878853940680225, guid: feb82e3bac121ca4d8f0816cd2e1ec36, type: 3}
       propertyPath: OnDropletInRange.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 7149878853940680225, guid: feb82e3bac121ca4d8f0816cd2e1ec36, type: 3}
+      propertyPath: OnDropletInRange.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 7149878853940680225, guid: feb82e3bac121ca4d8f0816cd2e1ec36, type: 3}
+      propertyPath: OnDropletInRange.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 8319203166414041645, guid: feb82e3bac121ca4d8f0816cd2e1ec36, type: 3}

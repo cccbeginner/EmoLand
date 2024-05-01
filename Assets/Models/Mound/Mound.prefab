@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7328478575509558996}
   - component: {fileID: 6028750251311043755}
   - component: {fileID: -844419700894032043}
+  - component: {fileID: 9220110105019173394}
   m_Layer: 3
   m_Name: Mound
   m_TagString: Untagged
@@ -63,7 +64,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 1690601619361376442, guid: 85330882894f97543bcf77e8734ad513, type: 3}
+  - {fileID: 2100000, guid: 4b6112a8fe6c60c409abae24c06ee2f2, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -107,6 +108,20 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 5871863183726327630, guid: 85330882894f97543bcf77e8734ad513, type: 3}
+--- !u!114 &9220110105019173394
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1446702282358481822}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80a0def8213289c4e9575686f414d989, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MoundMaterial: {fileID: 2100000, guid: 4b6112a8fe6c60c409abae24c06ee2f2, type: 2}
+  MoundSlot: {fileID: 7149878853940680225}
 --- !u!1 &7435650135408387682
 GameObject:
   m_ObjectHideFlags: 0
