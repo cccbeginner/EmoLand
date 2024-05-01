@@ -44,6 +44,6 @@ Material:
     m_Floats:
     - _QueueControl: 0
     - _TImeOffset: 89.4
-    - _TimeAnimate: 1
+    - _TimeAnimate: 0.5
     m_Colors: []
   m_BuildTextureStacks: []

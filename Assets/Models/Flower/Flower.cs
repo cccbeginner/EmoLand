@@ -81,7 +81,7 @@ public class Flower : MonoBehaviour
     {
         IsOpen = true;
         m_FlowerMaterialInstance.SetInt("_Open", 1);
-        m_FlowerMaterialInstance.SetFloat("_TimeOffset", Time.fixedUnscaledTime + timeDelay);
+        m_FlowerMaterialInstance.SetFloat("_TimeOffset", Time.time + timeDelay);
 
         foreach (GameObject petal in m_Petals)
         {
@@ -93,7 +93,7 @@ public class Flower : MonoBehaviour
     {
         IsOpen = false;
         m_FlowerMaterialInstance.SetInt("_Open", 0);
-        m_FlowerMaterialInstance.SetFloat("_TimeOffset", Time.fixedUnscaledTime + timeDelay);
+        m_FlowerMaterialInstance.SetFloat("_TimeOffset", Time.time + timeDelay);
 
         foreach (GameObject petal in m_Petals)
         {

@@ -22,7 +22,7 @@ public class Mound : MonoBehaviour
 
     void BecomeWet()
     {
-        m_MoundMaterialInstance.SetFloat("_TimeOffset", Time.fixedUnscaledTime);
+        m_MoundMaterialInstance.SetFloat("_TimeOffset", Time.time);
     }
     void BecomeDry()
     {

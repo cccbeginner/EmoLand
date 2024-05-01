@@ -43,7 +43,7 @@ public class Grass : MonoBehaviour
     {
         m_Leaf.GetComponent<Collider>().enabled = true;
         m_Leaf.GetComponent<MeshRenderer>().material = m_GrowMaterial;
-        m_Leaf.GetComponent<MeshRenderer>().material.SetFloat("_TimeOffset", Time.fixedTime);
+        m_Leaf.GetComponent<MeshRenderer>().material.SetFloat("_TimeOffset", Time.time);
         HasGrown = true;
     }
 
