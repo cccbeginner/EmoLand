@@ -54,7 +54,7 @@ MonoBehaviour:
   InitSize: 1
   SizeMin: 1
   SizeMax: 10
-  LifeTimeSec: 10
+  LifeTimeSec: 120
   OnLeaveGround:
     m_PersistentCalls:
       m_Calls: []

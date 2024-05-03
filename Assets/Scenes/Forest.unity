@@ -2272,7 +2272,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7149878853940680225, guid: feb82e3bac121ca4d8f0816cd2e1ec36, type: 3}
       propertyPath: OnDropletInRange.m_PersistentCalls.m_Calls.Array.size
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7149878853940680225, guid: feb82e3bac121ca4d8f0816cd2e1ec36, type: 3}
       propertyPath: OnDropletInRange.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
@@ -2288,6 +2288,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7149878853940680225, guid: feb82e3bac121ca4d8f0816cd2e1ec36, type: 3}
       propertyPath: OnDropletInRange.m_PersistentCalls.m_Calls.Array.data[3].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7149878853940680225, guid: feb82e3bac121ca4d8f0816cd2e1ec36, type: 3}
+      propertyPath: OnDropletInRange.m_PersistentCalls.m_Calls.Array.data[4].m_Mode
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7149878853940680225, guid: feb82e3bac121ca4d8f0816cd2e1ec36, type: 3}
@@ -2307,6 +2311,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1689447779}
     - target: {fileID: 7149878853940680225, guid: feb82e3bac121ca4d8f0816cd2e1ec36, type: 3}
+      propertyPath: OnDropletInRange.m_PersistentCalls.m_Calls.Array.data[4].m_Target
+      value: 
+      objectReference: {fileID: 2022789759}
+    - target: {fileID: 7149878853940680225, guid: feb82e3bac121ca4d8f0816cd2e1ec36, type: 3}
       propertyPath: OnDropletInRange.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
       objectReference: {fileID: 0}
@@ -2320,6 +2328,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7149878853940680225, guid: feb82e3bac121ca4d8f0816cd2e1ec36, type: 3}
       propertyPath: OnDropletInRange.m_PersistentCalls.m_Calls.Array.data[3].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7149878853940680225, guid: feb82e3bac121ca4d8f0816cd2e1ec36, type: 3}
+      propertyPath: OnDropletInRange.m_PersistentCalls.m_Calls.Array.data[4].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7149878853940680225, guid: feb82e3bac121ca4d8f0816cd2e1ec36, type: 3}
@@ -2339,6 +2351,10 @@ PrefabInstance:
       value: DragCameraHereForWhile
       objectReference: {fileID: 0}
     - target: {fileID: 7149878853940680225, guid: feb82e3bac121ca4d8f0816cd2e1ec36, type: 3}
+      propertyPath: OnDropletInRange.m_PersistentCalls.m_Calls.Array.data[4].m_MethodName
+      value: EnableButtons
+      objectReference: {fileID: 0}
+    - target: {fileID: 7149878853940680225, guid: feb82e3bac121ca4d8f0816cd2e1ec36, type: 3}
       propertyPath: OnDropletInRange.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: Flower, Assembly-CSharp
       objectReference: {fileID: 0}
@@ -2355,6 +2371,10 @@ PrefabInstance:
       value: DragCameraHere, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 7149878853940680225, guid: feb82e3bac121ca4d8f0816cd2e1ec36, type: 3}
+      propertyPath: OnDropletInRange.m_PersistentCalls.m_Calls.Array.data[4].m_TargetAssemblyTypeName
+      value: Stage4, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 7149878853940680225, guid: feb82e3bac121ca4d8f0816cd2e1ec36, type: 3}
       propertyPath: OnDropletInRange.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
@@ -2368,6 +2388,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7149878853940680225, guid: feb82e3bac121ca4d8f0816cd2e1ec36, type: 3}
       propertyPath: OnDropletInRange.m_PersistentCalls.m_Calls.Array.data[3].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 7149878853940680225, guid: feb82e3bac121ca4d8f0816cd2e1ec36, type: 3}
+      propertyPath: OnDropletInRange.m_PersistentCalls.m_Calls.Array.data[4].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 8319203166414041645, guid: feb82e3bac121ca4d8f0816cd2e1ec36, type: 3}
@@ -19369,7 +19393,7 @@ Transform:
   m_GameObject: {fileID: 1680496063}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 178.9, y: 7.41, z: -169.8}
+  m_LocalPosition: {x: 140.32, y: 7.41, z: -38.84}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -25765,6 +25789,9 @@ MonoBehaviour:
   Flower1: {fileID: 1798696796}
   Flower2: {fileID: 1675518506}
   Flower3: {fileID: 2021805549}
+  ToggleButton1: {fileID: 1335327778}
+  ToggleButton2: {fileID: 709173011}
+  ToggleButton3: {fileID: 835833763}
   OnSuccess:
     m_PersistentCalls:
       m_Calls:
@@ -26828,7 +26855,7 @@ PrefabInstance:
     - target: {fileID: 5809574959129573617, guid: 29e9a67f1b0c8904296b5eac8a72d2db, type: 3}
       propertyPath: m_Material
       value: 
-      objectReference: {fileID: 13400000, guid: 35e9844615b5563448eb57c39ec394e0, type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 6368522958420587376, guid: 29e9a67f1b0c8904296b5eac8a72d2db, type: 3}
       propertyPath: m_Material
       value: 

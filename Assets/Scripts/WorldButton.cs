@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,6 +17,11 @@ public class WorldButton : MonoBehaviour
         }
     }
     private Animation m_Animation;
+
+    private void Start()
+    {
+        button.onClick.AddListener(OnButtonClick);
+    }
 
     private void OnEnable()
     {
@@ -45,5 +51,10 @@ public class WorldButton : MonoBehaviour
     {
         yield return new WaitForSeconds(0.5f);
         Destroy(gameObject);
+    }
+
+    private void OnButtonClick()
+    {
+        m_Animation.Play("ButtonPress");
     }
 }
