@@ -54,6 +54,7 @@ MonoBehaviour:
   InitSize: 1
   SizeMin: 1
   SizeMax: 10
+  LifeTimeSec: 10
   OnLeaveGround:
     m_PersistentCalls:
       m_Calls: []
@@ -61,6 +62,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnResize:
+    m_PersistentCalls:
+      m_Calls: []
+  OnBeingDestroy:
     m_PersistentCalls:
       m_Calls: []
   _isEatable: 0

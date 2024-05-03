@@ -12,6 +12,11 @@ public class DropletNetwork : NetworkBehaviour
     public int SizeMin = 1;
     public int SizeMax = 10;
 
+    // about lifetime
+    public float LifeTimeSec = 60;
+    public float TimeSinceCreated { get; private set; }
+    private float m_TimeCreated = 0f;
+
     private bool m_IsGroundedPrevious;
     public Rigidbody rigidBody { get; private set; }
     public SphereCollider sphereCollider { get; private set; }
@@ -56,6 +61,7 @@ public class DropletNetwork : NetworkBehaviour
             m_Size = InitSize;
             size = InitSize;
             m_IsGroundedPrevious = true;
+            m_TimeCreated = Time.time;
 
             OnLeaveGround.AddListener(LeaveGroundAnime);
             OnTouchGround.AddListener(TouchGroundAnime);
@@ -115,6 +121,17 @@ public class DropletNetwork : NetworkBehaviour
             OnTouchGround.Invoke();
         }
         m_IsGroundedPrevious = isGrounded;
+    }
+
+    private void Update()
+    {
+        // Manage lifetime
+        // Should destroy when life is over
+        TimeSinceCreated = Time.time - m_TimeCreated;
+        if (GetComponent<Player>() == null && TimeSinceCreated >= LifeTimeSec)
+        {
+            Runner.Despawn(GetComponent<NetworkObject>());
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -197,6 +214,8 @@ public class DropletNetwork : NetworkBehaviour
     {
         size += another.size;
         EatAnime();
+        m_TimeCreated = Time.time;
+        TimeSinceCreated = 0;
     }
 
     private void BeEatenByDroplet(DropletNetwork another)
