@@ -14,7 +14,7 @@ public class PlayerJump : MonoBehaviour
     public UnityEvent OnJumpBegin;
     private bool m_JumpPressed = false;
 
-    bool m_AllowJump = true;
+    bool m_InJumpDelay = false;
 
     private void OnEnable()
     {
@@ -30,7 +30,7 @@ public class PlayerJump : MonoBehaviour
     {
         if (!ReferenceEquals(player, Player.main)) return;
 
-        if (m_Jump.triggered && m_AllowJump)
+        if (m_Jump.triggered && !m_InJumpDelay && (player.droplet.size > 1 || player.droplet.isGrounded))
         {
             m_JumpPressed = true;
         }
@@ -50,8 +50,8 @@ public class PlayerJump : MonoBehaviour
 
     IEnumerator NextJumpDelay()
     {
-        m_AllowJump = false;
+        m_InJumpDelay = true;
         yield return new WaitForSeconds(m_NextJumpDelay);
-        m_AllowJump = true;
+        m_InJumpDelay = false;
     }
 }
