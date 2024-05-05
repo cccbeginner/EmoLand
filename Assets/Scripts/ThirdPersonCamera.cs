@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 public class ThirdPersonCamera : MonoBehaviour
@@ -7,7 +8,7 @@ public class ThirdPersonCamera : MonoBehaviour
     public float HorizontalRotateSpeed = 0.6f;
     public float VerticalRotateSpeed = 0.3f;
     public float ZoomSpeed = 0.1f;
-    public float LerpSpeed = 10f;
+    public float MoveSpeed = 10f;
     public float AutoRotateSpeed = 0.6f;
     public float FarthestDistance = 30f;
     public float NearestDistance = 3f;
@@ -25,7 +26,10 @@ public class ThirdPersonCamera : MonoBehaviour
 
     private Vector3 m_PivotOffset = Vector3.zero;
 
+    // true if the camera is being dragged currently
     private bool m_IsDragging = false;
+    public UnityEvent OnDraggedStart;
+    public UnityEvent OnDraggedEnd;
 
     public static ThirdPersonCamera main { get; private set; }
 
@@ -61,7 +65,8 @@ public class ThirdPersonCamera : MonoBehaviour
         // Follow Player
         if (!m_IsDragging)
         {
-            Vector3 newPivotPosition = Vector3.Lerp(m_CameraPivot.position, Player.main.transform.position, LerpSpeed * Time.deltaTime) + m_PivotOffset;
+            // Rotate & position pivot
+            Vector3 newPivotPosition = Vector3.Lerp(m_CameraPivot.position, Player.main.transform.position, MoveSpeed * Time.deltaTime) + m_PivotOffset;
             Vector3 curVec = m_CameraPivot.forward;
             Vector3 nextVec = curVec + (newPivotPosition - m_CameraPivot.position);
             float signedAngle = Vector2.SignedAngle(new Vector2(curVec.x, curVec.z), new Vector2(nextVec.x, nextVec.z));
@@ -91,31 +96,42 @@ public class ThirdPersonCamera : MonoBehaviour
     IEnumerator DragCameraAction(Transform targetTransform, float timeStay)
     {
         m_IsDragging = true;
+        OnDraggedStart.Invoke();
+
+        const float transportTime = 2f;
         float timeNow = 0f;
         Vector3 startPos = transform.position;
         Quaternion startRot = transform.rotation;
 
         // Drag the camera to the target transform
-        while (timeNow <= timeStay)
+        while (timeNow <= timeStay && timeNow / transportTime <= 1)
         {
             timeNow += Time.deltaTime;
-            transform.position = Vector3.Lerp(transform.position, targetTransform.position, LerpSpeed * Time.deltaTime);
-            transform.rotation = Quaternion.Lerp(transform.rotation, targetTransform.rotation, LerpSpeed * Time.deltaTime);
+            transform.position = Vector3.Lerp(startPos, targetTransform.position, Mathf.SmoothStep(0, 1, timeNow / transportTime));
+            transform.rotation = Quaternion.Lerp(startRot, targetTransform.rotation, Mathf.SmoothStep(0, 1, timeNow / transportTime));
+            yield return null;
+        }
+
+        // Let camera stay for awhile 
+        while(timeNow <= timeStay)
+        {
+            timeNow += Time.deltaTime;
             yield return null;
         }
 
         // Drag camera to the original transform
         // (Put away the camera)
-        Vector3 speed = Vector3.one;
-        while (speed.sqrMagnitude >= 0.1f)
+        timeNow = 0;
+        while (timeNow / transportTime <= 1)
         {
-            Vector3 nextPosition = Vector3.Lerp(transform.position, startPos, LerpSpeed * Time.deltaTime);
-            speed = (nextPosition - transform.position) / Time.deltaTime;
-            transform.position = nextPosition;
-            transform.rotation = Quaternion.Lerp(transform.rotation, startRot, LerpSpeed * Time.deltaTime);
+            timeNow += Time.deltaTime;
+            transform.position = Vector3.Lerp(targetTransform.position, startPos, Mathf.SmoothStep(-1, 1, timeNow / transportTime));
+            transform.rotation = Quaternion.Lerp(targetTransform.rotation, startRot, Mathf.SmoothStep(-1, 1, timeNow / transportTime));
             yield return null;
         }
+
         m_IsDragging = false;
+        OnDraggedEnd.Invoke();
     }
 
     private void UpdateRotate()
@@ -160,7 +176,7 @@ public class ThirdPersonCamera : MonoBehaviour
             // Override pinch distance
             targetDist = hit.distance;
         }
-        float smoothDist = Mathf.Lerp(curDist, targetDist, LerpSpeed * Time.deltaTime);
+        float smoothDist = Mathf.Lerp(curDist, targetDist, Mathf.Min(20 * Time.deltaTime, 1));
         SetCameraDist(smoothDist);
     }
 
