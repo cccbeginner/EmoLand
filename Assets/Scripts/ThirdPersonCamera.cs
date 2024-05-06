@@ -66,7 +66,7 @@ public class ThirdPersonCamera : MonoBehaviour
         if (!m_IsDragging)
         {
             // Rotate & position pivot
-            Vector3 newPivotPosition = Vector3.Lerp(m_CameraPivot.position, Player.main.transform.position, MoveSpeed * Time.deltaTime) + m_PivotOffset;
+            Vector3 newPivotPosition = Vector3.Lerp(m_CameraPivot.position, Player.main.transform.position + m_PivotOffset, MoveSpeed * Time.deltaTime);
             Vector3 curVec = m_CameraPivot.forward;
             Vector3 nextVec = curVec + (newPivotPosition - m_CameraPivot.position);
             float signedAngle = Vector2.SignedAngle(new Vector2(curVec.x, curVec.z), new Vector2(nextVec.x, nextVec.z));
@@ -83,6 +83,14 @@ public class ThirdPersonCamera : MonoBehaviour
             UpdateRotate();
             UpdateZoom();
         }
+    }
+
+    public void SetRotation(Vector3 eulerDirection)
+    {
+        m_VerticalRotation = eulerDirection.x;
+        m_HorizontalRotation = eulerDirection.y;
+        m_CameraPivot.rotation = Quaternion.Euler(eulerDirection);
+        m_CameraPivot.position = Player.main.transform.position + m_PivotOffset;
     }
 
     public void DragCameraToTransform(Transform targetTransform, float timeStay)
