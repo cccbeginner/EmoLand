@@ -21,6 +21,7 @@ public class EggNest : MonoBehaviour
         if (ShowEggInit) ShowEgg(0);
         else Egg.gameObject.SetActive(false);
     }
+    
     public void RestoreEgg()
     {
         StartCoroutine(MoveToNest());

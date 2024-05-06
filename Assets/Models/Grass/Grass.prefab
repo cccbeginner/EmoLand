@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2020018507831744701}
   - component: {fileID: 3781456730911149673}
   - component: {fileID: 9202235300942980997}
-  m_Layer: 3
+  m_Layer: 8
   m_Name: LeafMesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -159,7 +159,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4822035514581477807}
   - component: {fileID: 7150407968360543261}
-  m_Layer: 3
+  m_Layer: 8
   m_Name: Grass
   m_TagString: Untagged
   m_Icon: {fileID: 0}

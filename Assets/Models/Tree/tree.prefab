@@ -54,7 +54,6 @@ MonoBehaviour:
   TrunkMaterialDark: {fileID: 2100000, guid: 1ae988fffc717d94985a603b31fb256d, type: 2}
   LeafMaterialBright: {fileID: 2100000, guid: 77115372c4632504ea202ebedf2d4b70, type: 2}
   LeafMaterialDark: {fileID: 2100000, guid: 87e5c1bf30dafda4b8a52eb72d7038bc, type: 2}
-  Switch: 0
 --- !u!1 &6259201289655203630
 GameObject:
   m_ObjectHideFlags: 0
@@ -243,7 +242,7 @@ Light:
   m_RenderMode: 1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 125
+    m_Bits: 381
   m_RenderingLayerMask: 1
   m_Lightmapping: 1
   m_LightShadowCasterMode: 0

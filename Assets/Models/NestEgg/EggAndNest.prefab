@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1921653441057572571}
   - component: {fileID: 7834332341070466975}
   - component: {fileID: 4267361429620019039}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EggAndNest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -102,7 +102,7 @@ MonoBehaviour:
       - 0
       globalNormalsAngle: 0
       flipNormals: 0
-    vertexPathUpToDate: 1
+    vertexPathUpToDate: 0
     vertexPathMaxAngleError: 0.3
     vertexPathMinVertexSpacing: 0.01
     showTransformTool: 1
@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 995351626419061559}
   - component: {fileID: 5637296948683149661}
   - component: {fileID: 820590429400166789}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: NestMesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -217,7 +217,7 @@ GameObject:
   - component: {fileID: 4402175866262315591}
   - component: {fileID: 6802643745359556426}
   - component: {fileID: 5150594839992601285}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Particle System
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5105,7 +5105,7 @@ GameObject:
   - component: {fileID: 8436877822227882785}
   - component: {fileID: 8043098661550641961}
   - component: {fileID: 7512140671698992604}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EggMesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}

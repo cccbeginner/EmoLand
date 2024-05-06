@@ -94,7 +94,7 @@ public class DropletNetwork : NetworkBehaviour
     {
         // Raycast for ground test
         float r = sphereCollider.radius;
-        int collideMask = LayerMask.GetMask("Static Object", "Rigid Object", "Water");
+        int collideMask = LayerMask.GetMask("Static", "Rigid", "Water", "StaticNoCamCollide");
 
         // Make a down raycast to environment.
         bool isRayHit = Physics.Raycast(transform.position + r * Vector3.up, -Vector3.up, out RaycastHit hit, r + 0.1f, collideMask);

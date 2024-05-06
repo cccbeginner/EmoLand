@@ -64,7 +64,7 @@ public class Flower : MonoBehaviour
     public void GrowAndOpen()
     {
         Grow();
-        Open(2f);
+        Open(2.5f);
     }
 
     public void Grow()

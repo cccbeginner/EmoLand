@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2833618809514333608}
   - component: {fileID: 7675419655796740650}
   - component: {fileID: 9117242914140583278}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: SpoonLeaf
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -119,3 +119,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ee53b4b454b9da4dba7cfc8d5970020, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DownforceCo: 30
+  Upforce: 10
+  Drag: 1
+  BendMax: 20

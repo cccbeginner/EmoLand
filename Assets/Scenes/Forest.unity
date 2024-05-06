@@ -826,7 +826,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerPrefab: {fileID: 5125725523214384465, guid: 37d4dc53e6dc988c880d9708b8a5060c, type: 3}
-  PlayerStart: {fileID: 1680496063}
+  PlayerStart: {fileID: 1710254810}
   StartVelocity: {x: 0, y: 20, z: 20}
   StartCamRotation: {x: 10, y: 0, z: 0}
   OnMainPlayerJoined:
@@ -12084,7 +12084,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 253
+    m_Bits: 509
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -19881,6 +19881,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6431903011640541796, guid: b5c4daf093f62b04fb61ccf15db0a45a, type: 3}
   m_PrefabInstance: {fileID: 2147104201}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1710254810
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1710254811}
+  m_Layer: 0
+  m_Name: PlayerStartDebug
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1710254811
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1710254810}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 177.38, y: 1.69, z: -180.58}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1722646046
 GameObject:
   m_ObjectHideFlags: 0
@@ -26581,7 +26612,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7149878853940680225, guid: feb82e3bac121ca4d8f0816cd2e1ec36, type: 3}
       propertyPath: OnDropletInRange.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_FloatArgument
-      value: 2.5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7149878853940680225, guid: feb82e3bac121ca4d8f0816cd2e1ec36, type: 3}
       propertyPath: OnDropletInRange.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_FloatArgument
@@ -27345,6 +27376,7 @@ SceneRoots:
   - {fileID: 2061633821}
   - {fileID: 1086869731}
   - {fileID: 1680496064}
+  - {fileID: 1710254811}
   - {fileID: 1924237232773970012}
   - {fileID: 1257669507}
   - {fileID: 1337124599}
