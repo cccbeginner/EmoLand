@@ -7,10 +7,11 @@ public class Clover : MonoBehaviour
 {
     public float PushForce = 1.0f;
     public float PopForce = 0.5f;
-    public UnityEvent OnPushStart;
+    public UnityEvent OnFirstPush;
     public bool HasGrown { get; private set; }
     Vector3 m_InitPos;
     Coroutine m_PushCoroutine;
+    private bool m_HasPushed = false;
     void Start()
     {
         m_InitPos = transform.localPosition;
@@ -43,7 +44,11 @@ public class Clover : MonoBehaviour
     private void StartPush()
     {
         m_PushCoroutine = StartCoroutine(PushAnimation());
-        OnPushStart.Invoke();
+        if (!m_HasPushed)
+        {
+            m_HasPushed = true;
+            OnFirstPush.Invoke();
+        }
     }
 
     public void Grow()

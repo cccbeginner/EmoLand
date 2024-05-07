@@ -38,7 +38,7 @@ public class DropletSpawner : MonoBehaviour
     {
         if (Physics.Raycast(Player.main.transform.position + 0.1f * Vector3.up, -Vector3.up, 0.6f) == false)
         {
-            var newDroplet = m_NetworkRunner.Spawn(m_DropletPrefab, Player.main.transform.position + Vector3.down * 0.5f);
+            var newDroplet = m_NetworkRunner.Spawn(m_DropletPrefab, Player.main.transform.position);
             if (newDroplet != null)
             {
                 newDroplet.GetComponent<Rigidbody>().AddForce(Vector3.down * 10, ForceMode.Impulse);
@@ -50,7 +50,7 @@ public class DropletSpawner : MonoBehaviour
     }
     void OnPlayerSprint()
     {
-        var newDroplet = m_NetworkRunner.Spawn(m_DropletPrefab, Player.main.transform.position + Vector3.down * 0.5f);
+        var newDroplet = m_NetworkRunner.Spawn(m_DropletPrefab, Player.main.transform.position);
         if (newDroplet != null)
         {
             newDroplet.GetComponent<Rigidbody>().AddForce(-Player.main.transform.forward * 10, ForceMode.Impulse);

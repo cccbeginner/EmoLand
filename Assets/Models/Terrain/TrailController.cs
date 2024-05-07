@@ -8,9 +8,11 @@ public class TrailController : MonoBehaviour
     [SerializeField]
     VisualEffect m_TransparentTrailVFX;
     [SerializeField]
-    int MovingSpawnRate = 5;
+    int GroundMoveSpawnRate = 5;
     [SerializeField]
-    int IdleSpawnRate = 1;
+    int IdleSpawnRate = 0;
+    [SerializeField]
+    int AirSpawnRate = 0;
     [SerializeField]
     Camera m_RenderTextureCamera;
     [SerializeField]
@@ -34,13 +36,17 @@ public class TrailController : MonoBehaviour
         UpdateShaderParams();
         if (Player.main != null)
         {
-            if (Player.main.rigidBody.velocity.sqrMagnitude < 0.1)
+            if (!Player.main.droplet.isGrounded)
+            {
+                m_TransparentTrailVFX.SetInt("SpawnRate", AirSpawnRate);
+            }
+            else if (Player.main.rigidBody.velocity.sqrMagnitude < 0.1)
             {
                 m_TransparentTrailVFX.SetInt("SpawnRate", IdleSpawnRate);
             }
             else
             {
-                m_TransparentTrailVFX.SetInt("SpawnRate", MovingSpawnRate);
+                m_TransparentTrailVFX.SetInt("SpawnRate", GroundMoveSpawnRate);
             }
         }
     }
@@ -73,20 +79,8 @@ public class TrailController : MonoBehaviour
         {
             m_TransparentTrailVFX.pause = false;
         }
-        Player.main.OnLeaveGround.AddListener(OnPlayerLeaveGround);
-        Player.main.OnTouchGround.AddListener(OnPlayerTouchGround);
         Player.main.droplet.OnResize.AddListener(SetTrailSize);
         SetTrailSize(Player.main.droplet.size);
-    }
-
-    private void OnPlayerLeaveGround()
-    {
-        m_TransparentTrailVFX.pause = true;
-    }
-
-    private void OnPlayerTouchGround()
-    {
-        m_TransparentTrailVFX.pause = false;
     }
 
     private void SetTrailSize(int playerSize)

@@ -29,15 +29,17 @@ public class EggNest : MonoBehaviour
 
     public void ShowEgg(float timeDelay)
     {
-        Egg.gameObject.SetActive(true);
         StartCoroutine(ShowEggRoutine(timeDelay));
     }
 
     IEnumerator ShowEggRoutine(float timeDelay)
     {
+        yield return new WaitForSeconds(timeDelay);
+
+        Egg.gameObject.SetActive(true);
         Egg.transform.localScale = Vector3.zero;
         Egg.transform.GetChild(0).localScale = Vector3.zero;
-        yield return new WaitForSeconds(timeDelay);
+
         float currentScale = 0f;
         while (ShowEggScale - currentScale > 0.01)
         {
