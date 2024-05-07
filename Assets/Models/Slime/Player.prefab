@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 7269475671695731439}
   - component: {fileID: 1968841451555949311}
   - component: {fileID: 3170853316035344642}
+  - component: {fileID: 7420422459942181182}
   - component: {fileID: -3210222731716507823}
   - component: {fileID: -3294627900499278006}
   - component: {fileID: 8248443323707180305}
@@ -78,6 +79,7 @@ MonoBehaviour:
   InitSize: 1
   SizeMin: 1
   SizeMax: 3
+  LifeTimeSec: 60
   OnLeaveGround:
     m_PersistentCalls:
       m_Calls: []
@@ -132,7 +134,7 @@ MonoBehaviour:
     - m_Name: 
       m_Id: d8c43441-9458-4d76-9132-d07c06d367c6
       m_Path: <Keyboard>/space
-      m_Interactions: 
+      m_Interactions: Tap
       m_Processors: 
       m_Groups: 
       m_Action: Jump
@@ -140,7 +142,7 @@ MonoBehaviour:
     - m_Name: 
       m_Id: 01998be0-2f5b-47b5-8869-1d25d6eecac3
       m_Path: <Gamepad>/rightTrigger
-      m_Interactions: 
+      m_Interactions: Tap
       m_Processors: 
       m_Groups: 
       m_Action: Jump
@@ -222,6 +224,48 @@ MonoBehaviour:
     m_Flags: 0
   MoveForce: 10
   RorateSpeed: 90
+--- !u!114 &7420422459942181182
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5125725523214384465}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c941d16b89802e4eac989f591ec3c23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Sprint:
+    m_Name: Sprint
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 534a77be-9bf4-4617-b7e5-5df26b66f9a7
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: f49ecc3c-bf58-4257-9700-7d7f59cfda41
+      m_Path: <Keyboard>/space
+      m_Interactions: Hold(duration=0.21)
+      m_Processors: 
+      m_Groups: 
+      m_Action: Sprint
+      m_Flags: 0
+    - m_Name: 
+      m_Id: fe2a092b-7173-4380-ab60-2539b949a5c2
+      m_Path: <Gamepad>/rightTrigger
+      m_Interactions: Hold(duration=0.21)
+      m_Processors: 
+      m_Groups: 
+      m_Action: Sprint
+      m_Flags: 0
+    m_Flags: 0
+  SprintForce: 10
+  SprintTime: 0.2
+  OnSprintBegin:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!54 &-3210222731716507823
 Rigidbody:
   m_ObjectHideFlags: 0

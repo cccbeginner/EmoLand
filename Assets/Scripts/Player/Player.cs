@@ -10,6 +10,7 @@ public class Player : NetworkBehaviour
     public static Player main { get; private set; }
     public PlayerMove playerMove { get { return GetComponent<PlayerMove>(); } }
     public PlayerJump playerJump { get { return GetComponent<PlayerJump>(); } }
+    public PlayerSprint playerSprint { get { return GetComponent<PlayerSprint>(); } }
 
     // Add events
     public UnityEvent OnLeaveGround;

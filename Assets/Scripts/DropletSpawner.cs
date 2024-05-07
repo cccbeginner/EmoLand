@@ -14,13 +14,14 @@ public class DropletSpawner : MonoBehaviour
     void Start()
     {
         withMainPlayer = GetComponent<WithMainPlayer>();
-        withMainPlayer.OnMainPlayerJoin.AddListener(AddJumpListener);
+        withMainPlayer.OnMainPlayerJoin.AddListener(AddEventListener);
         withMainPlayer.OnMainPlayerJoin.AddListener(FindNetworkRunner);
     }
 
-    private void AddJumpListener()
+    private void AddEventListener()
     {
         Player.main.playerJump.OnJumpBegin.AddListener(OnPlayerJump);
+        Player.main.playerSprint.OnSprintBegin.AddListener(OnPlayerSprint);
     }
 
     private void FindNetworkRunner()
@@ -40,11 +41,22 @@ public class DropletSpawner : MonoBehaviour
             var newDroplet = m_NetworkRunner.Spawn(m_DropletPrefab, Player.main.transform.position + Vector3.down * 0.5f);
             if (newDroplet != null)
             {
-                newDroplet.GetComponent<Rigidbody>().AddForce(Vector3.down*10, ForceMode.Impulse);
+                newDroplet.GetComponent<Rigidbody>().AddForce(Vector3.down * 10, ForceMode.Impulse);
                 newDroplet.GetComponent<DropletNetwork>().isEatable = false;
                 StartCoroutine(EatableAfterSec(newDroplet.GetComponent<DropletNetwork>(), 0.1f));
                 Player.main.droplet.size -= 1;
             }
+        }
+    }
+    void OnPlayerSprint()
+    {
+        var newDroplet = m_NetworkRunner.Spawn(m_DropletPrefab, Player.main.transform.position + Vector3.down * 0.5f);
+        if (newDroplet != null)
+        {
+            newDroplet.GetComponent<Rigidbody>().AddForce(-Player.main.transform.forward * 10, ForceMode.Impulse);
+            newDroplet.GetComponent<DropletNetwork>().isEatable = false;
+            StartCoroutine(EatableAfterSec(newDroplet.GetComponent<DropletNetwork>(), 0.1f));
+            Player.main.droplet.size -= 1;
         }
     }
 
