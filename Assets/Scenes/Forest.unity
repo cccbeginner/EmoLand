@@ -826,7 +826,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerPrefab: {fileID: 5125725523214384465, guid: 37d4dc53e6dc988c880d9708b8a5060c, type: 3}
-  PlayerStart: {fileID: 1710254810}
+  PlayerStart: {fileID: 1680496063}
   StartVelocity: {x: 0, y: 20, z: 20}
   StartCamRotation: {x: 10, y: 0, z: 0}
   OnMainPlayerJoined:
@@ -12865,6 +12865,10 @@ PrefabInstance:
     - target: {fileID: 4355791846141986258, guid: 318202cb96a865a4486bebe17900073d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8625982590901699012, guid: 318202cb96a865a4486bebe17900073d, type: 3}
+      propertyPath: m_Intensity
+      value: 1000
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
