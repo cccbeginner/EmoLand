@@ -43,6 +43,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _BendRadius: 5
+    - _Emission: 0.122
     - _QueueControl: 0
     - _ShakeAmplitude: 10
     - _ShakeSpeed: 10

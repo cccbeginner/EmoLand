@@ -442,8 +442,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d313155e680df364ba5d8d44b09ae2e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PushForce: 3
+  PushForce: 2
   PopForce: 8
+  OnFirstPush:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &7724152280551456954
 GameObject:
   m_ObjectHideFlags: 0

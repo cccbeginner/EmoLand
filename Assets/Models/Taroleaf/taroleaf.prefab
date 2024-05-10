@@ -47,7 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Leaf: {fileID: 7650748637560659518}
   m_Material: {fileID: 2100000, guid: e1a6fbe87e86edb4dabf76bbffd7c7e7, type: 2}
-  HeightAddition: -3
+  HeightAddition: 0
   MovePeriod: 10
   InitGrow: 0
 --- !u!1 &7650748637560659518

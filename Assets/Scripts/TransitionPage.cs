@@ -12,6 +12,7 @@ public class TransitionPage : MonoBehaviour
     Color m_BgColor;
     Color m_TextColor;
 
+    [SerializeField] bool AutoClose = false;
     [SerializeField] string[] TextArray;
 
     void OnEnable()
@@ -56,16 +57,21 @@ public class TransitionPage : MonoBehaviour
             SetAlpha(alpha);
             yield return null;
         }
+        if (AutoClose)
+        {
+            yield return new WaitForSeconds(0.5f);
+            Close();
+        }
     }
 
     IEnumerator CloseRoutine()
     {
         float timeNow = 0f;
-        float timeOpen = 0.5f;
-        while (timeNow / timeOpen < 1f)
+        float timeClose = 0.5f;
+        while (timeNow / timeClose < 1f)
         {
             timeNow += Time.deltaTime;
-            float alpha = 1 - timeNow / timeOpen;
+            float alpha = 1 - timeNow / timeClose;
             SetAlpha(alpha);
             yield return null;
         }
