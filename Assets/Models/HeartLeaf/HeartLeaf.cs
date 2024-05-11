@@ -6,13 +6,12 @@ using UnityEngine.Events;
 public class HeartLeaf : MonoBehaviour
 {
     public UnityEvent OnPlayerFirstStep;
-    public bool InitGrow = false;
     [SerializeField] Animator m_LeafAnimator;
     bool m_HasBeenStepped = false;
     void Start()
     {
-        if (!InitGrow) DontGrow();
-        if (InitGrow) Grow();
+        //DontGrow();
+        //Grow();
     }
 
     public void DontGrow()

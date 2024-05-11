@@ -20,7 +20,7 @@ public class Grass : MonoBehaviour
     void Awake()
     {
         m_Leaf.GetComponent<MeshRenderer>().material = m_GrowMaterial;
-        DontGrow();
+        //DontGrow();
         //StartGrow();
 
     }

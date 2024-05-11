@@ -16,20 +16,13 @@ public class TaroLeaf : MonoBehaviour
     private float m_CurrentHeightState = 0; // 0->Original, 1->Original+HeightAddition
     private float m_MoveDirection = 1;
     private float m_LeafInitY;
-    public bool InitGrow = false;
 
     void Start()
     {
         m_Leaf.GetComponent<MeshRenderer>().material = m_Material;
         m_LeafInitY = m_Leaf.transform.position.y;
-        if (InitGrow)
-        {
-            StartGrow();
-        }
-        else
-        {
-            DontGrow();
-        }
+        //StartGrow();
+        //DontGrow();
     }
 
     // Update is called once per frame

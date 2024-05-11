@@ -11,11 +11,6 @@ public class TreeArea : MonoBehaviour
     [SerializeField] Material TrunkMaterialBright, TrunkMaterialDark;
     [SerializeField] Material LeafMaterialBright, LeafMaterialDark;
 
-    private void Start()
-    {
-        TurnOff();
-    }
-
     public void TurnOn()
     {
         SpotLight.enabled = true;

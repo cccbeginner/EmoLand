@@ -16,7 +16,7 @@ public class Flower : MonoBehaviour
     public bool HasGrow {  get; private set; }
     public bool IsOpen { get; private set; }
 
-    private void Start()
+    private void Awake()
     {
         IsOpen = false;
         HasGrow = false;
@@ -24,7 +24,7 @@ public class Flower : MonoBehaviour
         FindPetals();
         AssignPetalMaterial();
         Close(0);
-        NotGrow();
+        //NotGrow();
         //Grow();
     }
 

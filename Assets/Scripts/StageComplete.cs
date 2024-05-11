@@ -16,13 +16,23 @@ public class StageComplete : MonoBehaviour
     [SerializeField] ParticleSystem EggHonkParticle;
     [SerializeField] GameObject UITransition;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
+    {
+        DisableAnime();
+    }
+
+    public void InitDone()
+    {
+        SetMudRadius(150);
+        SetRibbonAlphaMask(5);
+        SetEggContourAlpha(1);
+    }
+
+    public void InitNotDone()
     {
         SetMudRadius(0);
         SetRibbonAlphaMask(-5);
-        SetRibbonAlphaMask(1);
-        DisableAnime();
+        SetEggContourAlpha(1);
     }
 
     void SetMudRadius(float r)
@@ -68,7 +78,6 @@ public class StageComplete : MonoBehaviour
     {
         EnableAnime();
 
-        Debug.Log("begin anime");
         float time = 0;
         while (time <= GetComponent<PlayableDirector>().duration)
         {
@@ -78,7 +87,6 @@ public class StageComplete : MonoBehaviour
             SetEggContourAlpha(EggContourAlpha);
             yield return null;
         }
-        Debug.Log("end anime");
         DisableAnime();
     }
 }

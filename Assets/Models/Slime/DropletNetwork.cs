@@ -10,7 +10,11 @@ public class DropletNetwork : NetworkBehaviour
     public float UnitSizeRadius = 0.25f;
     public int InitSize = 1;
     public int SizeMin = 1;
-    public int SizeMax = 10;
+    public int SizeMax { get
+        {
+            return PlayerDataSystem.currentStage + 1;
+        }
+    }
 
     // about lifetime
     public float LifeTimeSec = 60;

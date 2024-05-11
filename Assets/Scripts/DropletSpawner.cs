@@ -38,7 +38,9 @@ public class DropletSpawner : MonoBehaviour
     {
         if (Physics.Raycast(Player.main.transform.position + 0.1f * Vector3.up, -Vector3.up, 0.6f) == false)
         {
-            var newDroplet = m_NetworkRunner.Spawn(m_DropletPrefab, Player.main.transform.position);
+            // apply offset to avoid collide with player
+            Vector3 offset = Vector3.down * 0.5f;
+            var newDroplet = m_NetworkRunner.Spawn(m_DropletPrefab, Player.main.transform.position + offset);
             if (newDroplet != null)
             {
                 newDroplet.GetComponent<Rigidbody>().AddForce(Vector3.down * 10, ForceMode.Impulse);
@@ -50,9 +52,11 @@ public class DropletSpawner : MonoBehaviour
     }
     void OnPlayerSprint()
     {
-        var newDroplet = m_NetworkRunner.Spawn(m_DropletPrefab, Player.main.transform.position);
+        Vector3 offset = -Player.main.transform.forward * 0.5f;
+        var newDroplet = m_NetworkRunner.Spawn(m_DropletPrefab, Player.main.transform.position + offset);
         if (newDroplet != null)
         {
+            // apply offset to avoid collide with player
             newDroplet.GetComponent<Rigidbody>().AddForce(-Player.main.transform.forward * 10, ForceMode.Impulse);
             newDroplet.GetComponent<DropletNetwork>().isEatable = false;
             StartCoroutine(EatableAfterSec(newDroplet.GetComponent<DropletNetwork>(), 0.1f));

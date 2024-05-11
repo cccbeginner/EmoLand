@@ -5,20 +5,38 @@ using UnityEngine.Events;
 public class PlayerSpawner : SimulationBehaviour, IPlayerJoined
 {
     public GameObject PlayerPrefab;
-    public GameObject PlayerStart;
+    public Transform[] PlayerStartByStage;
+    public Vector3[] StartCamRotationByStage;
     public Vector3 StartVelocity;
-    public Vector3 StartCamRotation;
     public UnityEvent OnMainPlayerJoined;
 
     public void PlayerJoined(PlayerRef player)
     {
         if (player == Runner.LocalPlayer)
         {
-            Vector3 position = PlayerStart ? PlayerStart.transform.position : new Vector3(10, 1, 10);
-            Quaternion rotation = PlayerStart ? PlayerStart.transform.rotation : Quaternion.identity;
+            int curStage = PlayerDataSystem.currentStage;
+            Transform playerStart = PlayerStartByStage[curStage];
+            Vector3 camRotation = StartCamRotationByStage[curStage];
+            if (playerStart == null)
+            {
+                Debug.LogError($"Cannot find where to spawn player in which current stage is {curStage}.");
+            }
+            if (StartCamRotationByStage.Length <= curStage)
+            {
+                Debug.LogError($"Cannot find how to rotate camera in which current stage is {curStage}.");
+            }
+
+            Vector3 position = playerStart ? playerStart.position : new Vector3(10, 1, 10);
+            Quaternion rotation = playerStart ? playerStart.rotation : Quaternion.identity;
             Runner.Spawn(PlayerPrefab, position, rotation, player);
+            ThirdPersonCamera.main.SetRotation(camRotation);
+
+            if (curStage == 0)
+            {
+                SpawnPlayerFromWaterFall();
+            }
+
             OnMainPlayerJoined.Invoke();
-            SpawnPlayerFromWaterFall();
         }
     }
 
@@ -28,6 +46,5 @@ public class PlayerSpawner : SimulationBehaviour, IPlayerJoined
         //  and then splash out.
         // Actually just add a splash force to player.
         Player.main.rigidBody.AddForce(StartVelocity, ForceMode.VelocityChange);
-        ThirdPersonCamera.main.SetRotation(StartCamRotation);
     }
 }

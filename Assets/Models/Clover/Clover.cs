@@ -12,11 +12,11 @@ public class Clover : MonoBehaviour
     Vector3 m_InitPos;
     Coroutine m_PushCoroutine;
     private bool m_HasPushed = false;
-    void Start()
+    void Awake()
     {
         m_InitPos = transform.localPosition;
         m_PushCoroutine = null;
-        DontGrow();
+        //DontGrow();
         //Grow();
     }
 

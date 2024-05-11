@@ -10,21 +10,21 @@ public class Mound : MonoBehaviour
     [SerializeField]
     MoundSlot MoundSlot;
 
-    void Start()
+    void Awake()
     {
         m_MoundMaterialInstance = new Material(MoundMaterial);
         GetComponent<MeshRenderer>().material = m_MoundMaterialInstance;
         MoundSlot.OnDropletInRange.AddListener(BecomeWet);
-        BecomeDry();
+        //BecomeDry();
         //BecomeWet();
     }
 
 
-    void BecomeWet()
+    public void BecomeWet()
     {
         m_MoundMaterialInstance.SetFloat("_TimeOffset", Time.time);
     }
-    void BecomeDry()
+    public void BecomeDry()
     {
         m_MoundMaterialInstance.SetFloat("_TimeOffset", 99999);
     }

@@ -15,12 +15,26 @@ public class EggNest : MonoBehaviour
     public UnityEvent RestoreEnd;
 
 
-    private void Start()
+    public void InitNotDone()
     {
         Egg.transform.position = Path.path.GetPointAtDistance(0f);
         if (ShowEggInit) ShowEgg(0);
         else Egg.gameObject.SetActive(false);
     }
+    public void InitDone()
+    {
+        float length = GetPathLength();
+        Egg.transform.position = Path.path.GetPointAtDistance(length-0.1f);
+        ShowEgg(0);
+    }
+
+    private float GetPathLength()
+    {
+        float[] lengths = Path.path.cumulativeLengthAtEachVertex;
+        float length = lengths[lengths.Length - 1];
+        return length;
+    }
+
     
     public void RestoreEgg()
     {
@@ -56,8 +70,7 @@ public class EggNest : MonoBehaviour
         RestoreBegin.Invoke();
         float speed = 20f;
         float x = 0f;
-        float[] lengths = Path.path.cumulativeLengthAtEachVertex;
-        float length = lengths[lengths.Length - 1];
+        float length = GetPathLength();
         while (x < length)
         {
             Egg.transform.position = Path.path.GetPointAtDistance(x);
