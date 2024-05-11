@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 1968841451555949311}
   - component: {fileID: 3170853316035344642}
   - component: {fileID: 7420422459942181182}
+  - component: {fileID: -6327659934825381552}
   - component: {fileID: -3210222731716507823}
   - component: {fileID: -3294627900499278006}
   - component: {fileID: 8248443323707180305}
@@ -78,7 +79,6 @@ MonoBehaviour:
   UnitSizeRadius: 0.25
   InitSize: 1
   SizeMin: 1
-  SizeMax: 3
   LifeTimeSec: 60
   OnLeaveGround:
     m_PersistentCalls:
@@ -222,7 +222,7 @@ MonoBehaviour:
       m_Action: Move
       m_Flags: 0
     m_Flags: 0
-  MoveForce: 10
+  MoveForce: 30
   RorateSpeed: 90
 --- !u!114 &7420422459942181182
 MonoBehaviour:
@@ -261,11 +261,25 @@ MonoBehaviour:
       m_Action: Sprint
       m_Flags: 0
     m_Flags: 0
-  SprintForce: 10
-  SprintTime: 0.2
+  SprintForce: 50
+  SprintTime: 1
   OnSprintBegin:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &-6327659934825381552
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5125725523214384465}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d627f589f730b74a942aafb0f9df187, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HorizontalDrag: 5
+  VerticalDrag: 0
 --- !u!54 &-3210222731716507823
 Rigidbody:
   m_ObjectHideFlags: 0

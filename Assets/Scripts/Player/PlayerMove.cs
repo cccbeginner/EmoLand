@@ -37,11 +37,11 @@ public class PlayerMove : MonoBehaviour
             Vector3 normal = collision.GetContact(0).normal;
             if (normal.y < -0.4f)
             {
-                if(Vector3.Angle(forward, normal) < Vector3.Angle(forward, slopeNormal))
+                if(Vector3.Dot(forward, normal) > Vector3.Dot(forward, slopeNormal))
                 {
                     found = true;
                     slopeNormal = normal;
-                }
+                } 
             }
         }
         slopeNormal = -slopeNormal;
