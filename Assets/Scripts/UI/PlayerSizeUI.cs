@@ -40,6 +40,7 @@ public class PlayerSizeUI : MonoBehaviour
         {
             UpdateUI();
         }
+        m_Icon.GetComponent<RectTransform>().rotation *= Quaternion.Euler(0,0,100*Time.deltaTime);
     }
 
     private void UpdateUI()
