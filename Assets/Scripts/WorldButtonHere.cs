@@ -55,7 +55,7 @@ public class WorldButtonHere : MonoBehaviour
     void UpdateWorldButtonUIPosition()
     {
         RectTransform rectTransform = m_ExistedWorldButton.GetComponent<RectTransform>();
-        rectTransform.anchoredPosition = Camera.main.WorldToScreenPoint(transform.position);
+        rectTransform.anchoredPosition = Camera.main.WorldToScreenPoint(transform.position) / m_UICanvas.scaleFactor;
     }
 
     void InitWorldButton()

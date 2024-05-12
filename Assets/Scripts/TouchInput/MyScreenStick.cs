@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.OnScreen;
 using UnityEngine.Events;
 using Touch = UnityEngine.InputSystem.EnhancedTouch.Touch;
+using UnityEngine.UI;
 
 public class MyScreenStick : OnScreenControl
 {
@@ -95,13 +96,18 @@ public class MyScreenStick : OnScreenControl
     }
     void UpdateControl()
     {
-        Vector2 resultVec = (m_CurrentPos - m_StartPos) / StickRaduis;
+        float RealStickRadius = StickRaduis * canvas.scaleFactor;
+
+        // Update control value.
+        Vector2 resultVec = (m_CurrentPos - m_StartPos) / RealStickRadius;
         if (resultVec.sqrMagnitude > 1)
         {
             resultVec = resultVec.normalized;
         }
         SendValueToControl(resultVec);
-        Vector2 targetPos = m_StartPos + resultVec * StickRaduis;
+
+        // Update front stick position.
+        Vector2 targetPos = m_StartPos + resultVec * RealStickRadius;
         RectTransformUtility.ScreenPointToLocalPointInRectangle(
             canvas.transform as RectTransform,
             targetPos,
