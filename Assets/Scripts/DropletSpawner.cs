@@ -35,7 +35,7 @@ public class DropletSpawner : NetworkBehaviour
 
     void OnPlayerJump()
     {
-        if (Physics.Raycast(Player.main.transform.position + 0.1f * Vector3.up, -Vector3.up, 0.6f) == false)
+        if (!Player.main.droplet.isGrounded && Physics.Raycast(Player.main.transform.position + 0.1f * Vector3.up, -Vector3.up, 0.6f) == false)
         {
             // apply offset to avoid collide with player
             Vector3 offset = Vector3.down * 0.5f;

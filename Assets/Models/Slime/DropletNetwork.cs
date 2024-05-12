@@ -29,6 +29,9 @@ public class DropletNetwork : NetworkBehaviour
     public bool isGrounded { get; private set; }
     public RaycastHit downRaycastHit { get; private set; }
 
+    // The list update every physics frame, clear every late update.
+    public List<Collision> CollisionList { get; private set; }
+
     [Networked]
     public bool isEatable { get; set; }
     [Networked]
@@ -49,6 +52,11 @@ public class DropletNetwork : NetworkBehaviour
             ReloadSize();
             OnResize.Invoke(m_Size);
         }
+    }
+
+    private void Awake()
+    {
+        CollisionList = new List<Collision>();
     }
 
     public override void Spawned()
@@ -86,6 +94,11 @@ public class DropletNetwork : NetworkBehaviour
         slimeAnimator.SetTrigger("Grounded");
     }
 
+    private bool m_IsFixedPrev = false;
+    private void FixedUpdate()
+    {
+        m_IsFixedPrev = true;
+    }
     public void LateUpdate()
     {
         // Raycast for ground test
@@ -100,92 +113,30 @@ public class DropletNetwork : NetworkBehaviour
             // This may fix problem of going through collider unexpectedly.
             downRaycastHit = hit;
             transform.position = hit.point;
-            isGrounded = true;
-        }
-        else
-        {
-            isGrounded = false;
         }
 
-        // Grounded Related Events
-        if (isGrounded == false && m_IsGroundedPrevious == true)
+        if (m_IsFixedPrev)
         {
-            OnLeaveGround.Invoke();
-        }
-        if (isGrounded == true && m_IsGroundedPrevious == false)
-        {
-            OnTouchGround.Invoke();
-        }
-        m_IsGroundedPrevious = isGrounded;
-    }
-
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (HasStateAuthority)
-        {
-            DropletNetwork another = collision.gameObject.GetComponent<DropletNetwork>();
-
-            if (another != null)
-            {
-                int eatResult = DecideWhoEat(another);
-                if (eatResult == 1)
-                {
-                    EatDroplet(another);
-                }
-                else if (eatResult == 0)
-                {
-                    BeEatenByDroplet(another);
-                }
-            }
+            IsGroundedUpdate();
+            GroundingEvents();
+            CollisionList.Clear();
+            m_IsFixedPrev = false;
         }
     }
 
-    private int DecideWhoEat(DropletNetwork another)
+    // Update the variable isGrounded
+    private void IsGroundedUpdate()
     {
-        // return -1 => no action, 0 => be eaten, 1=> is eater
-        if (!another.isEatable)
+        isGrounded = false;
+
+        foreach (Collision collision in CollisionList)
         {
-            if (isEatable)
+            if (collision.contactCount == 0) continue;
+            Vector3 normal = collision.GetContact(0).normal;
+            if (normal.y < -0.4f)
             {
-                // You are player, I am droplet
-                return 0;
-            }
-            else
-            {
-                // Both player, do nothing
-                return -1;
-            }
-        }
-        else
-        {
-            if (!isEatable)
-            {
-                // I am player, You are droplet
-                return 1;
-            }
-            else
-            {
-                // Both droplet
-                bool isEater = false;
-                if (another.transform.localScale.sqrMagnitude != gameObject.transform.localScale.sqrMagnitude)
-                {
-                    isEater = (another.transform.localScale.sqrMagnitude < gameObject.transform.localScale.sqrMagnitude);
-                }
-                else if (another.transform.position.y != gameObject.transform.position.y)
-                {
-                    isEater = (another.transform.position.y < gameObject.transform.position.y);
-                }
-                else if (another.transform.position.x != gameObject.transform.position.x)
-                {
-                    isEater = (another.transform.position.x < gameObject.transform.position.x);
-                }
-                else if (another.transform.position.z != gameObject.transform.position.z)
-                {
-                    isEater = (another.transform.position.z < gameObject.transform.position.z);
-                }
-                if (isEater) return 1;
-                else return 0;
+                isGrounded = true;
+                break;
             }
         }
     }
@@ -196,45 +147,32 @@ public class DropletNetwork : NetworkBehaviour
         EatAnime();
     }
 
-    private void EatDroplet(DropletNetwork another)
-    {
-        size += another.size;
-        EatAnime();
-    }
-
-    private void BeEatenByDroplet(DropletNetwork another)
-    {
-        sphereCollider.enabled = false;
-        rigidBody.constraints = RigidbodyConstraints.FreezeAll;
-        StartCoroutine(DelayEaten(another));
-    }
-
-    IEnumerator DelayEaten(DropletNetwork another)
-    {
-        Vector3 targetPos = Vector3.Lerp(another.transform.position, transform.position, size / (another.size + size));
-        while (true)
-        {
-            Vector3 distVec = targetPos - transform.position;
-            Vector3 moveVec = distVec.normalized * Time.deltaTime * 5 / distVec.magnitude;
-            if (moveVec.sqrMagnitude <= distVec.sqrMagnitude)
-            {
-                transform.position += moveVec;
-            }
-            else
-            {
-                transform.position += distVec;
-            }
-            if (distVec.sqrMagnitude < 0.1)
-            {
-                break;
-            }
-            yield return null;
-        }
-        Runner.Despawn(GetComponent<NetworkObject>());
-    }
-
     private void OnDestroy()
     {
         OnBeingDestroy.Invoke();
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        CollisionList.Add(collision);
+    }
+
+    private void OnCollisionStay(Collision collision)
+    {
+        CollisionList.Add(collision);
+    }
+
+    private void GroundingEvents()
+    {
+        // Grounded Related Events
+        if (isGrounded == false && m_IsGroundedPrevious == true)
+        {
+            OnLeaveGround.Invoke();
+        }
+        if (isGrounded == true && m_IsGroundedPrevious == false)
+        {
+            OnTouchGround.Invoke();
+        }
+        m_IsGroundedPrevious = isGrounded;
     }
 }

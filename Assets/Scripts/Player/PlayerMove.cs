@@ -31,7 +31,7 @@ public class PlayerMove : MonoBehaviour
         // return trap if there is, else return any slope, 
         bool found = false;
         slopeNormal = -forward;
-        foreach(Collision collision in player.CollisionList)
+        foreach(Collision collision in player.droplet.CollisionList)
         {
             if (collision.contactCount == 0) continue;
             Vector3 normal = collision.GetContact(0).normal;
