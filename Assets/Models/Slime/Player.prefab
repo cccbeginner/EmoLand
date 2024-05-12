@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1506445556296005338}
   - component: {fileID: 8761891319534900510}
   - component: {fileID: 7269475671695731439}
+  - component: {fileID: -5431800352882515175}
   - component: {fileID: 1968841451555949311}
   - component: {fileID: 3170853316035344642}
   - component: {fileID: 7420422459942181182}
@@ -62,6 +63,7 @@ MonoBehaviour:
   NetworkedBehaviours:
   - {fileID: 8761891319534900510}
   - {fileID: 7269475671695731439}
+  - {fileID: -5431800352882515175}
   - {fileID: 8248443323707180305}
 --- !u!114 &8761891319534900510
 MonoBehaviour:
@@ -79,7 +81,6 @@ MonoBehaviour:
   UnitSizeRadius: 0.25
   InitSize: 1
   SizeMin: 1
-  LifeTimeSec: 60
   OnLeaveGround:
     m_PersistentCalls:
       m_Calls: []
@@ -111,6 +112,19 @@ MonoBehaviour:
   OnTouchGround:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &-5431800352882515175
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5125725523214384465}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64729aa17b3518f438c881ba454856a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_DropletPrefab: {fileID: 5125725523214384465, guid: 972f018bae4c948499ed651a13e332b7, type: 3}
 --- !u!114 &1968841451555949311
 MonoBehaviour:
   m_ObjectHideFlags: 0

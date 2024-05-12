@@ -57,8 +57,7 @@ public class Stage4 : MonoBehaviour
     }
 
     public void EnableButtons()
-    {
-        Debug.Log("Enable");
+    { 
         ToggleButton1.SetActive(true);
         ToggleButton2.SetActive(true);
         ToggleButton3.SetActive(true);

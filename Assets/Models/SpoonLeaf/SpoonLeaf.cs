@@ -1,7 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Fusion;
 
 public class SpoonLeaf : MonoBehaviour
 {
@@ -12,7 +10,8 @@ public class SpoonLeaf : MonoBehaviour
 
     // Save droplets id and their current size.
     // <droplet id, current size>
-    Dictionary<DropletNetwork, int> m_TopDroplets = new Dictionary<DropletNetwork, int>();
+    Dictionary<DropletLocal, int> m_TopDroplets = new Dictionary<DropletLocal, int>();
+    Dictionary<DropletNetwork, int> m_TopDropletsNet = new Dictionary<DropletNetwork, int>();
     Quaternion m_InitRot;
     int m_TotalSize = 0;
 
@@ -24,18 +23,32 @@ public class SpoonLeaf : MonoBehaviour
     {
         if (collision.contactCount > 0 && collision.GetContact(0).normal.y < -0.3)
         {
-            DropletNetwork droplet = collision.gameObject.GetComponent<DropletNetwork>();
-            if (droplet != null)
+            DropletNetwork dropletNetwork = collision.gameObject.GetComponent<DropletNetwork>();
+            DropletLocal dropletLocal = collision.gameObject.GetComponent<DropletLocal>();
+            if (dropletNetwork != null)
             {
-                m_TopDroplets.Add(droplet, droplet.size);
-                m_TotalSize += droplet.size;
-                droplet.OnResize.AddListener((size) =>
+                m_TopDropletsNet.Add(dropletNetwork, dropletNetwork.size);
+                m_TotalSize += dropletNetwork.size;
+                dropletNetwork.OnResize.AddListener((size) =>
                 {
-                    OnDropletResize(droplet, size);
+                    OnDropletResize(dropletNetwork, size);
                 });
-                droplet.OnBeingDestroy.AddListener(() =>
+                dropletNetwork.OnBeingDestroy.AddListener(() =>
                 {
-                    OnDropletDestroy(droplet);
+                    OnDropletDestroy(dropletNetwork);
+                });
+            }
+            else if (dropletLocal != null)
+            {
+                m_TopDroplets.Add(dropletLocal, dropletLocal.Size);
+                m_TotalSize += dropletLocal.Size;
+                dropletLocal.OnResize.AddListener((size) =>
+                {
+                    OnDropletResize(dropletLocal, size);
+                });
+                dropletLocal.OnEaten.AddListener((size) =>
+                {
+                    OnDropletDestroy(dropletLocal);
                 });
             }
         }
@@ -43,23 +56,46 @@ public class SpoonLeaf : MonoBehaviour
 
     private void OnCollisionExit(Collision collision)
     {
-        DropletNetwork droplet = collision.gameObject.GetComponent<DropletNetwork>();
-        if (droplet != null && m_TopDroplets.ContainsKey(droplet))
+        DropletNetwork dropletNetwork = collision.gameObject.GetComponent<DropletNetwork>();
+        DropletLocal dropletLocal = collision.gameObject.GetComponent<DropletLocal>();
+        if (dropletNetwork != null && m_TopDropletsNet.ContainsKey(dropletNetwork))
         {
-            m_TopDroplets.Remove(droplet);
-            m_TotalSize -= droplet.size;
-            droplet.OnResize.RemoveListener((size) =>
+            m_TopDropletsNet.Remove(dropletNetwork);
+            m_TotalSize -= dropletNetwork.size;
+            dropletNetwork.OnResize.RemoveListener((size) =>
             {
-                OnDropletResize(droplet, size);
+                OnDropletResize(dropletNetwork, size);
             });
-            droplet.OnBeingDestroy.RemoveListener(() =>
+            dropletNetwork.OnBeingDestroy.RemoveListener(() =>
             {
-                OnDropletDestroy(droplet);
+                OnDropletDestroy(dropletNetwork);
+            });
+        }
+        else if (dropletLocal != null && m_TopDroplets.ContainsKey(dropletLocal))
+        {
+            m_TopDroplets.Remove(dropletLocal);
+            m_TotalSize -= dropletLocal.Size;
+            dropletLocal.OnResize.RemoveListener((size) =>
+            {
+                OnDropletResize(dropletLocal, size);
+            });
+            dropletLocal.OnEaten.RemoveListener((size) =>
+            {
+                OnDropletDestroy(dropletLocal);
             });
         }
     }
 
     private void OnDropletResize(DropletNetwork droplet, int newSize)
+    {
+        if (m_TopDropletsNet.ContainsKey(droplet))
+        {
+            int sizeDelta = newSize - m_TopDropletsNet[droplet];
+            m_TotalSize += sizeDelta;
+            m_TopDropletsNet[droplet] = newSize;
+        }
+    }
+    private void OnDropletResize(DropletLocal droplet, int newSize)
     {
         if (m_TopDroplets.ContainsKey(droplet))
         {
@@ -70,6 +106,14 @@ public class SpoonLeaf : MonoBehaviour
     }
 
     private void OnDropletDestroy(DropletNetwork droplet)
+    {
+        if (m_TopDropletsNet.ContainsKey(droplet))
+        {
+            m_TotalSize -= m_TopDropletsNet[droplet];
+            m_TopDropletsNet.Remove(droplet);
+        }
+    }
+    private void OnDropletDestroy(DropletLocal droplet)
     {
         if (m_TopDroplets.ContainsKey(droplet))
         {

@@ -3,68 +3,60 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DropletSpawner : MonoBehaviour
+public class DropletSpawner : NetworkBehaviour
 {
-    NetworkRunner m_NetworkRunner;
-    WithMainPlayer withMainPlayer;
-
     [SerializeField]
     GameObject m_DropletPrefab;
-    
-    void Start()
+
+    public override void Spawned()
     {
-        withMainPlayer = GetComponent<WithMainPlayer>();
-        withMainPlayer.OnMainPlayerJoin.AddListener(AddEventListener);
-        withMainPlayer.OnMainPlayerJoin.AddListener(FindNetworkRunner);
+        if (HasStateAuthority)
+        {
+            AddPlayerListener();
+        }
     }
 
-    private void AddEventListener()
+    public void AddPlayerListener()
     {
         Player.main.playerJump.OnJumpBegin.AddListener(OnPlayerJump);
         Player.main.playerSprint.OnSprintBegin.AddListener(OnPlayerSprint);
     }
 
-    private void FindNetworkRunner()
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    void RPC_SpawnDroplet(Vector3 pos)
     {
-        foreach (NetworkRunner runner in NetworkRunner.Instances)
-        {
-            if (runner.isActiveAndEnabled && runner.IsPlayer)
-            {
-                m_NetworkRunner = runner;
-            }
-        }
+        var newDroplet = Instantiate(m_DropletPrefab, pos, Quaternion.identity);
+
+        //newDroplet.GetComponent<Rigidbody>().AddForce(Vector3.down * 10, ForceMode.Impulse);
+        newDroplet.GetComponent<DropletLocal>().isEatable = false;
+        newDroplet.GetComponent<DropletLocal>().Size = 1;
+        StartCoroutine(EatableAfterSec(newDroplet.GetComponent<DropletLocal>(), 0.1f));
     }
+
     void OnPlayerJump()
     {
         if (Physics.Raycast(Player.main.transform.position + 0.1f * Vector3.up, -Vector3.up, 0.6f) == false)
         {
             // apply offset to avoid collide with player
             Vector3 offset = Vector3.down * 0.5f;
-            var newDroplet = m_NetworkRunner.Spawn(m_DropletPrefab, Player.main.transform.position + offset);
-            if (newDroplet != null)
-            {
-                newDroplet.GetComponent<Rigidbody>().AddForce(Vector3.down * 10, ForceMode.Impulse);
-                newDroplet.GetComponent<DropletNetwork>().isEatable = false;
-                StartCoroutine(EatableAfterSec(newDroplet.GetComponent<DropletNetwork>(), 0.1f));
-                Player.main.droplet.size -= 1;
-            }
+            Vector3 spawnPos = Player.main.transform.position + offset;
+            RPC_SpawnDroplet(spawnPos);
+
+            Player.main.droplet.size -= 1;
         }
     }
     void OnPlayerSprint()
     {
+        // apply offset to avoid collide with player
         Vector3 offset = -Player.main.transform.forward * 0.5f;
-        var newDroplet = m_NetworkRunner.Spawn(m_DropletPrefab, Player.main.transform.position + offset);
-        if (newDroplet != null)
-        {
-            // apply offset to avoid collide with player
-            newDroplet.GetComponent<Rigidbody>().AddForce(-Player.main.transform.forward * 10, ForceMode.Impulse);
-            newDroplet.GetComponent<DropletNetwork>().isEatable = false;
-            StartCoroutine(EatableAfterSec(newDroplet.GetComponent<DropletNetwork>(), 0.1f));
-            Player.main.droplet.size -= 1;
-        }
+        Vector3 spawnPos = Player.main.transform.position + offset;
+        RPC_SpawnDroplet(spawnPos);
+        //newDroplet.GetComponent<Rigidbody>().AddForce(-Player.main.transform.forward * 10, ForceMode.Impulse);
+
+        Player.main.droplet.size -= 1;
     }
 
-    IEnumerator EatableAfterSec(DropletNetwork newDroplet, float delaySec)
+    IEnumerator EatableAfterSec(DropletLocal newDroplet, float delaySec)
     {
         yield return new WaitForSeconds(delaySec);
         newDroplet.isEatable = true;

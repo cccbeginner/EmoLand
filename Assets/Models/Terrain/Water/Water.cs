@@ -1,6 +1,4 @@
 using Fusion;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Water : MonoBehaviour
@@ -12,38 +10,21 @@ public class Water : MonoBehaviour
         {
             Player player = collision.gameObject.GetComponent<Player>();
             DropletNetwork dropletNetwork = collision.gameObject.GetComponent<DropletNetwork>();
+            DropletLocal dropletLocal = collision.gameObject.GetComponent<DropletLocal>();
             if (ReferenceEquals(player, Player.main))
             {
                 if (dropletNetwork.size < dropletNetwork.SizeMax)
                 {
-                    GameObject dropletLocal = Instantiate(DropletLocalPrefab);
-                    dropletLocal.GetComponent<DropletLocal>().Size = dropletNetwork.SizeMax;
-                    dropletLocal.transform.position = player.transform.position;
+                    GameObject droplet = Instantiate(DropletLocalPrefab);
+                    droplet.GetComponent<DropletLocal>().Size = dropletNetwork.SizeMax;
+                    droplet.transform.position = player.transform.position;
+                    droplet.GetComponent<DropletLocal>().isEatable = true;
                 }
             }
-            else if (player == null && dropletNetwork != null)
+            else if (player == null && dropletLocal != null)
             {
-                dropletNetwork.Runner.Despawn(dropletNetwork.GetComponent<NetworkObject>());
+                Destroy(dropletLocal.gameObject);
             }
-        }
-    }
-
-    private void OnCollisionExit(Collision collision)
-    {
-        Player player = collision.gameObject.GetComponent<Player>();
-        DropletNetwork dropletNetwork = collision.gameObject.GetComponent<DropletNetwork>();
-        if (ReferenceEquals(player, Player.main))
-        {
-            if (dropletNetwork.size < dropletNetwork.SizeMax)
-            {
-                GameObject dropletLocal = Instantiate(DropletLocalPrefab);
-                dropletLocal.GetComponent<DropletLocal>().Size = dropletNetwork.SizeMax;
-                dropletLocal.transform.position = player.transform.position;
-            }
-        }
-        else if (player == null && dropletNetwork != null)
-        {
-            dropletNetwork.Runner.Despawn(dropletNetwork.GetComponent<NetworkObject>());
         }
     }
 }

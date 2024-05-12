@@ -14,61 +14,62 @@ public class MoundSlot : MonoBehaviour
     public int MaxSizeToInvoke = 100;
     public UnityEvent OnDropletInRange;
 
-    public DropletNetwork currentDroplet { get; private set; }
+    public List<DropletLocal> currentDroplets { get; private set; }
+    public int currentSize = 0;
 
     void Start()
     {
-        currentDroplet = null;
+        currentSize = 0;
+        currentDroplets = new List<DropletLocal>();
         OnDropletInRange.AddListener(MissionComplete);
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        var droplet = other.gameObject.GetComponent<DropletNetwork>();
+        var droplet = other.gameObject.GetComponent<DropletLocal>();
         if (droplet != null)
         {
             if (countPlayer || droplet.GetComponent<Player>() == null)
             {
-                if (currentDroplet == null)
-                {
-                    currentDroplet = droplet;
-                    currentDroplet.OnResize.AddListener(CheckAndInvokeOnSize);
-                    CheckAndInvokeOnSize(currentDroplet.size);
-                }
+                currentDroplets.Add(droplet);
+                droplet.OnResize.AddListener(CheckAndInvokeOnSize);
+                droplet.OnEaten.AddListener((size) => {
+                    OnDropletEaten(droplet);
+                });
+                CheckAndInvokeOnSize(droplet.Size);
             }
         }
     }
 
-    private void OnTriggerExit(Collider other)
+    private void CalcCurrentSize()
     {
-        var droplet = other.gameObject.GetComponent<DropletNetwork>();
-        if (droplet != null)
-        {
-            if (ReferenceEquals(currentDroplet, droplet))
-            {
-                currentDroplet.OnResize.RemoveListener(CheckAndInvokeOnSize);
-                currentDroplet = null;
-            }
+        currentSize = 0;
+        foreach (var droplet in currentDroplets) {
+            currentSize += droplet.Size;
         }
+    }
+
+    private void OnDropletEaten(DropletLocal droplet)
+    {
+        currentDroplets.Remove(droplet);
+        CalcCurrentSize();
     }
 
     private void CheckAndInvokeOnSize(int size)
     {
-        if (MinSizeToInvoke <= size && size <= MaxSizeToInvoke)
+        CalcCurrentSize();
+        if (MinSizeToInvoke <= currentSize && currentSize <= MaxSizeToInvoke)
         {
             OnDropletInRange.Invoke();
         }
     }
 
-    public void DiscardDroplet()
-    {
-        currentDroplet.Runner.Despawn(currentDroplet.GetComponent<NetworkObject>());
-        currentDroplet = null;
-    }
-
     private void MissionComplete()
     {
-        Destroy(currentDroplet.gameObject);
+        foreach (var droplet in currentDroplets)
+        {
+            Destroy(droplet.gameObject);
+        }
         gameObject.SetActive(false);
     }
 }
