@@ -33,6 +33,10 @@ public class PlantGroup : MonoBehaviour
         {
             root.GetComponent<TaroLeaf>().StartGrow();
         }
+        else if (root.GetComponent<HeartLeaf>() != null)
+        {
+            root.GetComponent<HeartLeaf>().Grow();
+        }
         else
         {
             for (int i = 0; i < root.childCount; i++)
@@ -60,6 +64,10 @@ public class PlantGroup : MonoBehaviour
         else if (root.GetComponent<TaroLeaf>() != null)
         {
             root.GetComponent<TaroLeaf>().DontGrow();
+        }
+        else if (root.GetComponent<HeartLeaf>() != null)
+        {
+            root.GetComponent<HeartLeaf>().DontGrow();
         }
         else
         {
