@@ -51,7 +51,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _Emission: 1.25
-    - _IOR: -0.15
+    - _IOR: -0.8
     - _QueueControl: 0
     - _QueueOffset: 0
     - _Strength: 0.45
