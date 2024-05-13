@@ -5105,7 +5105,7 @@ MonoBehaviour:
     - m_Name: 
       m_Id: f49ecc3c-bf58-4257-9700-7d7f59cfda41
       m_Path: <Keyboard>/space
-      m_Interactions: Hold(duration=0.21)
+      m_Interactions: Hold
       m_Processors: 
       m_Groups: 
       m_Action: Sprint
@@ -5113,7 +5113,7 @@ MonoBehaviour:
     - m_Name: 
       m_Id: fe2a092b-7173-4380-ab60-2539b949a5c2
       m_Path: <Gamepad>/rightTrigger
-      m_Interactions: Hold(duration=0.21)
+      m_Interactions: Hold
       m_Processors: 
       m_Groups: 
       m_Action: Sprint

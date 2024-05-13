@@ -1,50 +1,75 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class ScreenRightButton : MonoBehaviour
 {
     [SerializeField] Image RoundBgImage;
+    [SerializeField] InputAction OnPress, OnHold;
     Color m_BgImageColor;
+    private Coroutine m_Coroutine;
+    private Vector3 m_InitScale;
+    private float m_PressTime = 0;
 
     private void Start()
     {
-        var withMainPlayer =  GetComponent<WithMainPlayer>();
-        withMainPlayer.OnMainPlayerJoin.AddListener(OnMainPlayerJoin);
 
         m_BgImageColor = RoundBgImage.color;
+        m_InitScale = RoundBgImage.GetComponent<RectTransform>().localScale;
+
+        OnPress.performed += _ =>
+        {
+            m_Coroutine = StartCoroutine(HoldAnimeRoutine());
+            m_PressTime = Time.time;
+        };
+        OnHold.canceled += _ =>
+        {
+            if (Time.time - m_PressTime < 0.4f)
+            {
+                StopCoroutine(m_Coroutine);
+                m_BgImageColor.a = 0;
+                RoundBgImage.color = m_BgImageColor;
+            }
+        };
     }
 
-    private void OnMainPlayerJoin()
+    private void OnEnable()
     {
-        Player.main.playerSprint.OnSprintBegin.AddListener(HoldAnime);
+        OnPress.Enable();
+        OnHold.Enable();
     }
 
-    private void HoldAnime()
+    private void OnDisable()
     {
-        StartCoroutine(HoldAnimeRoutine());
+        OnPress.Disable();
+        OnHold.Disable();
     }
+
+
 
     IEnumerator HoldAnimeRoutine()
     {
-        float animeTime = 1f;
+        float animeTime = 1.4f;
         float timeNow = 0;
-        float maxaTime = 0.2f;
+        float maxaTime = 0.4f;
         float maxa = 0.2f;
-        float alpha;
+        float alpha, scale = 0;
         while (timeNow < animeTime)
         {
             timeNow += Time.deltaTime;
             timeNow = Mathf.Min(timeNow, animeTime);
             if (timeNow < maxaTime)
             {
-                alpha = Mathf.SmoothStep(0, maxa, timeNow / maxaTime);
+                scale = Mathf.Lerp(0, 1, timeNow / maxaTime);
+                alpha = Mathf.Lerp(0, maxa, timeNow / maxaTime);
             }
             else
             {
-                alpha = Mathf.SmoothStep(maxa, 0, timeNow / (animeTime - maxaTime));
+                alpha = Mathf.Lerp(maxa, 0, (timeNow - maxaTime) / (animeTime - maxaTime));
             }
+            RoundBgImage.GetComponent<RectTransform>().localScale = scale * m_InitScale;
             m_BgImageColor.a = alpha;
             RoundBgImage.color = m_BgImageColor;
             yield return null;
