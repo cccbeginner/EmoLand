@@ -47,4 +47,17 @@ public class PlayerSpawner : SimulationBehaviour, IPlayerJoined
         // Actually just add a splash force to player.
         Player.main.rigidBody.AddForce(StartVelocity, ForceMode.VelocityChange);
     }
+
+    public void ResetMainPlayerPos()
+    {
+        int curStage = PlayerDataSystem.currentStage;
+        Transform playerStart = PlayerStartByStage[curStage];
+        Vector3 position = playerStart ? playerStart.position : new Vector3(10, 1, 10);
+        Quaternion rotation = playerStart ? playerStart.rotation : Quaternion.identity;
+        Player.main.transform.position = position;
+        Player.main.transform.rotation = rotation;
+
+        Vector3 camRotation = StartCamRotationByStage[curStage];
+        ThirdPersonCamera.main.SetRotation(camRotation);
+    }
 }
