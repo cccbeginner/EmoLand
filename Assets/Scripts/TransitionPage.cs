@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class TransitionPage : MonoBehaviour
 {
-
     [SerializeField] Image Background;
     [SerializeField] TMP_Text Text;
     Color m_BgColor;
@@ -14,6 +14,7 @@ public class TransitionPage : MonoBehaviour
 
     [SerializeField] bool AutoClose = false;
     [SerializeField] string[] TextArray;
+    [SerializeField] UnityEvent OnOpenFinished;
 
     void OnEnable()
     {
@@ -57,6 +58,9 @@ public class TransitionPage : MonoBehaviour
             SetAlpha(alpha);
             yield return null;
         }
+
+        OnOpenFinished.Invoke();
+
         if (AutoClose)
         {
             yield return new WaitForSeconds(0.5f);
