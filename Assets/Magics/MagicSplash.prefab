@@ -4933,6 +4933,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b420066b7551c504d8044cb53cf7e854, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  m_ParticalSystem: {fileID: 0}
 --- !u!114 &5201110658352122105
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4950,7 +4952,6 @@ MonoBehaviour:
   Flags: 262145
   NestedObjects: []
   NetworkedBehaviours:
-  - {fileID: 3235956270738167388}
   - {fileID: 1879098905749255868}
 --- !u!114 &1879098905749255868
 MonoBehaviour:
