@@ -9,23 +9,40 @@ public class EggNest : MonoBehaviour
 {
     [SerializeField] GameObject Egg, Nest;
     [SerializeField] PathCreator Path;
+    [SerializeField] ParticleSystem HonkParticle;
     public bool ShowEggInit = true;
     public float ShowEggScale = 1f;
+    public int Stage = 0;
     public UnityEvent RestoreBegin;
     public UnityEvent RestoreEnd;
-
+    private bool m_IsRestored = false;
 
     public void InitNotDone()
     {
         Egg.transform.position = Path.path.GetPointAtDistance(0f);
         if (ShowEggInit) ShowEgg(0);
         else Egg.gameObject.SetActive(false);
+        m_IsRestored = false;
     }
     public void InitDone()
     {
         float length = GetPathLength();
         Egg.transform.position = Path.path.GetPointAtDistance(length-0.1f);
+        ShowEggScale = 1f;
         ShowEgg(0);
+        m_IsRestored = true;
+    }
+
+    private void Update()
+    {
+        if (!HonkParticle.isPlaying && PlayerDataSystem.currentStage == Stage && m_IsRestored)
+        {
+            HonkParticle.Play();
+        }
+        else if (HonkParticle.isPlaying && PlayerDataSystem.currentStage != Stage)
+        {
+            HonkParticle.Stop();
+        }
     }
 
     private float GetPathLength()
@@ -34,11 +51,11 @@ public class EggNest : MonoBehaviour
         float length = lengths[lengths.Length - 1];
         return length;
     }
-
     
     public void RestoreEgg()
     {
         StartCoroutine(MoveToNest());
+        m_IsRestored = true;
     }
 
     public void ShowEgg(float timeDelay)

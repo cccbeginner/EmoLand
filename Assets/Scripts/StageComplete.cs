@@ -8,10 +8,8 @@ public class StageComplete : MonoBehaviour
 {
     public float GoodMudRadius = 0;
     public float RibbonAlphaMask = -5;
-    public float EggContourAlpha = 1;
     [SerializeField] Material GroundMaterial;
     [SerializeField] Material RibbonMaterial;
-    [SerializeField] Material EggContourMaterial;
     [SerializeField] GameObject AnimeCamera;
     [SerializeField] ParticleSystem EggHonkParticle;
     [SerializeField] GameObject UITransition;
@@ -25,14 +23,12 @@ public class StageComplete : MonoBehaviour
     {
         SetMudRadius(150);
         SetRibbonAlphaMask(5);
-        SetEggContourAlpha(1);
     }
 
     public void InitNotDone()
     {
         SetMudRadius(0);
         SetRibbonAlphaMask(-5);
-        SetEggContourAlpha(1);
     }
 
     void SetMudRadius(float r)
@@ -44,11 +40,6 @@ public class StageComplete : MonoBehaviour
     void SetRibbonAlphaMask(float val)
     {
         RibbonMaterial.SetFloat("_AlphaMask", val);
-    }
-
-    void SetEggContourAlpha(float alpha)
-    {
-        EggContourMaterial.SetFloat("_AlphaMultiplier", alpha);
     }
 
     public void EggHonk()
@@ -84,7 +75,6 @@ public class StageComplete : MonoBehaviour
             time += Time.deltaTime;
             SetMudRadius(GoodMudRadius);
             SetRibbonAlphaMask(RibbonAlphaMask);
-            SetEggContourAlpha(EggContourAlpha);
             yield return null;
         }
         DisableAnime();
