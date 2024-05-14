@@ -13,6 +13,7 @@ public class TransitionPage : MonoBehaviour
     Color m_TextColor;
 
     [SerializeField] bool AutoClose = false;
+    [SerializeField] bool InstantOpen = false;
     [SerializeField] string[] TextArray;
     [SerializeField] UnityEvent OnOpenFinished;
 
@@ -51,6 +52,10 @@ public class TransitionPage : MonoBehaviour
     {
         float timeNow = 0f;
         float timeOpen = 0.5f;
+        if (InstantOpen)
+        {
+            timeOpen = 0.01f;
+        }
         while (timeNow / timeOpen < 1f)
         {
             timeNow += Time.deltaTime;
