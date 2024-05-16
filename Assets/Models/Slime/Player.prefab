@@ -5337,6 +5337,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 758db185de8ed9f499ae693c152f9c0c, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7448696326906243064}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 758db185de8ed9f499ae693c152f9c0c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7333816292958549230}
   m_SourcePrefab: {fileID: 100100000, guid: 758db185de8ed9f499ae693c152f9c0c, type: 3}
 --- !u!4 &2569410048059523613 stripped
 Transform:
@@ -5387,6 +5390,7 @@ MonoBehaviour:
   NestedObjects: []
   NetworkedBehaviours:
   - {fileID: 7448696326906243064}
+  - {fileID: 7333816292958549230}
 --- !u!114 &7448696326906243064
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5403,3 +5407,21 @@ MonoBehaviour:
   SyncParent: 0
   _autoAOIOverride: 1
   DisableSharedModeInterpolation: 0
+--- !u!114 &7333816292958549230
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2946392644333869223}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 506319458, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Animator: {fileID: 776581154073444369}
+  TotalWords: 3
+  ApplyTiming: 2
+  SyncSettings: 79
+  StateHashes: 000000003c764cbf87b2dc4e51f4568cea30c67d80ec5ec25247c1f7835fc9b98bde55d92014350c91ad592f6a47e3ed08f3ba5e
+  TriggerHashes: 0000000028a98107c0de6f33fa799ea2

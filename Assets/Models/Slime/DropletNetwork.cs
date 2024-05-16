@@ -139,6 +139,10 @@ public class DropletNetwork : NetworkBehaviour
                 break;
             }
         }
+        if (slimeAnimator.GetCurrentAnimatorStateInfo(1).IsName("SlimeJump"))
+        {
+            TouchGroundAnime();
+        }
     }
 
     public void EatDroplet(DropletLocal another)
