@@ -33,12 +33,17 @@ public class ThirdPersonCamera : MonoBehaviour
 
     public static ThirdPersonCamera main { get; private set; }
 
+    private Vector3 m_InitPos;
+    private Quaternion m_InitRot;
+
     private void Awake()
     {
         m_PivotOffset = m_CameraPivot.localPosition;
         transform.parent = m_CameraPivot;
         m_PinchCameraDistance = transform.localPosition.magnitude;
         main = this;
+        m_InitPos = transform.localPosition;
+        m_InitRot = transform.localRotation;
     }
 
     private void OnEnable()
@@ -91,6 +96,8 @@ public class ThirdPersonCamera : MonoBehaviour
         m_HorizontalRotation = eulerDirection.y;
         m_CameraPivot.rotation = Quaternion.Euler(eulerDirection);
         m_CameraPivot.position = Player.main.transform.position + m_PivotOffset;
+        transform.localRotation = m_InitRot;
+        transform.localPosition = m_InitPos;
     }
 
     public void DragCameraToTransform(Transform targetTransform, float timeStay)
