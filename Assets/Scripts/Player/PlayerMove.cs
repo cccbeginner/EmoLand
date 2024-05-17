@@ -11,6 +11,7 @@ public class PlayerMove : MonoBehaviour
 
     [Networked]
     Vector2 m_MoveVecInput { get; set; }
+    bool m_IsMovingPrev { get; set; }
 
     public float MoveForce = 4f;
     public float RorateSpeed = 90f;
@@ -97,10 +98,20 @@ public class PlayerMove : MonoBehaviour
         if (m_MoveVecInput != Vector2.zero)
         {
             player.slimeAnimator.SetBool("Move", true);
+            if (!m_IsMovingPrev)
+            {
+                player.slimeAudioPlayer.StartMoveOnWater();
+            }
+            m_IsMovingPrev = true;
         }
         else
         {
             player.slimeAnimator.SetBool("Move", false);
+            if (m_IsMovingPrev)
+            {
+                player.slimeAudioPlayer.StopMoveOnWater();
+            }
+            m_IsMovingPrev = false;
         }
     }
 }

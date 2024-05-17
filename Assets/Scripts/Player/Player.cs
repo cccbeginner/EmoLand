@@ -20,6 +20,7 @@ public class Player : NetworkBehaviour
     public Rigidbody rigidBody { get { return droplet.rigidBody; } }
     public SphereCollider sphereCollider { get { return droplet.sphereCollider; } }
     public Animator slimeAnimator { get { return droplet.slimeAnimator; } }
+    public SlimeAudioPlayer slimeAudioPlayer { get { return droplet.slimeAudioPlayer; } }
 
     public override void Spawned()
     {

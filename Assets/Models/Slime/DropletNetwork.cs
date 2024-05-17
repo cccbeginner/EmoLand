@@ -21,6 +21,7 @@ public class DropletNetwork : NetworkBehaviour
     public Rigidbody rigidBody { get { return GetComponent<Rigidbody>(); } }
     public SphereCollider sphereCollider { get { return GetComponent<SphereCollider>(); } }
     public Animator slimeAnimator { get { return GetComponentInChildren<Animator>(); } }
+    public SlimeAudioPlayer slimeAudioPlayer { get { return GetComponentInChildren<SlimeAudioPlayer>(); } }
 
     public UnityEvent OnLeaveGround;
     public UnityEvent OnTouchGround;
@@ -69,6 +70,7 @@ public class DropletNetwork : NetworkBehaviour
 
             OnLeaveGround.AddListener(LeaveGroundAnime);
             OnTouchGround.AddListener(TouchGroundAnime);
+            OnTouchGround.AddListener(TouchGroundAudio);
         }
     }
 
@@ -80,13 +82,17 @@ public class DropletNetwork : NetworkBehaviour
 
     public void EatAnime()
     {
+        slimeAudioPlayer.Eat();
         slimeAnimator.SetTrigger("Eat");
     }
     private void LeaveGroundAnime()
     {
         slimeAnimator.ResetTrigger("Grounded");
         slimeAnimator.SetTrigger("Jump");
-
+    }
+    private void TouchGroundAudio()
+    {
+        slimeAudioPlayer.Grounded();
     }
     private void TouchGroundAnime()
     {

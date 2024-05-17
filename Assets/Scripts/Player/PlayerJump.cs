@@ -44,6 +44,7 @@ public class PlayerJump : MonoBehaviour
             player.rigidBody.AddForce(JumpForce * Vector3.up, ForceMode.Impulse);
             OnJumpBegin.Invoke();
             m_JumpPressed = false;
+            player.slimeAudioPlayer.Jump();
             StartCoroutine(NextJumpDelay());
         }
     }

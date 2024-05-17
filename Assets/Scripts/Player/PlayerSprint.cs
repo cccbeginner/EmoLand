@@ -40,6 +40,7 @@ public class PlayerSprint : MonoBehaviour
             // Start Sprint
             OnSprintBegin.Invoke();
             m_SprintTrigger = false;
+            player.slimeAudioPlayer.Sprint();
             StartCoroutine(SprintRoutine());
         }
     }
