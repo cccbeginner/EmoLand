@@ -175,10 +175,12 @@ public class ThirdPersonCamera : MonoBehaviour
         m_PinchCameraDistance = Mathf.Clamp(m_PinchCameraDistance, NearestDistance, FarthestDistance);
 
         // Camera collider ray
-        int layerMask = LayerMask.GetMask("Water", "Static Object");
+        int layerMask = LayerMask.GetMask("Water", "Static");
+        Vector3 vecFrom = m_CameraPivot.position;
+        Vector3 vecTo = transform.position + Vector3.down * 0.35f;
         bool isRayHit = Physics.Raycast(
-            m_CameraPivot.position,
-            (transform.position - m_CameraPivot.position).normalized, 
+            vecFrom,
+            (vecTo - vecFrom).normalized, 
             out RaycastHit hit,
             m_PinchCameraDistance,
             layerMask
