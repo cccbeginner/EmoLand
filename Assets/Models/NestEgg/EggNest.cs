@@ -1,15 +1,19 @@
 using PathCreation;
+using System;
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class EggNest : MonoBehaviour
 {
-    [SerializeField] GameObject Egg, Nest;
+    [SerializeField] GameObject Egg;
     [SerializeField] PathCreator Path;
+    [SerializeField] AudioSource IdleAudio;
+    [SerializeField] AudioSource TouchAudio;
+    [SerializeField] AudioSource ShowAudio;
     [SerializeField] ParticleSystem HonkParticle;
+    [SerializeField] AudioSource HonkAudio;
+    [SerializeField] float HonkDuration;
     public bool ShowEggInit = true;
     public float ShowEggScale = 1f;
     public int Stage = 0;
@@ -45,6 +49,40 @@ public class EggNest : MonoBehaviour
         }
     }
 
+    private void OnEnable()
+    {
+        StartCoroutine(HonkRoutine());
+    }
+
+    IEnumerator HonkRoutine()
+    {
+        bool firstHonk = true;
+        while (true)
+        {
+            if (PlayerDataSystem.currentStage == Stage && m_IsRestored)
+            {
+                HonkParticle.Stop();
+                HonkParticle.Play();
+                float randf = UnityEngine.Random.Range(-0.1f, 0.1f);
+                if (firstHonk ) HonkAudio.volume += 0.5f;
+                HonkAudio.pitch += randf;
+                HonkAudio.Play();
+                yield return new WaitForSeconds(HonkDuration);
+                HonkAudio.pitch -= randf;
+                if (firstHonk) HonkAudio.volume -= 0.5f;
+                if (firstHonk) firstHonk = false;
+            }
+            else if (PlayerDataSystem.currentStage > Stage)
+            {
+                break;
+            }
+            else
+            {
+                yield return null;
+            }
+        }
+    }
+
     private float GetPathLength()
     {
         float[] lengths = Path.path.cumulativeLengthAtEachVertex;
@@ -55,12 +93,12 @@ public class EggNest : MonoBehaviour
     public void RestoreEgg()
     {
         StartCoroutine(MoveToNest());
-        m_IsRestored = true;
     }
 
     public void ShowEgg(float timeDelay)
     {
         StartCoroutine(ShowEggRoutine(timeDelay));
+        IdleAudio.Play();
     }
 
     IEnumerator ShowEggRoutine(float timeDelay)
@@ -70,6 +108,7 @@ public class EggNest : MonoBehaviour
         Egg.gameObject.SetActive(true);
         Egg.transform.localScale = Vector3.zero;
         Egg.transform.GetChild(0).localScale = Vector3.zero;
+        ShowAudio.Play();
 
         float currentScale = 0f;
         while (ShowEggScale - currentScale > 0.01)
@@ -85,6 +124,8 @@ public class EggNest : MonoBehaviour
     IEnumerator MoveToNest()
     {
         RestoreBegin.Invoke();
+        TouchAudio.Play();
+
         float speed = 20f;
         float x = 0f;
         float length = GetPathLength();
@@ -96,6 +137,8 @@ public class EggNest : MonoBehaviour
             if (x >= length) break;
             yield return null;
         }
+
         RestoreEnd.Invoke();
+        m_IsRestored = true;
     }
 }
