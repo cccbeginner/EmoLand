@@ -10,9 +10,10 @@ public class TreeArea : MonoBehaviour
     [SerializeField] ParticleSystem DustParticle;
     [SerializeField] Material TrunkMaterialBright, TrunkMaterialDark;
     [SerializeField] Material LeafMaterialBright, LeafMaterialDark;
-
+    public bool isOn {  get; private set; }
     public void TurnOn()
     {
+        isOn = true;
         SpotLight.enabled = true;
         Trunk.GetComponent<MeshRenderer>().material = TrunkMaterialBright;
         LeafVolume.GetComponent<ParticleSystemRenderer>().sharedMaterial = LeafMaterialBright;
@@ -24,6 +25,7 @@ public class TreeArea : MonoBehaviour
 
     public void TurnOff()
     {
+        isOn = false;
         SpotLight.enabled = false;
         Trunk.GetComponent<MeshRenderer>().material = TrunkMaterialDark;
         LeafVolume.GetComponent<ParticleSystemRenderer>().sharedMaterial = LeafMaterialDark;
