@@ -77,7 +77,7 @@ public class PlayerSizeUI : MonoBehaviour
             {
                 m_Text.color = NormalTextColor;
             }
-            m_Text.text = m_CurrentNumber.ToString();
+            m_Text.text = (m_CurrentNumber - 1).ToString();
         }
     }
 }
