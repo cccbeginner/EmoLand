@@ -1,0 +1,12 @@
+Font: DFKai-SB  Style: Regular
+Point Size: 28   SP/PD Ratio: 17.9%
+
+Characters included: 72/72
+Missing characters: 0
+Excluded characters: 0
+
+Characters missing from font file:
+----------------------------------------
+
+Characters excluded from packing:
+----------------------------------------
