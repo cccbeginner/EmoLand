@@ -11,7 +11,7 @@ public class SpoonLeaf : MonoBehaviour
     // Save droplets id and their current size.
     // <droplet id, current size>
     Dictionary<DropletLocal, int> m_TopDroplets = new Dictionary<DropletLocal, int>();
-    Dictionary<DropletNetwork, int> m_TopDropletsNet = new Dictionary<DropletNetwork, int>();
+    Dictionary<DropletPlayer, int> m_TopDropletsNet = new Dictionary<DropletPlayer, int>();
     Quaternion m_InitRot;
     int m_TotalSize = 0;
 
@@ -23,7 +23,7 @@ public class SpoonLeaf : MonoBehaviour
     {
         if (collision.contactCount > 0 && collision.GetContact(0).normal.y < -0.3)
         {
-            DropletNetwork dropletNetwork = collision.gameObject.GetComponent<DropletNetwork>();
+            DropletPlayer dropletNetwork = collision.gameObject.GetComponent<DropletPlayer>();
             DropletLocal dropletLocal = collision.gameObject.GetComponent<DropletLocal>();
             if (dropletNetwork != null)
             {
@@ -56,7 +56,7 @@ public class SpoonLeaf : MonoBehaviour
 
     private void OnCollisionExit(Collision collision)
     {
-        DropletNetwork dropletNetwork = collision.gameObject.GetComponent<DropletNetwork>();
+        DropletPlayer dropletNetwork = collision.gameObject.GetComponent<DropletPlayer>();
         DropletLocal dropletLocal = collision.gameObject.GetComponent<DropletLocal>();
         if (dropletNetwork != null && m_TopDropletsNet.ContainsKey(dropletNetwork))
         {
@@ -86,7 +86,7 @@ public class SpoonLeaf : MonoBehaviour
         }
     }
 
-    private void OnDropletResize(DropletNetwork droplet, int newSize)
+    private void OnDropletResize(DropletPlayer droplet, int newSize)
     {
         if (m_TopDropletsNet.ContainsKey(droplet))
         {
@@ -105,7 +105,7 @@ public class SpoonLeaf : MonoBehaviour
         }
     }
 
-    private void OnDropletDestroy(DropletNetwork droplet)
+    private void OnDropletDestroy(DropletPlayer droplet)
     {
         if (m_TopDropletsNet.ContainsKey(droplet))
         {

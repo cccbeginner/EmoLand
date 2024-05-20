@@ -36,6 +36,7 @@ public class WorldButtonHere : MonoBehaviour
                 if (m_ExistedWorldButton == null)
                 {
                     InitWorldButton();
+                    //Debug.Log(gameObject.name);
                 }
                 else
                 {

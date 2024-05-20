@@ -4852,7 +4852,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6715679142602161171}
-  - component: {fileID: 1506445556296005338}
   - component: {fileID: 8761891319534900510}
   - component: {fileID: 7269475671695731439}
   - component: {fileID: -5431800352882515175}
@@ -4862,7 +4861,6 @@ GameObject:
   - component: {fileID: -6327659934825381552}
   - component: {fileID: -3210222731716507823}
   - component: {fileID: -3294627900499278006}
-  - component: {fileID: 8248443323707180305}
   m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
@@ -4887,28 +4885,6 @@ Transform:
   - {fileID: 3985211913394298430}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1506445556296005338
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5125725523214384465}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SortKey: 827855744
-  ObjectInterest: 1
-  Flags: 262145
-  NestedObjects:
-  - {fileID: 9200420808151254632}
-  NetworkedBehaviours:
-  - {fileID: 8761891319534900510}
-  - {fileID: 7269475671695731439}
-  - {fileID: -5431800352882515175}
-  - {fileID: 8248443323707180305}
 --- !u!114 &8761891319534900510
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4937,7 +4913,6 @@ MonoBehaviour:
   OnBeingDestroy:
     m_PersistentCalls:
       m_Calls: []
-  _isEatable: 0
 --- !u!114 &7269475671695731439
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5186,28 +5161,6 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.25
   m_Center: {x: 0, y: 0.25, z: 0}
---- !u!114 &8248443323707180305
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5125725523214384465}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0a591d221a634417e9827eb58e17de84, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SyncScale: 1
-  SyncParent: 1
-  _interpolationTarget: {fileID: 2569410048059523613}
-  UsePreciseRotation: 0
-  UseRenderSleepThresholds: 1
-  RenderThresholds:
-    UseEnergy: 1
-    Position: 0.01
-    Rotation: 0.01
-    Scale: 0.01
 --- !u!1001 &2603882876765545974
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5333,15 +5286,6 @@ PrefabInstance:
       addedObject: {fileID: 776581154073444369}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 758db185de8ed9f499ae693c152f9c0c, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 9200420808151254632}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 758db185de8ed9f499ae693c152f9c0c, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 7448696326906243064}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 758db185de8ed9f499ae693c152f9c0c, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 7333816292958549230}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 758db185de8ed9f499ae693c152f9c0c, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 258074250598749643}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 758db185de8ed9f499ae693c152f9c0c, type: 3}
       insertIndex: -1
@@ -5390,59 +5334,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &9200420808151254632
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2946392644333869223}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SortKey: 1622930676
-  ObjectInterest: 1
-  Flags: 262145
-  NestedObjects: []
-  NetworkedBehaviours:
-  - {fileID: 7448696326906243064}
-  - {fileID: 7333816292958549230}
---- !u!114 &7448696326906243064
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2946392644333869223}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 158639473, guid: e725a070cec140c4caffb81624c8c787, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SyncScale: 1
-  SyncParent: 0
-  _autoAOIOverride: 1
-  DisableSharedModeInterpolation: 0
---- !u!114 &7333816292958549230
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2946392644333869223}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 506319458, guid: e725a070cec140c4caffb81624c8c787, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Animator: {fileID: 776581154073444369}
-  TotalWords: 3
-  ApplyTiming: 2
-  SyncSettings: 79
-  StateHashes: 000000003c764cbf87b2dc4e51f4568cea30c67d80ec5ec25247c1f7835fc9b98bde55d92014350c91ad592f6a47e3ed08f3ba5e
-  TriggerHashes: 0000000028a98107c0de6f33fa799ea2
 --- !u!114 &258074250598749643
 MonoBehaviour:
   m_ObjectHideFlags: 0

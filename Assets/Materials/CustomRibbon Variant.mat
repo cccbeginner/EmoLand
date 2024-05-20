@@ -38,7 +38,7 @@ Material:
     m_TexEnvs: []
     m_Ints: []
     m_Floats:
-    - _AlphaMask: -5
+    - _AlphaMask: 5
     - _Amplitude: 23.2
     - _QueueControl: 0
     - _StripeGap: 3.33

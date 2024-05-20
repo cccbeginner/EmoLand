@@ -1,8 +1,7 @@
-using Fusion;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class PlayerSpawner : SimulationBehaviour, IPlayerJoined
+public class PlayerSpawner : MonoBehaviour
 {
     public GameObject PlayerPrefab;
     public Transform[] PlayerStartByStage;
@@ -10,34 +9,27 @@ public class PlayerSpawner : SimulationBehaviour, IPlayerJoined
     public Vector3 StartVelocity;
     public UnityEvent OnMainPlayerJoined;
 
-    public void PlayerJoined(PlayerRef player)
+    void Start()
     {
-        if (player == Runner.LocalPlayer)
+        int curStage = PlayerDataSystem.currentStage;
+        Transform playerStart = PlayerStartByStage[curStage];
+        if (playerStart == null)
         {
-            int curStage = PlayerDataSystem.currentStage;
-            Transform playerStart = PlayerStartByStage[curStage];
-            Vector3 camRotation = StartCamRotationByStage[curStage];
-            if (playerStart == null)
-            {
-                Debug.LogError($"Cannot find where to spawn player in which current stage is {curStage}.");
-            }
-            if (StartCamRotationByStage.Length <= curStage)
-            {
-                Debug.LogError($"Cannot find how to rotate camera in which current stage is {curStage}.");
-            }
-
-            Vector3 position = playerStart ? playerStart.position : new Vector3(10, 1, 10);
-            Quaternion rotation = playerStart ? playerStart.rotation : Quaternion.identity;
-            Runner.Spawn(PlayerPrefab, position, rotation, player);
-            ThirdPersonCamera.main.SetRotation(camRotation);
-
-            if (curStage == 0)
-            {
-                SpawnPlayerFromWaterFall();
-            }
-
-            OnMainPlayerJoined.Invoke();
+            Debug.LogError($"Cannot find where to spawn player in which current stage is {curStage}.");
         }
+        if (StartCamRotationByStage.Length <= curStage)
+        {
+            Debug.LogError($"Cannot find how to rotate camera in which current stage is {curStage}.");
+        }
+
+        ResetMainPlayerPos();
+
+        if (curStage == 0)
+        {
+            SpawnPlayerFromWaterFall();
+        }
+
+        OnMainPlayerJoined.Invoke();
     }
 
     private void SpawnPlayerFromWaterFall()

@@ -1,4 +1,3 @@
-using Fusion;
 using System.Collections;
 using System.Drawing;
 using UnityEngine;
@@ -85,7 +84,7 @@ public class DropletLocal : MonoBehaviour
             if (player != null /*&& ReferenceEquals(player, Player.main)*/)
             {
                 // be eaten by player
-                DropletNetwork playerDroplet = collision.gameObject.GetComponent<DropletNetwork>();
+                DropletPlayer playerDroplet = collision.gameObject.GetComponent<DropletPlayer>();
                 playerDroplet.EatDroplet(this);
                 isEatable = false;
                 BeEatenByDroplet(transform);

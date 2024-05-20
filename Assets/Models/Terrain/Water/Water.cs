@@ -1,4 +1,3 @@
-using Fusion;
 using UnityEngine;
 
 public class Water : MonoBehaviour
@@ -9,7 +8,7 @@ public class Water : MonoBehaviour
         if (collision.gameObject != null)
         {
             Player player = collision.gameObject.GetComponent<Player>();
-            DropletNetwork dropletNetwork = collision.gameObject.GetComponent<DropletNetwork>();
+            DropletPlayer dropletNetwork = collision.gameObject.GetComponent<DropletPlayer>();
             DropletLocal dropletLocal = collision.gameObject.GetComponent<DropletLocal>();
             if (ReferenceEquals(player, Player.main))
             {

@@ -1,19 +1,15 @@
-using Fusion;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DropletSpawner : NetworkBehaviour
+public class DropletSpawner : MonoBehaviour
 {
     [SerializeField]
     GameObject m_DropletPrefab;
 
-    public override void Spawned()
+    void Start()
     {
-        if (HasStateAuthority)
-        {
-            AddPlayerListener();
-        }
+        AddPlayerListener();
     }
 
     public void AddPlayerListener()
@@ -22,8 +18,8 @@ public class DropletSpawner : NetworkBehaviour
         Player.main.playerSprint.OnSprintBegin.AddListener(OnPlayerSprint);
     }
 
-    [Rpc(RpcSources.All, RpcTargets.All)]
-    void RPC_SpawnDroplet(Vector3 pos)
+
+    void SpawnDroplet(Vector3 pos)
     {
         var newDroplet = Instantiate(m_DropletPrefab, pos, Quaternion.identity);
 
@@ -40,7 +36,7 @@ public class DropletSpawner : NetworkBehaviour
             // apply offset to avoid collide with player
             Vector3 offset = Vector3.down * 0.5f;
             Vector3 spawnPos = Player.main.transform.position + offset;
-            RPC_SpawnDroplet(spawnPos);
+            SpawnDroplet(spawnPos);
 
             Player.main.droplet.size -= 1;
         }
@@ -50,7 +46,7 @@ public class DropletSpawner : NetworkBehaviour
         // apply offset to avoid collide with player
         Vector3 offset = -Player.main.transform.forward * 0.5f;
         Vector3 spawnPos = Player.main.transform.position + offset;
-        RPC_SpawnDroplet(spawnPos);
+        SpawnDroplet(spawnPos);
         //newDroplet.GetComponent<Rigidbody>().AddForce(-Player.main.transform.forward * 10, ForceMode.Impulse);
 
         Player.main.droplet.size -= 1;

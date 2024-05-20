@@ -115,11 +115,11 @@ Material:
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
-    - _InRadius: 0
+    - _InRadius: 147.12117
     - _Metallic: 0
     - _NormalStrength: 0.03
     - _OcclusionStrength: 1
-    - _OutRadius: 5
+    - _OutRadius: 152.12117
     - _Parallax: 0.005
     - _QueueControl: 0
     - _QueueOffset: 0

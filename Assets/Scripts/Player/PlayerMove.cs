@@ -1,4 +1,3 @@
-using Fusion;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,7 +8,6 @@ public class PlayerMove : MonoBehaviour
     [SerializeField]
     private InputAction m_Move;
 
-    [Networked]
     Vector2 m_MoveVecInput { get; set; }
     bool m_IsMovingPrev { get; set; }
 
