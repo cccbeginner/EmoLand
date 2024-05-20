@@ -14,6 +14,7 @@ public class PlayerMove : MonoBehaviour
     public float MoveForce = 4f;
     public float RorateSpeed = 90f;
     public Player player { get { return GetComponent<Player>(); } }
+    private List<Collision> CollisionList = new List<Collision>();
     private void OnEnable()
     {
         m_Move.Enable();
@@ -30,7 +31,7 @@ public class PlayerMove : MonoBehaviour
         // return trap if there is, else return any slope, 
         bool found = false;
         slopeNormal = -forward;
-        foreach(Collision collision in player.droplet.CollisionList)
+        foreach(Collision collision in CollisionList)
         {
             if (collision.contactCount == 0) continue;
             Vector3 normal = collision.GetContact(0).normal;
@@ -69,6 +70,14 @@ public class PlayerMove : MonoBehaviour
                 Vector3 forwardUpPlaneAxis = Vector3.Cross(vecForward, Vector3.up);
                 Vector3 fixedNormal = Vector3.ProjectOnPlane(normal, forwardUpPlaneAxis).normalized;
                 float angle = Vector3.Angle(Vector3.up, fixedNormal);
+
+                // check whether the normal and the vecForward has different direction horizontally
+                // if not, rotate the other direction
+                if (Vector3.Dot(vecForward, fixedNormal) > 0)
+                {
+                    angle = -angle;
+                }
+
                 Quaternion rotation = Quaternion.AngleAxis(angle, forwardUpPlaneAxis);
                 vecForward = rotation * vecForward;
             }
@@ -88,6 +97,8 @@ public class PlayerMove : MonoBehaviour
             gameObject.transform.forward = moveVec.normalized;
         }
         player.rigidBody.AddForce(moveVec);
+
+        CollisionList.Clear();
     }
 
     private void Update()
@@ -111,5 +122,16 @@ public class PlayerMove : MonoBehaviour
             }
             m_IsMovingPrev = false;
         }
+    }
+
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        CollisionList.Add(collision);
+    }
+
+    private void OnCollisionStay(Collision collision)
+    {
+        CollisionList.Add(collision);
     }
 }

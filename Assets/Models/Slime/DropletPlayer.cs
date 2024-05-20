@@ -30,7 +30,7 @@ public class DropletPlayer : MonoBehaviour
     public RaycastHit downRaycastHit { get; private set; }
 
     // The list update every physics frame, clear every late update.
-    public List<Collision> CollisionList { get; private set; }
+    private List<Collision> CollisionList = new List<Collision>();
     public bool isEatable { get; set; }
     private int m_Size { get; set; }
     public int size
@@ -92,10 +92,11 @@ public class DropletPlayer : MonoBehaviour
         slimeAnimator.SetTrigger("Grounded");
     }
 
-    private bool m_IsFixedPrev = false;
     private void FixedUpdate()
     {
-        m_IsFixedPrev = true;
+        IsGroundedUpdate();
+        GroundingEvents();
+        CollisionList.Clear();
     }
     public void LateUpdate()
     {
@@ -113,13 +114,6 @@ public class DropletPlayer : MonoBehaviour
             transform.position = hit.point;
         }
 
-        if (m_IsFixedPrev)
-        {
-            IsGroundedUpdate();
-            GroundingEvents();
-            CollisionList.Clear();
-            m_IsFixedPrev = false;
-        }
     }
 
     // Update the variable isGrounded

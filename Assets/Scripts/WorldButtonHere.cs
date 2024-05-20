@@ -25,6 +25,14 @@ public class WorldButtonHere : MonoBehaviour
         
     }
 
+    private void OnDisable()
+    {
+        if (m_ExistedWorldButton != null)
+        {
+            DiscardWorldButton();
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {

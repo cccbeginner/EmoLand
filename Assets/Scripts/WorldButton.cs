@@ -31,6 +31,11 @@ public class WorldButton : MonoBehaviour
         m_Animation.Play("ButtonAppear");
     }
 
+    private void OnDisable()
+    {
+        Destroy(gameObject);
+    }
+
     public void Discard()
     {
         m_Animation["ButtonDisappear"].speed = 2;

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -16,12 +15,6 @@ public class TouchManager : MonoBehaviour
     public UnityEvent<Touch[]> OnTouchScreenRight;
     public UnityEvent TappedOnScreen;
 
-    // In order to test whether the touch touches button or other screen ui, we needs them.
-    [SerializeField]
-    GraphicRaycaster m_Raycaster;
-    [SerializeField]
-    EventSystem m_EventSystem;
-
     // Maintain currently valid touches.
     // All valid touches must on right side of the screen.
     // All valid touches must not be a tap.
@@ -36,15 +29,6 @@ public class TouchManager : MonoBehaviour
     protected void OnDisable()
     {
         EnhancedTouchSupport.Disable();
-    }
-
-    private bool TouchHitsUI(Touch touch)
-    {
-        PointerEventData m_PointerEventData = new PointerEventData(m_EventSystem);
-        m_PointerEventData.position = touch.screenPosition;
-        List<RaycastResult> results = new List<RaycastResult>();
-        m_Raycaster.Raycast(m_PointerEventData, results);
-        return results.Count > 0;
     }
 
     private void RemoveTouch(Touch touch)
@@ -90,17 +74,11 @@ public class TouchManager : MonoBehaviour
             {
                 // Prevent from quickly switching fingers.
                 RemoveTouch(touch);
-                if (!TouchHitsUI(touch))
-                {
-                    AddTouch(touch);
-                }
+                AddTouch(touch);
             }
             else if (touch.ended)
             {
-                if (!TouchHitsUI(touch))
-                {
-                    hasTap |= touch.isTap;
-                }
+                hasTap |= touch.isTap;
                 RemoveTouch(touch);
             }
             else
