@@ -27,7 +27,7 @@ public class GlobalAudioManager : MonoBehaviour
     IEnumerator AudioFadeCoroutine(float startVolume, float targetVolume)
     {
 
-        float fadeTime = 1f;
+        float fadeTime = 2f;
         float time = 0f;
         while (time < fadeTime)
         {

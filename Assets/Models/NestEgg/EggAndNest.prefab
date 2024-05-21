@@ -110,7 +110,7 @@ MonoBehaviour:
       - 0
       globalNormalsAngle: 0
       flipNormals: 0
-    vertexPathUpToDate: 1
+    vertexPathUpToDate: 0
     vertexPathMaxAngleError: 0.3
     vertexPathMinVertexSpacing: 0.01
     showTransformTool: 1
@@ -10345,7 +10345,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 8541458527354539745, guid: f4871a6bca7e1d1429579367d6881a3d, type: 2}
   m_audioClip: {fileID: 8300000, guid: 4f38af805b8b0b145a44391d6a3595f4, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.15
+  m_Volume: 0.07
   m_Pitch: 0.9
   Loop: 1
   Mute: 0
@@ -10354,7 +10354,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 200
+  MaxDistance: 100
   Pan2D: 0
   rolloffMode: 1
   BypassEffects: 0

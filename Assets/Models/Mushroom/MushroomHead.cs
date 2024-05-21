@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class MushroomHead : MonoBehaviour
 {
+    [SerializeField]
+    AudioSource m_MounceAudio;
     public Animator MushroomAnimator;
     public float force = 10;
     private bool hit = false;
@@ -63,6 +65,7 @@ public class MushroomHead : MonoBehaviour
         {
             Player.main.rigidBody.AddForce(Vector3.up * force, ForceMode.Impulse);
             MushroomAnimator?.SetTrigger("Bounce");
+            m_MounceAudio.Play();
         }
     }
 }

@@ -10,6 +10,10 @@ public class Grass : MonoBehaviour
     Material m_GrowMaterial;
     [SerializeField]
     Material m_ThrowMaterial;
+    [SerializeField]
+    AudioSource m_WaveAudio;
+    [SerializeField]
+    AudioSource m_PushAudio;
     public Vector3 m_ThrowMagnitude;
     public bool HasGrown { get; private set; }
     public bool triggerThrow = false;
@@ -60,6 +64,7 @@ public class Grass : MonoBehaviour
         MeshRenderer mr = m_Leaf.GetComponent<MeshRenderer>();
         mr.material = m_ThrowMaterial;
         mr.material.SetFloat("_TimeOffset", Time.fixedTime);
+        m_WaveAudio.Play();
         m_ThrowPlayerCoroutine = StartCoroutine(AddPlayerImpactAfterSecond(delaySec));
     }
 
@@ -74,6 +79,7 @@ public class Grass : MonoBehaviour
         if (Player.main != null)
         {
             Player.main.rigidBody.AddForce(m_ThrowMagnitude, ForceMode.Impulse);
+            m_PushAudio.Play();
         }
     }
 }
