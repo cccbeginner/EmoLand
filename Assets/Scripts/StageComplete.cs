@@ -50,12 +50,12 @@ public class StageComplete : MonoBehaviour
     void EnableAnime()
     {
         GetComponent<PlayableDirector>().Play();
-        ThirdPersonCamera.main.GetComponent<Camera>().enabled = false;
+        ThirdPersonCamera.main.gameObject.SetActive(false);
         AnimeCamera.SetActive(true);
     }
     void DisableAnime()
     {
-        ThirdPersonCamera.main.GetComponent<Camera>().enabled = true;
+        ThirdPersonCamera.main.gameObject.SetActive(true);
         AnimeCamera.SetActive(false);
         EggHonkParticle.Stop();
     }
