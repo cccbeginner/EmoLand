@@ -9,9 +9,14 @@ public class StageComplete : MonoBehaviour
     public float GoodMudRadius = 0;
     public float RibbonAlphaMask = -5;
     [SerializeField] Material GroundMaterial;
+    [SerializeField] AudioSource GroundAudio;
     [SerializeField] Material RibbonMaterial;
+    [SerializeField] AudioSource RibbonAudio1;
+    [SerializeField] AudioSource RibbonAudio2;
+    [SerializeField] AudioSource RibbonAudio3;
     [SerializeField] GameObject AnimeCamera;
     [SerializeField] ParticleSystem EggHonkParticle;
+    [SerializeField] AudioSource EggHonkAudio;
     [SerializeField] GameObject UITransition;
 
     private void Start()
@@ -45,6 +50,24 @@ public class StageComplete : MonoBehaviour
     public void EggHonk()
     {
         EggHonkParticle.Play();
+        EggHonkAudio.Play();
+    }
+
+    public void PlayRibbonAudio1()
+    {
+        RibbonAudio1.Play();
+    }
+    public void PlayRibbonAudio2()
+    {
+        RibbonAudio2.Play();
+    }
+    public void PlayRibbonAudio3()
+    {
+        RibbonAudio3.Play();
+    }
+    public void PlayerGroundAudio()
+    {
+        GroundAudio.Play();
     }
 
     void EnableAnime()

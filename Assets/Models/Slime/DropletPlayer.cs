@@ -7,7 +7,6 @@ public class DropletPlayer : MonoBehaviour
 {
     public Vector3 UnitSizeScale;//(1,1,1)
     public float UnitSizeRadius = 0.25f;
-    public int InitSize = 1;
     public int SizeMin = 1;
     public int SizeMax { get
         {
@@ -57,8 +56,7 @@ public class DropletPlayer : MonoBehaviour
 
     void Start()
     {
-        m_Size = InitSize;
-        size = InitSize;
+        size = SizeMax;
         m_IsGroundedPrevious = true;
 
         OnLeaveGround.AddListener(LeaveGroundAnime);
