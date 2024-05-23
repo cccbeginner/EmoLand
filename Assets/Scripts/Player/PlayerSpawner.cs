@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Events;
+using System.Collections;
 
 public class PlayerSpawner : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class PlayerSpawner : MonoBehaviour
     public Vector3[] StartCamRotationByStage;
     public Vector3 StartVelocity;
     public UnityEvent OnMainPlayerJoined;
+    public float PlayerJoinDelay = 1f;
 
     void Start()
     {
@@ -29,6 +31,12 @@ public class PlayerSpawner : MonoBehaviour
             SpawnPlayerFromWaterFall();
         }
 
+        StartCoroutine(InvokeJoinAfterSec());
+    }
+
+    IEnumerator InvokeJoinAfterSec()
+    {
+        yield return new WaitForSeconds(PlayerJoinDelay);
         OnMainPlayerJoined.Invoke();
     }
 

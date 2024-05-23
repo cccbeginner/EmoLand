@@ -11,6 +11,7 @@ public class GlobalAudioManager : MonoBehaviour
     void Start()
     {
         m_GlobalAudioMixer.SetFloat("GlobalVolume", -80f);
+        FadeInAudio();
     }
 
     public void FadeInAudio()
