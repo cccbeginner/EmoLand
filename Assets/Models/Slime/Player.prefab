@@ -4899,7 +4899,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   UnitSizeScale: {x: 1, y: 1, z: 1}
   UnitSizeRadius: 0.25
-  InitSize: 1
   SizeMin: 1
   OnLeaveGround:
     m_PersistentCalls:

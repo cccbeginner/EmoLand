@@ -14,7 +14,7 @@ public class TransitionPage : MonoBehaviour
 
     [SerializeField] bool AutoClose = false;
     [SerializeField] bool InstantOpen = false;
-    [SerializeField] string[] TextArray;
+    [SerializeField] List<string> TextArray;
     [SerializeField] UnityEvent OnOpenFinished;
 
     void OnEnable()
@@ -99,11 +99,14 @@ public class TransitionPage : MonoBehaviour
             {
                 time = 0f;
                 idx += 1;
-                if (idx >= TextArray.Length)
+                if (idx >= TextArray.Count)
                 {
                     idx = 0;
                 }
-                Text.text = TextArray[idx];
+                if (TextArray.Count > 0)
+                {
+                    Text.text = TextArray[idx];
+                }
             }
             yield return null;
         }
