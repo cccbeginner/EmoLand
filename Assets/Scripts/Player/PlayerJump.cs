@@ -8,7 +8,7 @@ public class PlayerJump : MonoBehaviour
     [SerializeField]
     private InputAction m_Jump;
     [SerializeField]
-    private float m_NextJumpDelay = 0.3f;
+    private float m_NextJumpDelay = 0.1f;
     public float JumpForce = 10f;
     public Player player { get { return GetComponent<Player>(); } }
     public UnityEvent OnJumpBegin;
@@ -45,6 +45,9 @@ public class PlayerJump : MonoBehaviour
             OnJumpBegin.Invoke();
             m_JumpPressed = false;
             player.slimeAudioPlayer.Jump();
+
+            // Apply delay since idk why the new input system
+            //  sometimes trigger twice with only one press.
             StartCoroutine(NextJumpDelay());
         }
     }

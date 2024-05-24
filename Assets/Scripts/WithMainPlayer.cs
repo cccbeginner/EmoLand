@@ -22,15 +22,11 @@ public class WithMainPlayer : MonoBehaviour
     public bool FollowPosition = true;
     public bool FollowRotation = false;
 
-    private void Start()
+    private void OnEnable()
     {
         localPos = transform.localPosition;
         localRot = transform.localRotation;
         StartCoroutine(WaitMainPlayer());
-    }
-
-    private void OnEnable()
-    {
         EnableFollow = InitEnableFollow;
     }
 

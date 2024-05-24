@@ -8,12 +8,15 @@ public class PlayerSprint : MonoBehaviour
 {
     [SerializeField]
     private InputAction m_Sprint;
+    [SerializeField]
+    private float m_NextSprintDelay = 0.1f;
     public float SprintForce = 10f;
     public float SprintTime = 0.2f;
     public Player player { get { return GetComponent<Player>(); } }
     public UnityEvent OnSprintBegin;
 
     private bool m_SprintTrigger = false;
+    bool m_InSprintDelay = false;
 
     private void OnEnable()
     {
@@ -29,7 +32,7 @@ public class PlayerSprint : MonoBehaviour
     {
         if (!ReferenceEquals(player, Player.main)) return;
 
-        if (m_Sprint.triggered && player.droplet.size > 1)
+        if (m_Sprint.triggered && !m_InSprintDelay && player.droplet.size > 1)
         {
             m_SprintTrigger = true;
         }
@@ -42,6 +45,10 @@ public class PlayerSprint : MonoBehaviour
             m_SprintTrigger = false;
             player.slimeAudioPlayer.Sprint();
             StartCoroutine(SprintRoutine());
+
+            // Apply delay since idk why the new input system
+            //  sometimes trigger twice with only one press.
+            StartCoroutine(NextSprintDelay());
         }
     }
 
@@ -58,5 +65,11 @@ public class PlayerSprint : MonoBehaviour
             player.rigidBody.AddForce(force * dir, ForceMode.VelocityChange);
             yield return new WaitForFixedUpdate();
         }
+    }
+    IEnumerator NextSprintDelay()
+    {
+        m_InSprintDelay = true;
+        yield return new WaitForSeconds(m_NextSprintDelay);
+        m_InSprintDelay = false;
     }
 }
