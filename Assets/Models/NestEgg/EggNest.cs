@@ -27,6 +27,7 @@ public class EggNest : MonoBehaviour
         if (ShowEggInit) ShowEgg(0);
         else Egg.gameObject.SetActive(false);
         m_IsRestored = false;
+        StartCoroutine(HonkRoutine());
     }
     public void InitDone()
     {
@@ -35,6 +36,7 @@ public class EggNest : MonoBehaviour
         ShowEggScale = 1f;
         ShowEgg(0);
         m_IsRestored = true;
+        StartCoroutine(HonkRoutine());
     }
 
     private void Update()
@@ -47,11 +49,6 @@ public class EggNest : MonoBehaviour
         {
             HonkParticle.Stop();
         }
-    }
-
-    private void OnEnable()
-    {
-        StartCoroutine(HonkRoutine());
     }
 
     IEnumerator HonkRoutine()

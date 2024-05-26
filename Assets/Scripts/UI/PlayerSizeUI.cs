@@ -31,7 +31,6 @@ public class PlayerSizeUI : MonoBehaviour
         {
             Debug.LogWarning("Pls set text field for currency!");
         }
-        UpdateUI();
     }
 
     void Update()
