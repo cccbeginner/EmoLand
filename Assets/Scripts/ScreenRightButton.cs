@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class ScreenRightButton : MonoBehaviour
 {
     [SerializeField] Image RoundBgImage;
-    [SerializeField] InputAction OnPress, OnHold;
+    [SerializeField] InputAction OnPress;
     Color m_BgImageColor;
     private Coroutine m_Coroutine;
     private Vector3 m_InitScale;
@@ -24,7 +24,7 @@ public class ScreenRightButton : MonoBehaviour
             m_Coroutine = StartCoroutine(HoldAnimeRoutine());
             m_PressTime = Time.time;
         };
-        OnHold.canceled += _ =>
+        OnPress.canceled += _ =>
         {
             if (Time.time - m_PressTime < 0.4f)
             {
@@ -38,13 +38,11 @@ public class ScreenRightButton : MonoBehaviour
     private void OnEnable()
     {
         OnPress.Enable();
-        OnHold.Enable();
     }
 
     private void OnDisable()
     {
         OnPress.Disable();
-        OnHold.Disable();
     }
 
 
