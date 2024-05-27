@@ -16,6 +16,9 @@ public class TreeMapNodesUI : MonoBehaviour
     RectTransform m_RectTransform;
     Vector2 m_InitPos;
 
+    bool m_IsAnimating = false;
+    bool m_IsOpen = false;
+
     private void Awake()
     {
         m_IsLighten = new List<bool>(new bool[NodeList.Count]);
@@ -44,10 +47,6 @@ public class TreeMapNodesUI : MonoBehaviour
 
     private void OnEnable()
     {
-        m_RectTransform.anchorMin = new Vector2(0f, 1f);
-        m_RectTransform.anchorMax = new Vector2(0f, 1f);
-        m_RectTransform.anchoredPosition = m_InitPos;
-        m_RectTransform.localScale = Vector3.one;
         if (m_NextLightId != -1)
         {
             StartCoroutine(LightUpAnimation(m_NextLightId));
@@ -56,6 +55,7 @@ public class TreeMapNodesUI : MonoBehaviour
 
     private void OnDisable()
     {
+        RestoreParams();
         if (m_NextLightId != -1)
         {
             LightNode(m_NextLightId);
@@ -78,6 +78,15 @@ public class TreeMapNodesUI : MonoBehaviour
         }
     }
 
+    private void RestoreParams()
+    {
+        m_RectTransform.anchorMin = new Vector2(1f, 1f);
+        m_RectTransform.anchorMax = new Vector2(1f, 1f);
+        m_RectTransform.anchoredPosition = m_InitPos;
+        m_RectTransform.localScale = Vector3.zero;
+        m_IsOpen = false;
+    }
+
     private void LightNode(int id)
     {
         m_IsLighten[id] = true;
@@ -90,14 +99,47 @@ public class TreeMapNodesUI : MonoBehaviour
     }
 
     // id from 0 to 6
-    public void LightUpTree(int id)
+    public void LightUpNode(int id)
     {
         if (gameObject.activeInHierarchy) StartCoroutine(LightUpAnimation(id));
         else m_NextLightId = id;
     }
 
+    public void ZoomIn()
+    {
+        if (!m_IsAnimating && !m_IsOpen)
+        {
+            StartCoroutine(ZoomInRoutine());
+        }
+    }
+
+    public void ZoomOut()
+    {
+        if (!m_IsAnimating && m_IsOpen)
+        {
+            StartCoroutine(ZoomOutRoutine());
+        }
+    }
+
+    public void ZoomToggle()
+    {
+        if (!m_IsAnimating)
+        {
+            if (m_IsOpen)
+            {
+                StartCoroutine(ZoomOutRoutine());
+            }
+            else
+            {
+                StartCoroutine(ZoomInRoutine());
+            }
+        }
+    }
+
     IEnumerator ZoomInRoutine()
     {
+        m_IsAnimating = true;
+
         // zoom in
         float time = 0;
         Vector3 worldPos = m_RectTransform.position;
@@ -109,35 +151,45 @@ public class TreeMapNodesUI : MonoBehaviour
         {
             time += Time.deltaTime;
             Vector2 curPos = Vector3.Lerp(initPos, Vector2.zero, Mathf.SmoothStep(0, 1, time / AnimeZoomTime));
-            Vector3 curScale = Vector3.one * Mathf.SmoothStep(1, AnimeZoomScale, time / AnimeZoomTime);
+            Vector3 curScale = Vector3.one * Mathf.SmoothStep(0, AnimeZoomScale, time / AnimeZoomTime);
             m_RectTransform.anchoredPosition = curPos;
             m_RectTransform.localScale = curScale;
             yield return null;
         }
+
+        m_IsOpen = true;
+        m_IsAnimating = false;
     }
 
     IEnumerator ZoomOutRoutine()
     {
+        m_IsAnimating = true;
+
         // zoom out
         float time = 0;
         Vector3 worldPos = m_RectTransform.position;
-        m_RectTransform.anchorMin = new Vector2(0f, 1f);
-        m_RectTransform.anchorMax = new Vector2(0f, 1f);
+        m_RectTransform.anchorMin = new Vector2(1f, 1f);
+        m_RectTransform.anchorMax = new Vector2(1f, 1f);
         m_RectTransform.position = worldPos;
         Vector3 initPos = m_RectTransform.anchoredPosition;
         while (time < AnimeZoomTime)
         {
             time += Time.deltaTime;
             Vector2 curPos = Vector3.Lerp(initPos, m_InitPos, Mathf.SmoothStep(0, 1, time / AnimeZoomTime));
-            Vector3 curScale = Vector3.one * Mathf.SmoothStep(AnimeZoomScale, 1, time / AnimeZoomTime);
+            Vector3 curScale = Vector3.one * Mathf.SmoothStep(AnimeZoomScale, 0, time / AnimeZoomTime);
             m_RectTransform.anchoredPosition = curPos;
             m_RectTransform.localScale = curScale;
             yield return null;
         }
+
+        m_IsOpen = false;
+        m_IsAnimating = false;
     }
 
     IEnumerator LightRoutine(int id)
     {
+        m_IsAnimating = true;
+
         float time = 0;
         while (time < AnimeLightTime)
         {
@@ -146,15 +198,22 @@ public class TreeMapNodesUI : MonoBehaviour
             NodeList[id].color = curColor;
             yield return null;
         }
+
+        m_IsAnimating = false;
     }
 
     IEnumerator LightUpAnimation(int id)
     {
-        yield return new WaitForSeconds(2f);
+        m_IsAnimating = true;
+        yield return new WaitForSeconds(0.5f);
         yield return ZoomInRoutine();
-        yield return new WaitForSeconds(0.5f);
+
+        m_IsAnimating = true;
+        yield return new WaitForSeconds(0.3f);
         yield return LightRoutine(id);
-        yield return new WaitForSeconds(0.5f);
+
+        m_IsAnimating = true;
+        yield return new WaitForSeconds(0.3f);
         yield return ZoomOutRoutine();
 
         m_IsLighten[id] = true;
