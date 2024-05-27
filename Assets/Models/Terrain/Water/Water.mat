@@ -1,0 +1,70 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-2489414679225171052
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 7
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Water
+  m_Shader: {fileID: -6465566751694194690, guid: e28419180de63f64ebaa35e2015387e4, type: 3}
+  m_Parent: {fileID: -876546973899608171, guid: e28419180de63f64ebaa35e2015387e4, type: 3}
+  m_ModifiedSerializedProperties: 2
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 2
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _Noise1:
+        m_Texture: {fileID: 2800000, guid: bcb1c0afa56a51b43b3ccb277deb3643, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Noise2:
+        m_Texture: {fileID: 2800000, guid: 151cada693ca6304ab51b6de1341a2d7, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _RenderTexture:
+        m_Texture: {fileID: 8400000, guid: 7683aa102fcafc74c8374e8d31da8217, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _Depth: 0.04
+    - _FallStrength: 6
+    - _NormalStrength: 0.72
+    - _QueueControl: 0
+    - _Speed: 3.8
+    - _Strength: 0.12
+    - _TimeDivisor: 50
+    - _WaveSize: 5
+    - _WaveSpeed: -4
+    m_Colors:
+    - _DeepColorWater: {r: 0.08025987, g: 0.254717, b: 0.16748843, a: 0.3254902}
+    - _FallPosition: {r: 128.6, g: 0, b: -235, a: 0}
+    - _HintColor: {r: 0.4264151, g: 0.5, b: 0.49930018, a: 0.3254902}
+    - _RT_Offset: {r: -17.977867, g: -26.27507, b: 0, a: 0}
+    - _RT_Tiling: {r: 40, g: 40, b: 0, a: 0}
+    - _ShallowWaterColor: {r: 0.23282307, g: 0.3773585, b: 0.32151684, a: 0}
+    - _WaveTiling: {r: 10, g: 10, b: 0, a: 0}
+  m_BuildTextureStacks: []
