@@ -4,21 +4,21 @@ using UnityEngine;
 using UnityEngine.Events;
 
 // The script is attach to the "slot" with a collider in trigger mode.
-// Be sure there is only one droplet in slot at the same time, or the script could work unexpectedly.
 
 public class MoundSlot : MonoBehaviour
 {
-    public bool countPlayer = false;
     public int MinSizeToInvoke = 1;
     public int MaxSizeToInvoke = 100;
     public UnityEvent OnDropletInRange;
 
     public List<DropletLocal> currentDroplets { get; private set; }
-    public int currentSize = 0;
+    public int currentSize { get; private set; }
+    public bool isPlayerIn { get; private set; }
 
     void Start()
     {
         currentSize = 0;
+        isPlayerIn = false;
         currentDroplets = new List<DropletLocal>();
         OnDropletInRange.AddListener(MissionComplete);
     }
@@ -28,7 +28,7 @@ public class MoundSlot : MonoBehaviour
         var droplet = other.gameObject.GetComponent<DropletLocal>();
         if (droplet != null)
         {
-            if (countPlayer || droplet.GetComponent<Player>() == null)
+            if (droplet.GetComponent<Player>() == null)
             {
                 currentDroplets.Add(droplet);
                 droplet.OnResize.AddListener(CheckAndInvokeOnSize);
@@ -38,6 +38,32 @@ public class MoundSlot : MonoBehaviour
                 CheckAndInvokeOnSize(droplet.Size);
             }
         }
+
+        var player = other.gameObject.GetComponent<Player>();
+        if (player != null && ReferenceEquals(player, Player.main))
+        {
+            isPlayerIn = true;
+            CheckAndInvokeOnSize(player.droplet.size);
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        var droplet = other.gameObject.GetComponent<DropletLocal>();
+        if (droplet != null)
+        {
+            if (droplet.GetComponent<Player>() == null)
+            {
+                currentDroplets.Remove(droplet);
+                CheckAndInvokeOnSize(droplet.Size);
+            }
+        }
+
+        var player = other.gameObject.GetComponent<Player>();
+        if (player != null && ReferenceEquals(player, Player.main))
+        {
+            isPlayerIn = false;
+            CheckAndInvokeOnSize(player.droplet.size);
+        }
     }
 
     private void CalcCurrentSize()
@@ -45,6 +71,10 @@ public class MoundSlot : MonoBehaviour
         currentSize = 0;
         foreach (var droplet in currentDroplets) {
             currentSize += droplet.Size;
+        }
+        if (isPlayerIn)
+        {
+            currentSize += Player.main.droplet.size - 1;
         }
     }
 
@@ -68,6 +98,11 @@ public class MoundSlot : MonoBehaviour
         foreach (var droplet in currentDroplets)
         {
             Destroy(droplet.gameObject);
+        }
+        if (isPlayerIn)
+        {
+            Player.main.droplet.size = 1;
+            Player.main.droplet.EatAnime();
         }
         gameObject.SetActive(false);
     }
